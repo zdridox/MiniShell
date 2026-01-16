@@ -2,6 +2,7 @@
 #define PARSER_H
 
 #include <stdlib.h>
+#include "../libft/libft.h"
 
 typedef enum s_flag_type
 {
@@ -21,5 +22,8 @@ typedef struct s_cmd_node
     char **argv;
     struct s_cmd_node *next;
 } t_cmd_node;
+
+char	**tokenizer(char *input);
+void cmd_add_back(t_cmd_node *head, t_cmd_node *node);
 
 #endif
