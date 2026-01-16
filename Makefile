@@ -1,11 +1,19 @@
 NAME = minishell
 
 # Src files
-SRC = $(SRC_DIR)/ft_split_space.c \
+
+# SRC = $(SRC_DIR)/ft_split_space.c \
 	  $(SRC_DIR)/node_utilities.c \
 	  $(SRC_DIR)/str_arr_utilities.c \
 	  $(SRC_DIR)/error_handling.c \
 	  $(SRC_DIR)/parser.c \
+
+SRC = $(SRC_DIR)/main.c \
+	  $(SRC_DIR)/error_handling.c \
+	  $(SRC_DIR)/init.c \
+	  $(SRC_DIR)/shell_utilities.c \
+	  $(SRC_DIR)/str_utilities.c \
+	  $(SRC_DIR)/display_prompt.c \
 
 # -- Directories --
 
@@ -87,7 +95,7 @@ fclean:
 			printf $(UP)
 			echo "$(GREEN) 🧽 Deep cleaning is complete$(RESET)"
 
-fullclean:
+allclean:
 			echo "$(RED) 🧹🧽 Full cleaning project ...$(RESET)"
 			rm -rf $(OBJ_DIR) $(NAME) $(LIBFT_DIR)
 			printf $(UP)

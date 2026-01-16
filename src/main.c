@@ -1,21 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_handling.c                                   :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anatoliy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/16 18:42:42 by anatoliy          #+#    #+#             */
-/*   Updated: 2026/01/16 21:14:25 by mamelnyk         ###   ########.fr       */
+/*   Created: 2026/01/16 19:57:40 by mamelnyk          #+#    #+#             */
+/*   Updated: 2026/01/16 23:28:56 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	error_exit(const char *error_message)
+int	main(void)
 {
-	write(STDERR, "Erorr: ", 6);
-	write(STDERR, error_message, ft_strlen(error_message));
-	write(STDERR, "\n", 1);
-	exit(-1);
+	t_shell	*shell;
+
+	shell = init_shell();
+	display_prompt(shell);
+	/*
+	while (TRUE)
+	{
+		tokenize_input();
+		printf("hi\n");
+	}
+	*/
+	return 0;
 }

@@ -1,21 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_handling.c                                   :+:      :+:    :+:   */
+/*   shell_utilities.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anatoliy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/16 18:42:42 by anatoliy          #+#    #+#             */
-/*   Updated: 2026/01/16 21:14:25 by mamelnyk         ###   ########.fr       */
+/*   Created: 2026/01/16 20:52:59 by mamelnyk          #+#    #+#             */
+/*   Updated: 2026/01/16 22:51:11 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	error_exit(const char *error_message)
+void	print_current_dir_name(t_shell *shell)
 {
-	write(STDERR, "Erorr: ", 6);
-	write(STDERR, error_message, ft_strlen(error_message));
-	write(STDERR, "\n", 1);
-	exit(-1);
+	write(STDOUT, shell->current_dir_name, ft_strlen(shell->current_dir_name));
+	write(STDOUT, "\n", 1);
 }

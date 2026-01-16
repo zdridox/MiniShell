@@ -1,21 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_handling.c                                   :+:      :+:    :+:   */
+/*   str_utilities.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anatoliy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/16 18:42:42 by anatoliy          #+#    #+#             */
-/*   Updated: 2026/01/16 21:14:25 by mamelnyk         ###   ########.fr       */
+/*   Created: 2026/01/16 22:55:36 by mamelnyk          #+#    #+#             */
+/*   Updated: 2026/01/16 23:05:44 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	error_exit(const char *error_message)
+void	ft_putstr(const char *str)
 {
-	write(STDERR, "Erorr: ", 6);
-	write(STDERR, error_message, ft_strlen(error_message));
-	write(STDERR, "\n", 1);
-	exit(-1);
+	write(STDOUT, str, ft_strlen(str));
+}
+
+void	ft_putchr(const char c)
+{
+	write(STDOUT, &c, 1);
 }
