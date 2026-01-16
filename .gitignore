@@ -4,3 +4,4 @@ libft
 obj
 *.o
 libft.a
+.gdb_history
