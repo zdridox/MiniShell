@@ -6,7 +6,7 @@
 /*   By: mzdrodow <mzdrodow@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 14:00:43 by mzdrodow          #+#    #+#             */
-/*   Updated: 2026/01/09 00:33:04 by mzdrodow         ###   ########.fr       */
+/*   Updated: 2026/01/16 17:50:53 by anatoliy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,25 +69,4 @@ int	str_arr_length(char **arr)
 	while (arr[i])
 		i++;
 	return (i);
-}
-char	*ft_strdup(char *src)
-{
-	int		size;
-	int		i;
-	char	*dup;
-
-	i = 0;
-	size = 0;
-	while (src[size] != '\0')
-		size++;
-	dup = malloc(size + 1);
-	if (!dup)
-		return (NULL);
-	while (src[i] != '\0')
-	{
-		dup[i] = src[i];
-		i++;
-	}
-	dup[i] = '\0';
-	return (dup);
 }

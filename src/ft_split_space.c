@@ -70,7 +70,7 @@ static char	**array_allocate(char const *s)
 	return (array);
 }
 
-char	**split_space(char const *s)
+char	**ft_split_space(char const *s)
 {
 	char	**array;
 	int		index;
