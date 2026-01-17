@@ -85,6 +85,7 @@ char	**tokenizer(char *input)
 	return (tokens);
 }
 
+/*
 int	main(void)
 {
 	char **tokens = tokenizer("echo \"sraka ' hihi ' wilkolaka\" | wc -l");
@@ -96,3 +97,4 @@ int	main(void)
 
 	return (0);
 }
+*/
