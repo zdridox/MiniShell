@@ -1,4 +1,4 @@
-#include "../headers/parser.h"
+#include "parser.h"
 
 void parse_tokens(t_cmd_node *cmd_head, char **tokens) {
     t_cmd_node *curr_node;

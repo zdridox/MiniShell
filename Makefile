@@ -9,11 +9,15 @@ NAME = minishell
 	  $(SRC_DIR)/parser.c \
 
 SRC = $(SRC_DIR)/main.c \
-	  $(SRC_DIR)/error_handling.c \
 	  $(SRC_DIR)/init.c \
 	  $(SRC_DIR)/shell_utilities.c \
+	  $(SRC_DIR)/error_handling.c \
 	  $(SRC_DIR)/str_utilities.c \
 	  $(SRC_DIR)/display_prompt.c \
+	  $(SRC_DIR)/cmd_list_utils.c \
+	  $(SRC_DIR)/tokenizer.c \
+	  $(SRC_DIR)/execute_comand.c \
+	  $(SRC_DIR)/env_utilities.c \
 
 # -- Directories --
 
@@ -38,6 +42,7 @@ OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 # Flags
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
+LDLIBS = -lreadline
 DFLAGS = -g3
 MAKE_FLAGS = --silent --no-print-directory
 
@@ -57,7 +62,7 @@ all:		$(NAME)
 
 $(NAME):	$(LIBFT) $(OBJ_DIR) $(OBJ)
 			echo "$(YELLOW) 🔧 Compiling ... $(NAME)$(RESET)"
-			$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -I$(LIBFT_DIR) -I$(HEADERS_DIR) -o $(NAME)
+			$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -I$(LIBFT_DIR) -I$(HEADERS_DIR) -o $(NAME) $(LDLIBS)
 			printf $(UP)
 			echo "$(GREEN) ✅ Built $(NAME)$(RESET)"
 
@@ -106,7 +111,7 @@ run:		all
 			./$(NAME) maps/map.ber
 
 dbug:
-			$(CC) $(CFLAGS) $(DFLAGS) $(OBJ) $(LIBFT) -o $(NAME)
+			$(CC) $(CFLAGS) $(DFLAGS) $(OBJ) $(LIBFT) -o $(NAME) $(LDLIBS)
 			gdb $(NAME)
 
 re:

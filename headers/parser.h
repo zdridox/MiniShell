@@ -2,7 +2,7 @@
 #define PARSER_H
 
 #include <stdlib.h>
-#include "../libft/libft.h"
+#include "libft.h"
 
 typedef enum s_flag_type
 {

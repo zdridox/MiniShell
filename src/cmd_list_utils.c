@@ -1,4 +1,4 @@
-#include "../headers/parser.h"
+#include "parser.h"
 
 void cmd_add_back(t_cmd_node *head, t_cmd_node *node) {
     t_cmd_node *p;

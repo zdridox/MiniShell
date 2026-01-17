@@ -1,19 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell_utilities.c                                  :+:      :+:    :+:   */
+/*   env_utilities.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: anatoliy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/16 20:52:59 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/17 07:06:34 by anatoliy         ###   ########.fr       */
+/*   Created: 2026/01/17 07:21:03 by anatoliy          #+#    #+#             */
+/*   Updated: 2026/01/17 07:37:59 by anatoliy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_current_dir_name(t_shell *shell)
+char	*get_env_value(char *name, char **env)
 {
-	write(STDOUT, shell->current_dir_name, ft_strlen(shell->current_dir_name));
-	write(STDOUT, "\n", 1);
+	int	i;
+	int	j;
+
+	i = 0;
+	while (env[i])
+	{
+		j = 0;
+		while (env[i][j] && name[j])
+		{
+			if (name[j] != env[i][j])
+				break ;
+			j++;
+		}
+		if (name[j] == '\0')
+			return (env[i] + j + 1);
+		i++;
+	}
+	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 22:53:50 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/17 04:18:51 by anatoliy         ###   ########.fr       */
+/*   Updated: 2026/01/17 05:52:20 by anatoliy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,7 @@ void	display_prompt(t_shell *shell)
 	ft_putstr(shell->current_dir_name);
 	ft_putstr(RESET);
 
-	ft_putstr(" ");
-
 	ft_putstr(ORANGE);
-	ft_putstr("✗");
+	ft_putstr(" ✗ ");
 	ft_putstr(RESET);
-
-	ft_putchr('\n');
 }

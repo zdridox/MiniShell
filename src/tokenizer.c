@@ -1,4 +1,4 @@
-#include "../headers/parser.h"
+#include "parser.h"
 
 static int	is_space(char a)
 {

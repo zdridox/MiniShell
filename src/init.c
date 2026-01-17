@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:23:22 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/16 22:50:58 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/01/17 07:19:47 by anatoliy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static char	*init_current_dir_name(char *absolute_pathname)
 	return (current_dir_name);
 }
 
-t_shell	*init_shell(void)
+t_shell	*init_shell(char **envp)
 {
 	t_shell	*shell;
 
@@ -47,6 +47,7 @@ t_shell	*init_shell(void)
 	shell->absolute_pathname = getcwd(NULL, 0);
 	if (shell->absolute_pathname == NULL || !*(shell->absolute_pathname))
 		error_exit("Falied to get absolute_pathname");
+	shell->env = envp;
 	shell->current_dir_name = init_current_dir_name(shell->absolute_pathname);
 	return (shell);
 }

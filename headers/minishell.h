@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:04:20 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/17 04:31:59 by anatoliy         ###   ########.fr       */
+/*   Updated: 2026/01/17 07:34:22 by anatoliy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft.h"
@@ -36,11 +38,11 @@ typedef struct	s_shell
 }				t_shell;
 
 char	**tokenizer(char *input);
-void	ft_putchr(const char c);
-void	ft_putstr(const char *str);
-t_shell	*init_shell(void);
+t_shell	*init_shell(char **envp);
 void	print_current_dir_name(t_shell *shell);
 void	error_exit(const char *error_message);
 void	display_prompt(t_shell *shell);
+void	execute_comand(t_shell *shell, char **tokens);
+char	*get_env_value(char *name, char **env);
 
 #endif
