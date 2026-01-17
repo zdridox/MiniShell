@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 19:57:40 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/17 07:33:58 by anatoliy         ###   ########.fr       */
+/*   Updated: 2026/01/17 15:42:00 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,14 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	shell = init_shell(envp);
-	printf("%s\n", get_env_value("PATH", shell->env));
 	while (TRUE)
 	{
 		display_prompt(shell);
 		input = readline(NULL);
 		tokens = tokenizer(input);
-		printf("%s\n", input);
-		ft_putchar('\n');
-		display_tokens(tokens);
+		free(input);
 		execute_comand(shell, tokens);
+		free_str_arr(tokens);
 	}
 	return 0;
 }

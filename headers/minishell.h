@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:04:20 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/17 07:34:22 by anatoliy         ###   ########.fr       */
+/*   Updated: 2026/01/17 15:06:30 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <fcntl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <readline/readline.h>
@@ -44,5 +45,7 @@ void	error_exit(const char *error_message);
 void	display_prompt(t_shell *shell);
 void	execute_comand(t_shell *shell, char **tokens);
 char	*get_env_value(char *name, char **env);
+char	*ft_strjoin_three(const char *s1, const char *s2, const char *s3);
+void	free_str_arr(char **str_arr);
 
 #endif

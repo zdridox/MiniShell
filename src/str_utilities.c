@@ -6,19 +6,40 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 22:55:36 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/17 04:47:27 by anatoliy         ###   ########.fr       */
+/*   Updated: 2026/01/17 15:06:26 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-/*
+
 #include "minishell.h"
 
-void	ft_putstr(const char *str)
+char	*ft_strjoin_three(const char *s1, const char *s2, const char *s3)
 {
-	write(STDOUT, str, ft_strlen(str));
+	char	*temp;
+	char	*result;
+
+	temp = ft_strjoin(s1, s2);
+	if (temp == NULL)
+		return (NULL);
+	result = ft_strjoin(temp, s3);
+	if (result == NULL)
+	{
+		free(temp);
+		return (NULL);
+	}
+	free(temp);
+	return (result);
 }
 
-void	ft_putchr(const char c)
+void	free_str_arr(char **str_arr)
 {
-	write(STDOUT, &c, 1);
+	unsigned int	i;
+
+	i = 0;
+	if (!str_arr)
+		return ;
+	while (str_arr[i])
+	{
+		free(str_arr[i++]);
+	}
+	free(str_arr);
 }
-*/
