@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:04:20 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/17 15:06:30 by maxim            ###   ########.fr       */
+/*   Updated: 2026/01/17 20:51:23 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,7 @@ void	execute_comand(t_shell *shell, char **tokens);
 char	*get_env_value(char *name, char **env);
 char	*ft_strjoin_three(const char *s1, const char *s2, const char *s3);
 void	free_str_arr(char **str_arr);
+void	exit_shell(t_shell *shell);
+void	free_shell(t_shell *shell);
 
 #endif

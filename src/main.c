@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 19:57:40 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/18 17:45:18 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/01/18 18:14:04 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	main(int argc, char **argv, char **envp)
 	{
 		display_prompt(shell);
 		input = readline(" ");
+		if (!input)
+			exit_shell(shell);
 		tokens = tokenizer(input);
 		free(input);
 		execute_comand(shell, tokens);
