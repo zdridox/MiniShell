@@ -6,18 +6,17 @@
 /*   By: anatoliy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 18:42:42 by anatoliy          #+#    #+#             */
-/*   Updated: 2026/01/17 20:53:54 by maxim            ###   ########.fr       */
+/*   Updated: 2026/01/18 21:23:56 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	error_exit(const char *error_message)
+void	display_error_message(const char *error_message)
 {
-	write(STDERR, "Erorr: ", 6);
-	write(STDERR, error_message, ft_strlen(error_message));
-	write(STDERR, "\n", 1);
-	exit(-1);
+	ft_putstr_fd("Erorr: ", STDERR);
+	ft_putstr_fd((char *)error_message, STDERR);
+	ft_putchar_fd('\n', STDERR);
 }
 
 void	free_shell(t_shell *shell)
@@ -32,4 +31,12 @@ void	exit_shell(t_shell *shell)
 {
 	free_shell(shell);
 	exit(0);
+}
+
+void	error_exit(const char *error_message, t_shell *shell)
+{
+	display_error_message(error_message);
+	if (shell)
+		free_shell(shell);
+	exit(-1);
 }

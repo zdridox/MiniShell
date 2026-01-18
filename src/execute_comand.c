@@ -6,13 +6,13 @@
 /*   By: anatoliy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 06:26:23 by anatoliy          #+#    #+#             */
-/*   Updated: 2026/01/17 15:43:44 by maxim            ###   ########.fr       */
+/*   Updated: 2026/01/18 21:28:04 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char *find_bin_path(char *bin_name,t_shell *shell)
+char *find_bin_path(char *bin_name, t_shell *shell)
 {
 	char	**paths;
 	char	*path;
@@ -24,15 +24,13 @@ char *find_bin_path(char *bin_name,t_shell *shell)
 		return (NULL);
 	paths = ft_split(path, ':');
 	if (paths == NULL)
-		error_exit("Memory allocation failed");
-		// free shell
+		error_exit("Memory allocation failed", shell);
 	i = 0;
 	while (paths[i])
 	{
 		bin_path = ft_strjoin_three(paths[i], "/", bin_name);
 		if (bin_path == NULL)
-			error_exit("Memory allocation failed");
-			// free paths and shell
+			error_exit("Memory allocation failed", shell);
 		if (access(bin_path, X_OK) == 0)
 		{
 			free_str_arr(paths);
@@ -53,7 +51,7 @@ void	execute_comand(t_shell *shell, char **tokens)
 	bin_path = find_bin_path(tokens[0], shell);
 	if (bin_path == NULL)
 	{
-		ft_putstr_fd("Command not found\n", STDERR);
+		display_error_message("Command not found");
 		return ;
 	}
 	pid = fork();

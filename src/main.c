@@ -6,20 +6,11 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 19:57:40 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/18 18:14:04 by maxim            ###   ########.fr       */
+/*   Updated: 2026/01/18 20:47:33 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	display_tokens(char **tokens)
-{
-	while (*tokens)
-	{
-		ft_printf("%s\n", *tokens);
-		tokens++;
-	}
-}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -30,6 +21,8 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	shell = init_shell(envp);
+	if (!shell)
+		error_exit("Failed to initialize shell", shell);
 	while (TRUE)
 	{
 		display_prompt(shell);

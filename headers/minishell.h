@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:04:20 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/17 20:51:23 by maxim            ###   ########.fr       */
+/*   Updated: 2026/01/18 21:27:48 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,13 @@ typedef struct	s_shell
 char	**tokenizer(char *input);
 t_shell	*init_shell(char **envp);
 void	print_current_dir_name(t_shell *shell);
-void	error_exit(const char *error_message);
 void	display_prompt(t_shell *shell);
 void	execute_comand(t_shell *shell, char **tokens);
 char	*get_env_value(char *name, char **env);
 char	*ft_strjoin_three(const char *s1, const char *s2, const char *s3);
 void	free_str_arr(char **str_arr);
+void	error_exit(const char *error_message, t_shell *shell);
+void	display_error_message(const char *error_message);
 void	exit_shell(t_shell *shell);
 void	free_shell(t_shell *shell);
 
