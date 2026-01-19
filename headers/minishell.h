@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:04:20 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/18 21:27:48 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/01/19 20:40:58 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,29 @@
 # include <readline/history.h>
 # include "libft.h"
 
+typedef struct s_shell	t_shell;
+
+typedef int	(*t_our_command_fn)(t_shell *shell, char **args);
+
+typedef struct	s_our_commands
+{
+	char	*name;
+	t_our_command_fn	function;
+}				t_our_commands;
+
 typedef struct	s_shell
 {
 	char	*absolute_pathname;
 	char	*current_dir_name;
 	char	**env;
+	t_our_commands	*our_commands;
 }				t_shell;
 
 char	**tokenizer(char *input);
 t_shell	*init_shell(char **envp);
 void	print_current_dir_name(t_shell *shell);
 void	display_prompt(t_shell *shell);
+char	*build_prompt(t_shell *shell);
 void	execute_comand(t_shell *shell, char **tokens);
 char	*get_env_value(char *name, char **env);
 char	*ft_strjoin_three(const char *s1, const char *s2, const char *s3);

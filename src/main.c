@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 19:57:40 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/18 20:47:33 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/01/19 14:52:47 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	main(int argc, char **argv, char **envp)
 	t_shell	*shell;
 	char	**tokens;
 	char	*input;
+	char	*prompt;
 
 	(void)argc;
 	(void)argv;
@@ -25,8 +26,9 @@ int	main(int argc, char **argv, char **envp)
 		error_exit("Failed to initialize shell", shell);
 	while (TRUE)
 	{
-		display_prompt(shell);
-		input = readline(" ");
+		prompt = build_prompt(shell);
+		input = readline(prompt);
+		free(prompt);
 		if (!input)
 			exit_shell(shell);
 		tokens = tokenizer(input);

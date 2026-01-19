@@ -6,13 +6,13 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:23:22 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/17 07:19:47 by anatoliy         ###   ########.fr       */
+/*   Updated: 2026/01/19 20:47:47 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*init_current_dir_name(char *absolute_pathname)
+static char	*init_current_dir_name(char *absolute_pathname, t_shell *shell)
 {
 	char	*current_dir_name;
 	int		absolute_pathname_len;
@@ -26,7 +26,7 @@ static char	*init_current_dir_name(char *absolute_pathname)
 	i--;
 	current_dir_name = (char *)malloc(i + 2);
 	if (current_dir_name == NULL)
-		error_exit("Failed to allocate current_dir_name");
+		error_exit("Failed to allocate current_dir_name", shell);
 		// free shell
 	current_dir_name[i + 1] = '\0';
 	j = 0;
@@ -38,7 +38,21 @@ static char	*init_current_dir_name(char *absolute_pathname)
 	}
 	return (current_dir_name);
 }
-
+/*
+t_our_commands	*init_our_commands(void)
+{
+	static	t_our_commands	our_commands[] = {
+		{"cd", &cd_command},
+		//{"echo", &echo_command},
+		//{"env", &env_command},
+		//{"exit", &exit_command},
+		//{"export", &export_command},
+		//{"pwd", &pwd_command},
+		//{"unset", &unset_command},
+		{NULL, NULL}
+	};
+}
+*/
 t_shell	*init_shell(char **envp)
 {
 	t_shell	*shell;
@@ -46,9 +60,10 @@ t_shell	*init_shell(char **envp)
 	shell = (t_shell *)malloc(sizeof(t_shell));
 	shell->absolute_pathname = getcwd(NULL, 0);
 	if (shell->absolute_pathname == NULL || !*(shell->absolute_pathname))
-		error_exit("Falied to get absolute_pathname");
+		error_exit("Falied to get absolute_pathname", shell);
 	shell->env = envp;
-	shell->current_dir_name = init_current_dir_name(shell->absolute_pathname);
+	shell->current_dir_name = init_current_dir_name(shell->absolute_pathname, shell);
+	//shell->our_commands = init_our_commands();
 	return (shell);
 }
 
