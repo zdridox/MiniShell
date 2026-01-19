@@ -6,7 +6,7 @@
 /*   By: anatoliy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 06:26:23 by anatoliy          #+#    #+#             */
-/*   Updated: 2026/01/18 21:28:04 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/01/19 11:31:05 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,7 @@ void	execute_comand(t_shell *shell, char **tokens)
 	}
 	pid = fork();
 	if (pid < 0)
-		error_exit("Can make new process");
-		// free shell
+		error_exit("Can make new process", shell);
 	else if (pid == 0)
 	{
 		execve(bin_path, tokens, shell->env);
