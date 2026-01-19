@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:04:20 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/19 20:40:58 by maxim            ###   ########.fr       */
+/*   Updated: 2026/01/19 21:06:21 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ typedef struct	s_our_commands
 
 typedef struct	s_shell
 {
-	char	*absolute_pathname;
-	char	*current_dir_name;
-	char	**env;
+	char			*absolute_pathname;
+	char			*current_dir_name;
+	char			**env;
 	t_our_commands	*our_commands;
 }				t_shell;
 
