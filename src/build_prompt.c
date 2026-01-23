@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   display_prompt.c                                   :+:      :+:    :+:   */
+/*   build_prompt.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 22:53:50 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/19 20:50:53 by maxim            ###   ########.fr       */
+/*   Updated: 2026/01/22 23:01:04 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char *build_prompt(t_shell *shell)
 	char	*part3;
 
 	part1 = ft_strjoin(GREEN, " ➜ ");
-	part2 = ft_strjoin(BLUE, shell->current_dir_name);
+	part2 = ft_strjoin(BLUE, get_env_value("PWD", shell->env));
 	part3 = ft_strjoin_three(ORANGE, " ✗ ", RESET);
 	prompt = ft_strjoin_three(part1, part2, part3);
 	free(part1);

@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:04:20 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/19 21:06:21 by maxim            ###   ########.fr       */
+/*   Updated: 2026/01/22 22:54:04 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # define FALSE 0
 # define STDERR 2
 # define STDOUT 1
+# define EQUAL 0
+# define CHILD_PROCESS 0
 # define GREEN "\033[38;5;121m"
 # define BLUE "\033[38;5;87m"
 # define ORANGE "\033[38;5;222m"
@@ -62,5 +64,8 @@ void	error_exit(const char *error_message, t_shell *shell);
 void	display_error_message(const char *error_message);
 void	exit_shell(t_shell *shell);
 void	free_shell(t_shell *shell);
+char	**get_env_pointer(char *name, char **env);
+void	set_env_variable(char *env_name, char *value, char **env);
+int		cd_command(t_shell *shell, char **args);
 
 #endif

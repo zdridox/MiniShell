@@ -18,6 +18,7 @@ SRC = $(SRC_DIR)/main.c \
 	  $(SRC_DIR)/tokenizer.c \
 	  $(SRC_DIR)/execute_comand.c \
 	  $(SRC_DIR)/env_utilities.c \
+	  $(SRC_DIR)/our_commands.c \
 
 # -- Directories --
 
