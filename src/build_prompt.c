@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 22:53:50 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/23 20:58:21 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/01/24 00:45:20 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*build_prompt(t_shell *shell)
 	char	*part3;
 
 	part1 = ft_strjoin(GREEN, " ➜ ");
-	part2 = ft_strjoin(BLUE, get_env_value("PWD", shell->env));
+	part2 = ft_strjoin(BLUE, get_current_dir_name(shell));
 	part3 = ft_strjoin_three(ORANGE, " ✗ ", RESET);
 	prompt = ft_strjoin_three(part1, part2, part3);
 	free(part1);

@@ -6,7 +6,7 @@
 /*   By: anatoliy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 07:21:03 by anatoliy          #+#    #+#             */
-/*   Updated: 2026/01/22 22:59:46 by maxim            ###   ########.fr       */
+/*   Updated: 2026/01/24 00:49:04 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,22 @@ char	**get_env_pointer(char *name, char **env)
 		i++;
 	}
 	return (NULL);
+}
+
+char	*get_current_dir_name(t_shell *shell)
+{
+	char	*current_dir_name;
+	char	*absolute_pathname;
+	int		absolute_pathname_len;
+	int		i;
+
+	absolute_pathname = get_env_value("PWD", shell->env);
+	if (absolute_pathname == NULL)
+		return (NULL);
+	i = 0;
+	absolute_pathname_len = ft_strlen(absolute_pathname);
+	while (absolute_pathname[absolute_pathname_len - i - 1] != '/')
+		i++;
+	current_dir_name = absolute_pathname + absolute_pathname_len - i;
+	return (current_dir_name);
 }
