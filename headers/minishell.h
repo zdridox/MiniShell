@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:04:20 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/22 22:54:04 by maxim            ###   ########.fr       */
+/*   Updated: 2026/01/23 20:57:42 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,6 @@ void	free_shell(t_shell *shell);
 char	**get_env_pointer(char *name, char **env);
 void	set_env_variable(char *env_name, char *value, char **env);
 int		cd_command(t_shell *shell, char **args);
+char	*get_current_dir_name(t_shell *shell);
 
 #endif

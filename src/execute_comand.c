@@ -6,7 +6,7 @@
 /*   By: anatoliy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 06:26:23 by anatoliy          #+#    #+#             */
-/*   Updated: 2026/01/22 22:43:34 by maxim            ###   ########.fr       */
+/*   Updated: 2026/01/23 20:37:14 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	execute_linux_command(t_shell *shell, char **tokens)
 	else if (pid == CHILD_PROCESS)
 	{
 		execve(bin_path, tokens, shell->env);
-		ft_putstr_fd("Command execution failed\n", STDERR);
+		display_error_message("Command execution failed");
 	}
 	waitpid(pid, NULL, 0);
 }

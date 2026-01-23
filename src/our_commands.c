@@ -6,7 +6,7 @@
 /*   By: maxim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 13:24:53 by maxim             #+#    #+#             */
-/*   Updated: 2026/01/22 23:03:00 by maxim            ###   ########.fr       */
+/*   Updated: 2026/01/23 20:46:26 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	cd_command(t_shell *shell, char **args)
 	old_dir = ft_strdup(get_env_value("PWD", shell->env));
 	if (old_dir == NULL)
 		return (1);
+		// TODO make makro for error codes
 	set_env_variable("OLDPWD", old_dir, shell->env);
 	if (args[1] == NULL)
 		new_dir = get_env_value("HOME", shell->env);

@@ -6,13 +6,13 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:23:22 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/22 22:28:45 by maxim            ###   ########.fr       */
+/*   Updated: 2026/01/23 20:58:25 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*init_current_dir_name(char *absolute_pathname, t_shell *shell)
+char	*get_current_dir_name(t_shell *shell)
 {
 	char	*current_dir_name;
 	int		absolute_pathname_len;

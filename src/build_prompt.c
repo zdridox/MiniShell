@@ -6,13 +6,13 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 22:53:50 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/22 23:01:04 by maxim            ###   ########.fr       */
+/*   Updated: 2026/01/23 20:58:21 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char *build_prompt(t_shell *shell)
+char	*build_prompt(t_shell *shell)
 {
 	char	*prompt;
 	char	*part1;
