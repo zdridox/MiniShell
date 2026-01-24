@@ -6,7 +6,7 @@
 /*   By: maxim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 13:24:53 by maxim             #+#    #+#             */
-/*   Updated: 2026/01/24 19:52:13 by anatoliy         ###   ########.fr       */
+/*   Updated: 2026/01/24 20:05:02 by anatoliy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,21 @@ int	exit_command(t_shell *shell, char **args)
 
 int	env_command(t_shell *shell, char **args)
 {
-	int exit_code;;
+	int exit_code;
 
 	(void)args;
 	exit_code = 0;
 	print_str_arr(shell->env);
+	return (exit_code);
+}
+
+int	pwd_command(t_shell *shell, char **args)
+{
+	int	exit_code;
+
+	(void)args;
+	exit_code = 0;
+	ft_putstr(get_env_value("PWD", shell->env));
+	ft_putchar('\n');
 	return (exit_code);
 }

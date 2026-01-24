@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:23:22 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/24 19:46:58 by anatoliy         ###   ########.fr       */
+/*   Updated: 2026/01/24 20:01:51 by anatoliy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ t_our_commands	*init_our_commands(void)
 		{"cd", &cd_command},
 		{"exit", &exit_command},
 		{"env", &env_command},
+		{"pwd", &pwd_command},
 		//{"echo", &echo_command},
 		//{"export", &export_command},
-		//{"pwd", &pwd_command},
 		//{"unset", &unset_command},
 		{NULL, NULL}
 	};
