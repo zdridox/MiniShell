@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 22:55:36 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/17 15:06:26 by maxim            ###   ########.fr       */
+/*   Updated: 2026/01/24 15:21:09 by anatoliy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,4 @@ char	*ft_strjoin_three(const char *s1, const char *s2, const char *s3)
 	}
 	free(temp);
 	return (result);
-}
-
-void	free_str_arr(char **str_arr)
-{
-	unsigned int	i;
-
-	i = 0;
-	if (!str_arr)
-		return ;
-	while (str_arr[i])
-	{
-		free(str_arr[i++]);
-	}
-	free(str_arr);
 }

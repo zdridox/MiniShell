@@ -6,7 +6,7 @@
 /*   By: anatoliy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 06:26:23 by anatoliy          #+#    #+#             */
-/*   Updated: 2026/01/24 02:03:32 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/01/24 14:52:19 by anatoliy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,18 @@ char *find_bin_path(char *bin_name, t_shell *shell)
 	return (NULL);
 }
 
-int	is_builtin_command(char *command_name, t_shell *shell)
+int	is_builtin_command(char *command_name, t_our_commands *command)
 {
-	while (shell->our_commands && shell->our_commands->name)
+	while (command && command->name)
 	{
-		if (ft_strcmp(command_name, shell->our_commands->name) == EQUAL)
+		if (ft_strcmp(command_name, command->name) == EQUAL)
 			return (TRUE);
-		shell->our_commands++;
+		command++;
 	}
 	return (FALSE);
 }
 
-void	execute_linux_command(t_shell *shell, char **tokens)
+void	execute_linux_command(char **tokens, t_shell *shell)
 {
 	pid_t	pid;
 	char	*bin_path;
@@ -72,30 +72,34 @@ void	execute_linux_command(t_shell *shell, char **tokens)
 	else if (pid == CHILD_PROCESS)
 	{
 		execve(bin_path, tokens, shell->env);
-		display_error_message("Command execution failed");
+		error_exit("Command execution failed", shell);
 	}
 	waitpid(pid, NULL, 0);
+	free(bin_path);
 }
 
-void	execute_builtin_command(t_shell *shell, char **tokens)
+void	execute_builtin_command(char **tokens, t_shell *shell)
 {
-	while (shell->our_commands && shell->our_commands->name)
+	t_our_commands	*command;
+
+	command = shell->our_commands;
+	while (command && command->name)
 	{
-		if (ft_strcmp(tokens[0], shell->our_commands->name) == EQUAL)
+		if (ft_strcmp(tokens[0], command->name) == EQUAL)
 		{
-			shell->our_commands->function(shell, tokens);
+			command->function(shell, tokens);
 			return ;
 		}
-		shell->our_commands++;
+		command++;
 	}
 }
 
-void	execute_comand(t_shell *shell, char **tokens)
+void	execute_comand(char **tokens, t_shell *shell)
 {
 	if (tokens[0] == NULL)
 		return ;
-	if (is_builtin_command(tokens[0], shell) == TRUE)
-		execute_builtin_command(shell, tokens);
+	if (is_builtin_command(tokens[0], shell->our_commands) == TRUE)
+		execute_builtin_command(tokens, shell);
 	else
-		execute_linux_command(shell, tokens);
+		execute_linux_command(tokens, shell);
 }

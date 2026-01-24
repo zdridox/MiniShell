@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:04:20 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/24 02:11:35 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/01/24 15:24:30 by anatoliy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,15 @@ t_shell	*init_shell(char **envp);
 void	print_current_dir_name(t_shell *shell);
 void	display_prompt(t_shell *shell);
 char	*build_prompt(t_shell *shell);
-void	execute_comand(t_shell *shell, char **tokens);
+void	execute_comand(char **tokens, t_shell *shell);
 char	*get_env_value(char *name, char **env);
 char	*ft_strjoin_three(const char *s1, const char *s2, const char *s3);
 // TODO: make strjoin with unlimited number of strings
 void	free_str_arr(char **str_arr);
+int		str_arr_len(char **str_arr);
+char	**add_back_str_arr(char **str_arr, char *new_element);
+char	**resize_str_arr(char **old_str_arr, int new_size);
+char	**copy_arr(char **old_str_arr);
 void	error_exit(const char *error_message, t_shell *shell);
 void	display_error_message(const char *error_message);
 void	exit_shell(t_shell *shell);

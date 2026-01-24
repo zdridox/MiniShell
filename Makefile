@@ -19,6 +19,7 @@ SRC = $(SRC_DIR)/main.c \
 	  $(SRC_DIR)/execute_comand.c \
 	  $(SRC_DIR)/env_utilities.c \
 	  $(SRC_DIR)/our_commands.c \
+	  $(SRC_DIR)/str_arr_utilities.c \
 
 # -- Directories --
 
