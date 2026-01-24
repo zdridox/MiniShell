@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:04:20 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/24 18:53:32 by anatoliy         ###   ########.fr       */
+/*   Updated: 2026/01/24 19:51:44 by anatoliy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int		str_arr_len(char **str_arr);
 char	**add_back_str_arr(char **str_arr, char *new_element);
 char	**resize_str_arr(char **old_str_arr, int new_size);
 char	**copy_arr(char **old_str_arr);
+void	print_str_arr(char **str_arr);
 void	error_exit(const char *error_message, t_shell *shell);
 void	display_error_message(const char *error_message);
 void	exit_shell(t_shell *shell);
@@ -71,6 +72,7 @@ char	**get_env_pointer(char *name, char **env);
 void	set_env_variable(char *env_name, char *value, char **env);
 int		cd_command(t_shell *shell, char **args);
 int		exit_command(t_shell *shell, char **args);
+int		env_command(t_shell *shell, char **args);
 char	*get_current_dir_name(t_shell *shell);
 
 #endif

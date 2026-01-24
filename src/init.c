@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:23:22 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/24 19:02:14 by anatoliy         ###   ########.fr       */
+/*   Updated: 2026/01/24 19:46:58 by anatoliy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ t_our_commands	*init_our_commands(void)
 	static t_our_commands	our_commands[] = {
 		{"cd", &cd_command},
 		{"exit", &exit_command},
+		{"env", &env_command},
 		//{"echo", &echo_command},
-		//{"env", &env_command},
 		//{"export", &export_command},
 		//{"pwd", &pwd_command},
 		//{"unset", &unset_command},
@@ -41,7 +41,7 @@ t_shell	*init_shell(char **envp)
 	if (shell == NULL)
 		error_exit("Failed to allocate shell", NULL);
 	init_shell_with_null(shell);
-	shell->env = envp;
+	shell->env = copy_arr(envp);
 	shell->our_commands = init_our_commands();
 	return (shell);
 }

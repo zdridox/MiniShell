@@ -6,7 +6,7 @@
 /*   By: anatoliy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 18:42:42 by anatoliy          #+#    #+#             */
-/*   Updated: 2026/01/24 18:53:41 by anatoliy         ###   ########.fr       */
+/*   Updated: 2026/01/24 19:45:05 by anatoliy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	display_error_message(const char *error_message)
 
 void	free_shell(t_shell *shell)
 {
-	//free_str_arr(shell->env);
+	free_str_arr(shell->env);
 	free(shell);
 }
 

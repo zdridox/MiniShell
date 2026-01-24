@@ -6,7 +6,7 @@
 /*   By: anatoliy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 15:20:34 by anatoliy          #+#    #+#             */
-/*   Updated: 2026/01/24 15:31:57 by anatoliy         ###   ########.fr       */
+/*   Updated: 2026/01/24 19:53:21 by anatoliy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,4 +108,18 @@ char	**add_back_str_arr(char **str_arr, char *new_element)
 	new_str_arr[i] = new_element;
 	new_str_arr[i + 1] = NULL;
 	return (free_str_arr(str_arr), new_str_arr);
+}
+
+void	print_str_arr(char **str_arr)
+{
+	int	i;
+
+	i = 0;
+	if (!str_arr)
+		return ;
+	while (str_arr[i])
+	{
+		ft_putstr(str_arr[i++]);
+		ft_putchar('\n');
+	}
 }
