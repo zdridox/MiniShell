@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:23:22 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/24 00:40:54 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/01/24 02:07:39 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_our_commands	*init_our_commands(void)
 {
-	static	t_our_commands	our_commands[] = {
+	static t_our_commands	our_commands[] = {
 		{"cd", &cd_command},
 		//{"echo", &echo_command},
 		//{"env", &env_command},

@@ -6,7 +6,7 @@
 /*   By: anatoliy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 06:26:23 by anatoliy          #+#    #+#             */
-/*   Updated: 2026/01/23 20:37:14 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/01/24 02:03:32 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ void	execute_linux_command(t_shell *shell, char **tokens)
 	bin_path = find_bin_path(tokens[0], shell);
 	if (bin_path == NULL)
 	{
-		display_error_message("Command not found");
+		// display_error_message("Command not found");
+		printf("minishell: command not found: %s\n", tokens[0]);
 		return ;
 	}
 	pid = fork();
