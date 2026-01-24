@@ -6,7 +6,7 @@
 /*   By: maxim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 13:24:53 by maxim             #+#    #+#             */
-/*   Updated: 2026/01/24 15:47:12 by anatoliy         ###   ########.fr       */
+/*   Updated: 2026/01/24 18:48:40 by anatoliy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,14 @@ int	cd_command(t_shell *shell, char **args)
 	result = chdir(new_dir);
 	set_env_variable("PWD", getcwd(NULL, 0), shell->env);
 	return (result);
+}
+
+int	exit_command(t_shell *shell, char **args)
+{
+	int	exit_code;
+
+	exit_code = 0;
+	free_str_arr(args);
+	exit_shell(shell);
+	return (exit_code);
 }

@@ -6,7 +6,7 @@
 /*   By: anatoliy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 18:42:42 by anatoliy          #+#    #+#             */
-/*   Updated: 2026/01/18 21:23:56 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/01/24 18:53:41 by anatoliy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,7 @@ void	display_error_message(const char *error_message)
 
 void	free_shell(t_shell *shell)
 {
-	free_str_arr(shell->env);
-	free(shell->absolute_pathname);
-	free(shell->current_dir_name);
+	//free_str_arr(shell->env);
 	free(shell);
 }
 

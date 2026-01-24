@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:23:22 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/24 02:07:39 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/01/24 19:02:14 by anatoliy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ t_our_commands	*init_our_commands(void)
 {
 	static t_our_commands	our_commands[] = {
 		{"cd", &cd_command},
+		{"exit", &exit_command},
 		//{"echo", &echo_command},
 		//{"env", &env_command},
-		//{"exit", &exit_command},
 		//{"export", &export_command},
 		//{"pwd", &pwd_command},
 		//{"unset", &unset_command},
@@ -29,8 +29,6 @@ t_our_commands	*init_our_commands(void)
 
 void	init_shell_with_null(t_shell *shell)
 {
-	shell->absolute_pathname = NULL;
-	shell->current_dir_name = NULL;
 	shell->env = NULL;
 	shell->our_commands = NULL;
 }
@@ -43,11 +41,7 @@ t_shell	*init_shell(char **envp)
 	if (shell == NULL)
 		error_exit("Failed to allocate shell", NULL);
 	init_shell_with_null(shell);
-	shell->absolute_pathname = getcwd(NULL, 0);
-	if (shell->absolute_pathname == NULL || !*(shell->absolute_pathname))
-		error_exit("Falied to get absolute_pathname", shell);
 	shell->env = envp;
-	shell->current_dir_name = get_current_dir_name(shell);
 	shell->our_commands = init_our_commands();
 	return (shell);
 }

@@ -10,7 +10,6 @@ NAME = minishell
 
 SRC = $(SRC_DIR)/main.c \
 	  $(SRC_DIR)/init.c \
-	  $(SRC_DIR)/shell_utilities.c \
 	  $(SRC_DIR)/error_handling.c \
 	  $(SRC_DIR)/str_utilities.c \
 	  $(SRC_DIR)/build_prompt.c \

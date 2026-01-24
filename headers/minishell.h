@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:04:20 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/24 15:24:30 by anatoliy         ###   ########.fr       */
+/*   Updated: 2026/01/24 18:53:32 by anatoliy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ typedef struct	s_our_commands
 
 typedef struct	s_shell
 {
-	char			*absolute_pathname;
-	char			*current_dir_name;
 	char			**env;
 	t_our_commands	*our_commands;
 }				t_shell;
@@ -72,6 +70,7 @@ void	free_shell(t_shell *shell);
 char	**get_env_pointer(char *name, char **env);
 void	set_env_variable(char *env_name, char *value, char **env);
 int		cd_command(t_shell *shell, char **args);
+int		exit_command(t_shell *shell, char **args);
 char	*get_current_dir_name(t_shell *shell);
 
 #endif
