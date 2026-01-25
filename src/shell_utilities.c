@@ -1,39 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   str_utilities.c                                    :+:      :+:    :+:   */
+/*   shell_utilities.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/16 22:55:36 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/25 05:57:05 by mamelnyk         ###   ########.fr       */
+/*   Created: 2026/01/25 05:45:34 by mamelnyk          #+#    #+#             */
+/*   Updated: 2026/01/25 05:57:12 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_strjoin_three(const char *s1, const char *s2, const char *s3)
+int	check_empty_input(char *input)
 {
-	char	*temp;
-	char	*result;
+	int	i;
 
-	temp = ft_strjoin(s1, s2);
-	if (temp == NULL)
-		return (NULL);
-	result = ft_strjoin(temp, s3);
-	if (result == NULL)
+	i = 0;
+	while (input[i])
 	{
-		free(temp);
-		return (NULL);
+		if (!ft_is_space(input[i]))
+			return (NOT_EMPTY);
+		i++;
 	}
-	free(temp);
-	return (result);
-}
-
-int	ft_is_space(char c)
-{
-	if (c == ' ' || c == '\t' || c == '\n' || c == '\v'
-		|| c == '\f' || c == '\r')
-		return (TRUE);
-	return (FALSE);
+	return (EMPTY);
 }

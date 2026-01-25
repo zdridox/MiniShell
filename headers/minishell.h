@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:04:20 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/24 20:04:07 by anatoliy         ###   ########.fr       */
+/*   Updated: 2026/01/25 05:58:20 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # define STDERR 2
 # define STDOUT 1
 # define EQUAL 0
+# define EMPTY 0
+# define NOT_EMPTY 1
 # define CHILD_PROCESS 0
 # define GREEN "\033[38;5;121m"
 # define BLUE "\033[38;5;87m"
@@ -57,6 +59,7 @@ char	*build_prompt(t_shell *shell);
 void	execute_comand(char **tokens, t_shell *shell);
 char	*get_env_value(char *name, char **env);
 char	*ft_strjoin_three(const char *s1, const char *s2, const char *s3);
+int		ft_is_space(char c);
 // TODO: make strjoin with unlimited number of strings
 void	free_str_arr(char **str_arr);
 int		str_arr_len(char **str_arr);
@@ -75,5 +78,6 @@ int		exit_command(t_shell *shell, char **args);
 int		env_command(t_shell *shell, char **args);
 int		pwd_command(t_shell *shell, char **args);
 char	*get_current_dir_name(t_shell *shell);
+int		check_empty_input(char *input);
 
 #endif

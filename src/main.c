@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 19:57:40 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/24 14:21:22 by anatoliy         ###   ########.fr       */
+/*   Updated: 2026/01/25 05:51:23 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,16 @@ int	main(int argc, char **argv, char **envp)
 		free(prompt);
 		if (!input)
 			exit_shell(shell);
+		if (check_empty_input(input) == EMPTY)
+		{
+			free(input);
+			continue ;
+		}
+		add_history(input);
 		tokens = tokenizer(input);
 		free(input);
 		execute_comand(tokens, shell);
 		free_str_arr(tokens);
 	}
-	return 0;
+	return (0);
 }
