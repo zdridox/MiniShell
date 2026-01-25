@@ -6,7 +6,7 @@
 /*   By: anatoliy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 06:26:23 by anatoliy          #+#    #+#             */
-/*   Updated: 2026/01/24 14:52:19 by anatoliy         ###   ########.fr       */
+/*   Updated: 2026/01/25 02:32:23 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,12 +94,28 @@ void	execute_builtin_command(char **tokens, t_shell *shell)
 	}
 }
 
+void	execute_binary_with_path(char **tokens, t_shell *shell)
+{
+	pid_t	pid;
+	pid = fork();
+	if (pid < 0)
+		error_exit("Can make new process", shell);
+	else if (pid == CHILD_PROCESS)
+	{
+		execve(tokens[0], tokens, shell->env);
+		error_exit("Command execution failed", shell);
+	}
+	waitpid(pid, NULL, 0);
+}
+
 void	execute_comand(char **tokens, t_shell *shell)
 {
 	if (tokens[0] == NULL)
 		return ;
 	if (is_builtin_command(tokens[0], shell->our_commands) == TRUE)
 		execute_builtin_command(tokens, shell);
+	else if (ft_strchr(tokens[0], '/') != NULL)
+		execute_binary_with_path(tokens, shell);
 	else
 		execute_linux_command(tokens, shell);
 }
