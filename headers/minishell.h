@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:04:20 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/25 05:58:20 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/01/26 04:07:09 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # define EQUAL 0
 # define EMPTY 0
 # define NOT_EMPTY 1
+# define EXIST 0
 # define CHILD_PROCESS 0
 # define GREEN "\033[38;5;121m"
 # define BLUE "\033[38;5;87m"
@@ -33,6 +34,7 @@
 # include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <stdarg.h>
 # include "libft.h"
 
 typedef struct s_shell	t_shell;
@@ -61,6 +63,7 @@ char	*get_env_value(char *name, char **env);
 char	*ft_strjoin_three(const char *s1, const char *s2, const char *s3);
 int		ft_is_space(char c);
 // TODO: make strjoin with unlimited number of strings
+char	*ft_strjoin_many(int count, ...);
 void	free_str_arr(char **str_arr);
 int		str_arr_len(char **str_arr);
 char	**add_back_str_arr(char **str_arr, char *new_element);

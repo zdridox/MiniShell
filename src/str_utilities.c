@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 22:55:36 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/25 05:57:05 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/01/26 03:59:38 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,36 @@ char	*ft_strjoin_three(const char *s1, const char *s2, const char *s3)
 		return (NULL);
 	}
 	free(temp);
+	return (result);
+}
+
+char	*ft_strjoin_many(int count, ...)
+{
+	va_list	args;
+	char	*result;
+	char	*current;
+	int		i;
+	
+	va_start(args, count);
+	i = 0;
+	while (i < count)
+	{
+		current = va_arg(args, char *);
+		if (!current)
+			return (va_end(args), NULL);
+		if (i == 0)
+		{
+			result = ft_strdup(current);
+			if (!result)
+				return (va_end(args), NULL);
+			i++;
+			continue ;
+		}
+		result = ft_strjoin(result, current);
+		if (!result)
+			return (va_end(args), NULL);
+	}
+	va_end(args);
 	return (result);
 }
 
