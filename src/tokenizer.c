@@ -1,4 +1,4 @@
-#include "parser.h"
+#include "../headers/parser.h"
 
 static int	is_space(char a)
 {
@@ -51,10 +51,12 @@ char	**tokenizer(char *input)
 	int		j;
 	int		brace_flag;
 	char	**tokens;
+	int in_word;
 
 	i = 0;
 	j = 0;
 	brace_flag = 0;
+	in_word = 0;
 	p = input;
 	tokens = malloc(sizeof(char *) * (token_counter(input) + 1));
 	while (*p)
@@ -69,15 +71,18 @@ char	**tokenizer(char *input)
 					brace_flag = '\0';
 			}
 		}
-		if ((is_space(*p) || *(p + 1) == '\0') && brace_flag == '\0')
+		if(!is_space(*p))
+			in_word = 1;
+		if ((is_space(*p) || *(p + 1) == '\0') && brace_flag == '\0' && in_word == 1)
 		{
 			tokens[j] = malloc(i + 1 + (*(p + 1) == '\0'));
 			ft_memcpy(tokens[j], p - i, i + (*(p + 1) == '\0'));
 			tokens[j][i + (*(p + 1) == '\0')] = '\0';
 			j++;
 			i = 0;
+			in_word = 0;
 		}
-		else
+		else if(!is_space(*p) || brace_flag != '\0')
 			i++;
 		p++;
 	}
@@ -85,16 +90,14 @@ char	**tokenizer(char *input)
 	return (tokens);
 }
 
-/*
 int	main(void)
 {
-	char **tokens = tokenizer("echo \"sraka ' hihi ' wilkolaka\" | wc -l");
+	char **tokens = tokenizer("      echo         \"sraka ' hihi '    wilkolaka\"    |     wc       -l");
 	while (*tokens)
 	{
-		ft_printf("%s\n", *tokens);
+		ft_printf(".%s.\n", *tokens);
 		tokens++;
 	}
 
 	return (0);
 }
-*/
