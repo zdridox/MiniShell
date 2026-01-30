@@ -90,14 +90,14 @@ char	**tokenizer(char *input)
 	return (tokens);
 }
 
-int	main(void)
-{
-	char **tokens = tokenizer("      echo         \"sraka ' hihi '    wilkolaka\"    |     wc       -l");
-	while (*tokens)
-	{
-		ft_printf(".%s.\n", *tokens);
-		tokens++;
-	}
+// int	main(void)
+// {
+// 	char **tokens = tokenizer("      echo         \"sraka ' hihi '    wilkolaka\"    |     wc       -l");
+// 	while (*tokens)
+// 	{
+// 		ft_printf(".%s.\n", *tokens);
+// 		tokens++;
+// 	}
 
-	return (0);
-}
+// 	return (0);
+// }
