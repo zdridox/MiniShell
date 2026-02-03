@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:04:20 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/30 20:09:08 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/02/03 12:31:35 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # define GREEN "\033[38;5;121m"
 # define BLUE "\033[38;5;87m"
 # define ORANGE "\033[38;5;222m"
+# define PURPLE "\033[38;5;135m"
+# define PINK "\033[38;5;198m"
 # define RESET "\033[0m"
 
 # include <stdio.h>
@@ -61,8 +63,6 @@ void	execute_comand(char **tokens, t_shell *shell);
 char	*get_env_value(char *name, char **env);
 char	*ft_strjoin_three(const char *s1, const char *s2, const char *s3);
 int		ft_is_space(char c);
-// TODO: make strjoin with unlimited number of strings
-char	*ft_strjoin_many(int count, ...);
 void	free_str_arr(char **str_arr);
 int		str_arr_len(char **str_arr);
 char	**add_back_str_arr(char **str_arr, char *new_element);
@@ -74,8 +74,8 @@ void	display_error_message(const char *error_message);
 void	exit_shell(t_shell *shell);
 void	free_shell(t_shell *shell);
 char	**get_env_pointer(char *name, char **env);
-void	set_env_variable(char *env_name, char *value, char **env);
 int		cd_command(t_shell *shell, char **args);
+void	set_env_variable(char *env_name, char *value, char **env);
 int		exit_command(t_shell *shell, char **args);
 int		env_command(t_shell *shell, char **args);
 int		pwd_command(t_shell *shell, char **args);

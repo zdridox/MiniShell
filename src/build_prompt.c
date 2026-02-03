@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 22:53:50 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/26 04:13:18 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/02/03 12:55:45 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*get_parent_dir(char *path)
 	int		i;
 
 	i = ft_strlen(path) - 1;
-	while (path[i] != '/' && i > 0)
+	while (path[i] != '/' && i > 1)
 		i--;
 	parent = ft_substr(path, 0, i);
 	free(path);
@@ -33,7 +33,7 @@ int	is_git_repo(t_shell *shell)
 	path = ft_strdup(get_env_value("PWD", shell->env));
 	if (!path)
 		error_exit("Failed to allocate memory", shell);
-	while (ft_strcmp(path, "/") == EQUAL)
+	while (ft_strcmp(path, "/") != EQUAL)
 	{
 		git_path = ft_strjoin(path, "/.git");
 		if (access(git_path, F_OK) == EXIST)
@@ -48,12 +48,48 @@ int	is_git_repo(t_shell *shell)
 	}
 	return (FALSE);
 }
+
+char	*get_git_branch(char *git_brannch_path, t_shell *shell)
+{
+	char	*file_content;
+	char	*git_branch;
+	int		file_size;
+	int		i;
+	int		fd;
+
+	if (access(git_brannch_path, R_OK) != EXIST)
+		return (NULL);
+	fd = open(git_brannch_path, O_RDONLY);
+	file_content = get_next_line(fd);
+	if (!file_content)
+		error_exit("Failed to read git branch", shell);
+	file_size = ft_strlen(file_content);
+	i = file_size - 2;
+	while (file_content[i] != '/' && i >= 0)
+		i--;
+	git_branch = ft_substr(file_content, i + 1, file_size - i - 2);
+	if (!git_branch)
+		error_exit("Failed to allocate memory", shell);
+	return (git_branch);
+}
+
 char	*build_git_prompt(t_shell *shell)
 {
 	char	*git_prompt;
+	char	*git_branch;
+	char	*path;
+	char	*git_branch_path;
 
-	(void)shell;
-	git_prompt = ft_strdup(" (git) ");
+	path = get_env_value("PWD", shell->env);
+	git_branch_path = ft_strjoin(path, "/.git/HEAD");
+	if (!git_branch_path)
+		error_exit("Failed to allocate memory", shell);
+	if (access(git_branch_path, F_OK) == EXIST)
+		git_branch = get_git_branch(git_branch_path, shell);
+	git_prompt = ft_strjoin_many(7, PURPLE, " git:(", PINK,
+		git_branch, PURPLE, ")", RESET);
+	if (!git_prompt)
+		error_exit("Failed to build git prompt", shell);
 	return (git_prompt);
 }
 
@@ -67,18 +103,18 @@ char	*build_prompt(t_shell *shell)
 		git_prompt = build_git_prompt(shell);
 		if (!git_prompt)
 			error_exit("Failed to build git prompt", shell);
-		prompt = ft_strjoin_many(7, GREEN, " ➜ ", BLUE,
+		prompt = ft_strjoin_many(9, GREEN, " ➜ ", BLUE,
 			get_current_dir_name(shell), RESET, git_prompt, ORANGE,
 			" ✗ ", RESET);
+		free(git_prompt);
 	}
 	else
 	{
-		prompt = ft_strjoin_many(6, GREEN, " ➜ ", BLUE,
+		prompt = ft_strjoin_many(7, GREEN, " ➜ ", BLUE,
 			get_current_dir_name(shell), ORANGE, " ✗ ", RESET);
 	}
 	if (!prompt)
 		error_exit("Failed to build prompt", shell);
-	free(git_prompt);
 	return (prompt);
 }
 
