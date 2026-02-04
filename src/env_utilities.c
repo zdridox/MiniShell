@@ -6,7 +6,7 @@
 /*   By: anatoliy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 07:21:03 by anatoliy          #+#    #+#             */
-/*   Updated: 2026/01/24 00:49:04 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/02/04 17:40:07 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ char	*get_current_dir_name(t_shell *shell)
 	int		i;
 
 	absolute_pathname = get_env_value("PWD", shell->env);
+	if (ft_strcmp(absolute_pathname, "/") == 0)
+		return (absolute_pathname);
 	if (absolute_pathname == NULL)
 		return (NULL);
 	i = 0;
