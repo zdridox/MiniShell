@@ -68,27 +68,83 @@ char **copy_arr(char **old_str_arr)
 	return (new_str_arr);
 }
 
-char **resize_str_arr(char **old_str_arr, int new_size) // possible leak? // cos mieszalem
-{
-	unsigned int i;
-	char **new_str_arr;
+// char **resize_str_arr(char **old_str_arr, int new_size) // possible leak? // cos mieszalem
+// {
+// 	unsigned int i;
+// 	char **new_str_arr;
 
-	if (new_size < str_arr_len(old_str_arr))
+// 	if (new_size < str_arr_len(old_str_arr))
+// 	{
+// 		return (NULL);
+// 	}
+// 	new_str_arr = (char **)malloc(new_size * sizeof(char *));
+// 	if (!new_str_arr)
+// 		return (NULL);
+// 	i = 0;
+// 	while (old_str_arr[i])
+// 	{
+// 		new_str_arr[i] = old_str_arr[i];
+// 		i++;
+// 	}
+// 	new_str_arr[i] = NULL;
+// 	free(old_str_arr);
+// 	return (new_str_arr);
+// }
+
+// char **resize_str_arr(char **old_str_arr, int new_size)
+// {
+// 	int i;
+// 	char **new_arr;
+
+// 	if (!old_str_arr)
+// 	{
+// 		new_arr = malloc(sizeof(char *) * 2);
+// 		new_arr[0] = NULL;
+// 		return (new_arr);
+// 	}
+// 	i = 0;
+// 	new_arr = malloc(sizeof(char *) * new_size + 1);
+// 	while (old_str_arr[i])
+// 	{
+// 		new_arr[i] = ft_strdup(old_str_arr[i]);
+// 		++i;
+// 	}
+// 	new_arr[i] = NULL;
+// 	free_str_arr(old_str_arr);
+// 	return (new_arr);
+// }
+
+char **resize_str_arr(char **old_str_arr, int new_size)
+{
+	int i;
+	char **new_arr;
+
+	// new_size is the number of string elements, so add 1 for NULL terminator.
+	new_arr = malloc(sizeof(char *) * (new_size + 1));
+	if (!new_arr)
 	{
+		free_str_arr(old_str_arr); // Free old array on allocation failure
 		return (NULL);
 	}
-	new_str_arr = (char **)malloc(new_size * sizeof(char *));
-	if (!new_str_arr)
-		return (NULL);
 	i = 0;
-	while (old_str_arr[i])
+	if (old_str_arr)
 	{
-		new_str_arr[i] = old_str_arr[i];
+		while (old_str_arr[i] && i < new_size)
+		{
+			new_arr[i] = ft_strdup(old_str_arr[i]);
+			// It's good practice to check ft_strdup's return value
+			i++;
+		}
+	}
+	// Set the rest of the pointers, including the last one, to NULL.
+	while (i <= new_size)
+	{
+		new_arr[i] = NULL;
 		i++;
 	}
-	new_str_arr[i] = NULL;
-	free(old_str_arr);
-	return (new_str_arr);
+	if (old_str_arr)
+		free_str_arr(old_str_arr);
+	return (new_arr);
 }
 
 char **add_back_str_arr(char **str_arr, char *new_element)
