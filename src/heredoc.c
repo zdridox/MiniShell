@@ -29,14 +29,16 @@ char *heredoc(char *EOI)
 {
     char *out;
     char *line;
+    char *compare;
 
     out = ft_strdup("");
     line = ft_strdup("");
+    compare = ft_strjoin(EOI, "\n");
     while (1)
     {
         free(line);
         line = get_next_line(0);
-        if (!ft_strncmp(line, ft_strjoin(EOI, "\n"), ft_strlen(line)))
+        if (!ft_strncmp(line, compare, ft_strlen(line)))
         {
             free(line);
             break;
@@ -46,10 +48,10 @@ char *heredoc(char *EOI)
     return (out);
 }
 
-int main()
-{
-    char *heredoc_test = heredoc("DUPA");
-    printf("%s", heredoc_test);
-    free(heredoc_test);
-    return (0);
-}
+// int main()
+// {
+//     char *heredoc_test = heredoc("DUPA");
+//     printf("%s", heredoc_test);
+//     free(heredoc_test);
+//     return (0);
+// }
