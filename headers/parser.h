@@ -15,7 +15,7 @@ typedef enum s_flag_type
 typedef struct s_flag_node
 {
     t_flag_type flag;
-    char **flag_argv;
+    char *flag_arg;
     struct s_flag_node *next;
 } t_flag_node;
 
@@ -31,5 +31,7 @@ void cmd_add_back(t_cmd_node *head, t_cmd_node *node);
 void flag_add_back(t_flag_node *head, t_flag_node *node);
 char **resize_str_arr(char **old_str_arr, int new_size);
 int str_arr_len(char **str_arr);
+void print_str_arr(char **str_arr);
+void free_str_arr(char **str_arr);
 
 #endif
