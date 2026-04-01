@@ -1,22 +1,5 @@
 #include "../headers/parser.h"
-// #include "../headers/minishell.h"
-
-// No, that command is perfectly valid in a standard shell like bash or zsh. This is a key concept for building your minishell and highlights the
-
-// issue with your current parser.
-
-// Here is how a standard shell interprets echo "Asdasd" > file something here:
-
-// The shell scans the command line for special characters. It finds the redirection > file.
-// It processes this redirection first. It opens the file named file for writing, preparing it to receive the command's output.
-// The redirection part (> file) is then removed from the command line.
-// The shell is left with echo "Asdasd" something here.
-// It then executes the echo command, passing it "Asdasd", something, and here as three separate arguments.
-// So, the final result is:
-
-// Command: echo
-// Arguments: "Asdasd", something, here
-// Output: The text Asdasd something here is written into the file named file.
+#include "../headers/minishell.h"
 
 t_cmd_node *parse_tokens(char **tokens)
 {
@@ -26,6 +9,7 @@ t_cmd_node *parse_tokens(char **tokens)
 
     curr = NULL;
     parsed = NULL;
+    flag = NULL;
     while (*tokens)
     {
         if (curr == NULL)
@@ -38,13 +22,9 @@ t_cmd_node *parse_tokens(char **tokens)
         if (!ft_strncmp(*tokens, "|", 1))
         {
             if (parsed)
-            {
                 cmd_add_back(parsed, curr);
-            }
             else
-            {
                 parsed = curr;
-            }
             curr = malloc(sizeof(t_cmd_node));
             curr->argv = NULL;
             curr->flags = NULL;
@@ -56,13 +36,9 @@ t_cmd_node *parse_tokens(char **tokens)
             flag->flag_arg = NULL;
             flag->next = NULL;
             if (curr->flags)
-            {
                 flag_add_back(curr->flags, flag);
-            }
             else
-            {
                 curr->flags = flag;
-            }
             if (!ft_strncmp(*tokens, ">", 1))
                 flag->flag = OVERWRITE;
             if (!ft_strncmp(*tokens, ">>", 2))
@@ -74,14 +50,14 @@ t_cmd_node *parse_tokens(char **tokens)
         }
         else
         {
-            if (!(flag && !flag->flag_arg))
+            if (flag && !flag->flag_arg)
             {
-                curr->argv = resize_str_arr(curr->argv, str_arr_len(curr->argv) + 1);
-                curr->argv[str_arr_len(curr->argv)] = ft_strdup(*tokens);
+                flag->flag_arg = ft_strdup(*tokens);
             }
             else
             {
-                flag->flag_arg = ft_strdup(*tokens);
+                curr->argv = resize_str_arr(curr->argv, str_arr_len(curr->argv) + 1);
+                curr->argv[str_arr_len(curr->argv)] = ft_strdup(*tokens);
             }
         }
         ++tokens;
@@ -138,15 +114,32 @@ void print_parsed(t_cmd_node *parsed)
     }
 }
 
-int main(int argc, char **argv)
-{
-    char **tokens;
-    t_cmd_node *parsed;
+// int main(int argc, char **argv)
+// {
+//     char **tokens;
+//     t_cmd_node *parsed;
+//     t_cmd_node *p;
+//     t_flag_node *f;
 
-    if (argc != 2)
-        return (0);
-    tokens = tokenizer(argv[1]);
-    parsed = parse_tokens(tokens);
-    print_parsed(parsed);
-    return (0);
-}
+//     if (argc != 2)
+//         return (0);
+//     tokens = tokenizer(argv[1]);
+//     parsed = parse_tokens(tokens);
+//     print_parsed(parsed);
+//     free_str_arr(tokens);
+//     while (parsed)
+//     {
+//         p = parsed;
+//         parsed = parsed->next;
+//         free_str_arr(p->argv);
+//         while (p->flags)
+//         {
+//             f = p->flags;
+//             p->flags = p->flags->next;
+//             free(f->flag_arg);
+//             free(f);
+//         }
+//         free(p);
+//     }
+//     return (0);
+// }
