@@ -29,6 +29,7 @@ typedef struct s_flag_node
 
 typedef struct s_cmd_node
 {
+    t_node_type type;
     t_flag_node *flags;
     char **argv;
     struct s_cmd_node *next;
