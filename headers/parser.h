@@ -14,6 +14,7 @@ typedef enum s_flag_type
 
 typedef enum s_node_type
 {
+    FIRST,
     PIPE,
     AND,
     OR
