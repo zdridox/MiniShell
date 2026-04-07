@@ -12,6 +12,13 @@ typedef enum s_flag_type
     HEREDOC
 } t_flag_type;
 
+typedef enum s_node_type
+{
+    PIPE,
+    AND,
+    OR
+} t_node_type;
+
 typedef struct s_flag_node
 {
     t_flag_type flag;
