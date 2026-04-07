@@ -6,7 +6,7 @@
 /*   By: anatoliy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 06:26:23 by anatoliy          #+#    #+#             */
-/*   Updated: 2026/01/25 02:32:23 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/04/07 15:24:48 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,4 +118,15 @@ void	execute_comand(char **tokens, t_shell *shell)
 		execute_binary_with_path(tokens, shell);
 	else
 		execute_linux_command(tokens, shell);
+}
+
+void	execute_sequence_of_commands(t_cmd_node *cmds, t_shell *shell)
+{
+	if (cmds == NULL)
+		return ;
+	while (cmds)
+	{
+		execute_comand(cmds->argv, shell);
+		cmds = cmds->next;
+	}
 }

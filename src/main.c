@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 19:57:40 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/31 19:29:29 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/04/07 15:22:47 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_shell	*shell;
-	char	**tokens;
-	char	*input;
-	char	*prompt;
+	t_shell		*shell;
+	t_cmd_node	*parsed;
+	char		**tokens;
+	char		*input;
+	char		*prompt;
 
 	(void)argc;
 	(void)argv;
@@ -37,9 +38,11 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		add_history(input);
-		tokens = ft_split(input, ' ');
+		tokens = tokenizer(input);
+		parsed = parse_tokens(tokens);
 		free(input);
-		execute_comand(tokens, shell);
+		execute_sequence_of_commands(parsed, shell);
+		free_parsed(parsed);
 		free_str_arr(tokens);
 	}
 	return (0);

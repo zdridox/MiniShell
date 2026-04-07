@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:04:20 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/02/03 12:31:35 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/04/07 15:26:11 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "../libft/libft.h"
+# include "parser.h"
 
 typedef struct s_shell t_shell;
 
@@ -81,5 +82,7 @@ int env_command(t_shell *shell, char **args);
 int pwd_command(t_shell *shell, char **args);
 char *get_current_dir_name(t_shell *shell);
 int check_empty_input(char *input);
+void		execute_sequence_of_commands(t_cmd_node *cmds, t_shell *shell);
+t_cmd_node	*parse_tokens(char **tokens);
 
 #endif

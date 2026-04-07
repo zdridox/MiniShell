@@ -20,6 +20,7 @@ SRC = $(SRC_DIR)/main.c \
 	  $(SRC_DIR)/our_commands.c \
 	  $(SRC_DIR)/str_arr_utilities.c \
 	  $(SRC_DIR)/shell_utilities.c \
+	  $(SRC_DIR)/parser.c
 
 # -- Directories --
 
