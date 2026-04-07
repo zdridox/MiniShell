@@ -30,7 +30,7 @@ t_cmd_node *parse_tokens(char **tokens)
             curr->flags = NULL;
             curr->next = NULL;
         }
-        else if (!ft_strncmp(*tokens, ">", 1) || !ft_strncmp(*tokens, ">>", 2) || !ft_strncmp(*tokens, "<", 1) || !ft_strncmp(*tokens, "<<", 2))
+        else if (!ft_strncmp(*tokens, ">", ft_strlen(*tokens)) || !ft_strncmp(*tokens, ">>", ft_strlen(*tokens)) || !ft_strncmp(*tokens, "<", ft_strlen(*tokens)) || !ft_strncmp(*tokens, "<<", ft_strlen(*tokens)))
         {
             flag = malloc(sizeof(t_flag_node));
             flag->flag_arg = NULL;
