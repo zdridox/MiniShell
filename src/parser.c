@@ -143,6 +143,9 @@ void	free_parsed(t_cmd_node *parsed)
 	free(parsed);
 }
 
+
+
+
 // int	main(int argc, char **argv)
 // {
 // 	char		**tokens;
@@ -172,3 +175,7 @@ void	free_parsed(t_cmd_node *parsed)
 // 	}
 // 	return (0);
 // }
+
+
+
+
