@@ -34,12 +34,13 @@ typedef struct s_cmd_node
     struct s_cmd_node *next;
 } t_cmd_node;
 
-char **tokenizer(char *input);
-void cmd_add_back(t_cmd_node *head, t_cmd_node *node);
-void flag_add_back(t_flag_node *head, t_flag_node *node);
-char **resize_str_arr(char **old_str_arr, int new_size);
-int str_arr_len(char **str_arr);
-void print_str_arr(char **str_arr);
-void free_str_arr(char **str_arr);
+char	**tokenizer(char *input);
+void	cmd_add_back(t_cmd_node *head, t_cmd_node *node);
+void	flag_add_back(t_flag_node *head, t_flag_node *node);
+char	**resize_str_arr(char **old_str_arr, int new_size);
+int		str_arr_len(char **str_arr);
+void	print_str_arr(char **str_arr);
+void	free_str_arr(char **str_arr);
+void	free_parsed(t_cmd_node *parsed);
 
 #endif

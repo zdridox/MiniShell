@@ -114,6 +114,27 @@ void print_parsed(t_cmd_node *parsed)
     }
 }
 
+void	free_parsed(t_cmd_node *parsed)
+{
+	t_cmd_node	*cmd_tmp;
+	t_flag_node	*flag_tmp;
+
+	while (parsed)
+	{
+		cmd_tmp = parsed;
+		parsed = parsed->next;
+		free_str_arr(cmd_tmp->argv);
+		while (cmd_tmp->flags)
+		{
+			flag_tmp = cmd_tmp->flags;
+			cmd_tmp->flags = cmd_tmp->flags->next;
+			free(flag_tmp->flag_arg);
+			free(flag_tmp);
+		}
+	}
+	free(parsed);
+}
+
 // int main(int argc, char **argv)
 // {
 //     char **tokens;
