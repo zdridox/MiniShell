@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:04:20 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/04/07 15:26:11 by maxim            ###   ########.fr       */
+/*   Updated: 2026/04/08 21:54:01 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 #define MINISHELL_H
 #define TRUE 1
 #define FALSE 0
-#define STDERR 2
+#define STDIN 0
 #define STDOUT 1
+#define STDERR 2
 #define EQUAL 0
 #define EMPTY 0
 #define NOT_EMPTY 1
