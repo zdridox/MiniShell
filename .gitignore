@@ -5,5 +5,3 @@ obj
 *.o
 libft.a
 .gdb_history
-.idea
-.idea/*
