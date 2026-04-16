@@ -32,6 +32,8 @@ typedef struct s_cmd_node
 	t_node_type			type;
 	t_flag_node			*flags;
 	char				**argv;
+	int					input_fd;
+	int					output_fd;
 	struct s_cmd_node	*next;
 }						t_cmd_node;
 

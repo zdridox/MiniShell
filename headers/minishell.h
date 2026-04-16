@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:04:20 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/04/08 22:09:55 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/04/16 18:41:54 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 #define NOT_EMPTY 1
 #define EXIST 0
 #define CHILD_PROCESS 0
+#define	ERROR 1
+#define SUCCESS 0
 #define GREEN "\033[38;5;121m"
 #define BLUE "\033[38;5;87m"
 #define ORANGE "\033[38;5;222m"
@@ -50,11 +52,12 @@ typedef struct s_our_commands
 	t_our_command_fn function;
 } t_our_commands;
 
-typedef struct s_shell
+typedef struct	s_shell
 {
-	char **env;
-	t_our_commands *our_commands;
-} t_shell;
+	int				last_exit_status;
+	char			**env;
+	t_our_commands	*our_commands;
+}					t_shell;
 
 char **tokenizer(char *input);
 t_shell *init_shell(char **envp);

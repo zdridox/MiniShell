@@ -6,7 +6,7 @@
 /*   By: anatoliy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 06:26:23 by anatoliy          #+#    #+#             */
-/*   Updated: 2026/04/09 21:52:57 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/04/16 19:10:35 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,23 @@ int	is_builtin_command(char *command_name, t_our_commands *command)
 	return (FALSE);
 }
 
-void	execute_linux_command(char **tokens, t_shell *shell, int input_fd, int output_fd)
+void	close_all_fds(t_cmd_node *cmds)
 {
-	pid_t	pid;
+	t_cmd_node	*current_cmd;
+
+	current_cmd = cmds;
+	while (current_cmd)
+	{
+		if (current_cmd->input_fd != STDIN)
+			close(current_cmd->input_fd);
+		if (current_cmd->output_fd != STDOUT)
+			close(current_cmd->output_fd);
+		current_cmd = current_cmd->next;
+	}
+}
+
+void	execute_linux_command(char **tokens, t_shell *shell, int input_fd, int output_fd, pid_t *pid)
+{
 	char	*bin_path;
 
 	bin_path = find_bin_path(tokens[0], shell);
@@ -66,10 +80,10 @@ void	execute_linux_command(char **tokens, t_shell *shell, int input_fd, int outp
 		printf("minishell: command not found: %s\n", tokens[0]);
 		return ;
 	}
-	pid = fork();
-	if (pid < 0)
+	*pid = fork();
+	if (*pid < 0)
 		error_exit("Can make new process", shell);
-	else if (pid == CHILD_PROCESS)
+	else if (*pid == CHILD_PROCESS)
 	{
 		if (input_fd != STDIN)
 		{
@@ -84,7 +98,12 @@ void	execute_linux_command(char **tokens, t_shell *shell, int input_fd, int outp
 		execve(bin_path, tokens, shell->env);
 		error_exit("Command execution failed", shell);
 	}
-	waitpid(pid, NULL, 0);
+	/*
+	if (input_fd != STDIN)
+		close(input_fd);
+	if (output_fd != STDOUT)
+		close(output_fd);
+	*/
 	free(bin_path);
 }
 
@@ -104,18 +123,32 @@ void	execute_builtin_command(char **tokens, t_shell *shell)
 	}
 }
 
-void	execute_binary_with_path(char **tokens, t_shell *shell)
+void	execute_binary_with_path(char **tokens, t_shell *shell, int input_fd, int output_fd, pid_t *pid)
 {
-	pid_t	pid;
-	pid = fork();
-	if (pid < 0)
+	*pid = fork();
+	if (*pid < 0)
 		error_exit("Can make new process", shell);
-	else if (pid == CHILD_PROCESS)
+	else if (*pid == CHILD_PROCESS)
 	{
+		if (input_fd != STDIN)
+		{
+			dup2(input_fd, STDIN);
+			close(input_fd);
+		}
+		if (output_fd != STDOUT)
+		{
+			dup2(output_fd, STDOUT);
+			close(output_fd);
+		}
 		execve(tokens[0], tokens, shell->env);
 		error_exit("Command execution failed", shell);
 	}
-	waitpid(pid, NULL, 0);
+	/*
+	if (input_fd != STDIN)
+		close(input_fd);
+	if (output_fd != STDOUT)
+		close(output_fd);
+	*/
 }
 /*
 void	execute_comand(char **tokens, t_shell *shell)
@@ -130,11 +163,14 @@ void	execute_comand(char **tokens, t_shell *shell)
 		execute_linux_command(tokens, shell);
 }
 */
-int	handle_redirections(t_flag_node *flags, int *input_fd, int *output_fd, t_shell *shell)
+
+int	prepare_command_redirections(t_cmd_node *cmds, int *input_fd, int *output_fd)
 {
 	t_flag_node	*current_flag;
 
-	current_flag = flags;
+	current_flag = cmds->flags;
+	if (current_flag == NULL)
+		return (SUCCESS);
 	while (current_flag != NULL)
 	{
 		if (current_flag->flag == READ_FROM_FILE)
@@ -143,8 +179,11 @@ int	handle_redirections(t_flag_node *flags, int *input_fd, int *output_fd, t_she
 				close(*input_fd);
 			*input_fd = open(current_flag->flag_arg, O_RDONLY);
 			if (*input_fd < 0)
+			{
+				close_all_fds(cmds);
 				display_error_message("Failed to open input file");
-			return (1);
+				return (ERROR);
+			}
 		}
 		if (current_flag->flag == OVERWRITE)
 		{
@@ -152,7 +191,11 @@ int	handle_redirections(t_flag_node *flags, int *input_fd, int *output_fd, t_she
 				close(*output_fd);
 			*output_fd = open(current_flag->flag_arg, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if (*output_fd < 0)
-				error_exit("Failed to open output file", shell);
+			{
+				close_all_fds(cmds);
+				display_error_message("Failed to open output file");
+				return (ERROR);
+			}
 		}
 		if (current_flag->flag == APPEND)
 		{
@@ -160,43 +203,138 @@ int	handle_redirections(t_flag_node *flags, int *input_fd, int *output_fd, t_she
 				close(*output_fd);
 			*output_fd = open(current_flag->flag_arg, O_WRONLY | O_CREAT | O_APPEND, 0644);
 			if (*output_fd < 0)
-				error_exit("Failed to open output file", shell);
+			{
+				close_all_fds(cmds);
+				display_error_message("Failed to open output file");
+				return (ERROR);
+			}
 		}
 		current_flag = current_flag->next;
 	}
-	return (0);
+	return (SUCCESS);
 }
 
-void	execute_one_command(char **argv, t_shell *shell, int input_fd, int output_fd)
+int	prepare_pipe_redirections(t_cmd_node *cmds)
+{
+	int	pipe_fds[2];
+	t_cmd_node	*current_cmd;
+	t_cmd_node	*next_cmd;
+
+	current_cmd = cmds;
+	next_cmd = current_cmd->next;
+	while (next_cmd)
+	{
+		if (next_cmd->type == PIPE && current_cmd->output_fd == STDOUT && next_cmd->input_fd == STDIN)
+		{
+			if (pipe(pipe_fds) < 0)
+			{
+				close_all_fds(cmds);
+				display_error_message("Failed to create pipe");
+				return (ERROR);
+			}
+			current_cmd->output_fd = pipe_fds[1];
+			next_cmd->input_fd = pipe_fds[0];
+		}
+		current_cmd = next_cmd;
+		next_cmd = next_cmd->next;
+	}
+	return (SUCCESS);
+}
+
+int	prepare_all_redirections(t_cmd_node *cmds)
+{
+	t_cmd_node	*current_cmd;
+
+	current_cmd = cmds;
+	while (current_cmd)
+	{
+		if (prepare_command_redirections(current_cmd, &current_cmd->input_fd, &current_cmd->output_fd))
+			return (ERROR);
+		current_cmd = current_cmd->next;
+	}
+	if (prepare_pipe_redirections(cmds))
+		return (ERROR);
+	return (SUCCESS);
+}
+
+void	execute_one_command(char **argv, t_shell *shell, int input_fd, int output_fd, pid_t *pid)
 {
 	if (argv[0] == NULL)
 		return ;
 	if (is_builtin_command(argv[0], shell->our_commands))
 		execute_builtin_command(argv, shell);
 	else if (ft_strchr(argv[0], '/') != NULL)
-		execute_binary_with_path(argv, shell);
+		execute_binary_with_path(argv, shell, input_fd, output_fd, pid);
 	else
-		execute_linux_command(argv, shell, input_fd, output_fd);
+		execute_linux_command(argv, shell, input_fd, output_fd, pid);
+}
+
+void	init_input_output_fds(t_cmd_node *cmds)
+{
+	t_cmd_node	*current_cmd;
+
+	current_cmd = cmds;
+	while (current_cmd)
+	{
+		current_cmd->input_fd = STDIN;
+		current_cmd->output_fd = STDOUT;
+		current_cmd = current_cmd->next;
+	}
+}
+
+int	count_commands(t_cmd_node *cmds)
+{
+	int	count;
+
+	count = 0;
+	while (cmds)
+	{
+		count++;
+		cmds = cmds->next;
+	}
+	return (count);
+}
+
+void	execute_pipeline(t_cmd_node *cmds, t_shell *shell)
+{
+	t_cmd_node	*current_cmd;
+	pid_t	*pids;
+	int	commands_count;
+	//int	status;
+	int	i;
+
+	commands_count = count_commands(cmds);
+	pids = malloc(sizeof(pid_t) * commands_count);
+	i = 0;
+	current_cmd = cmds;
+	while (i < commands_count)
+	{
+		execute_one_command(current_cmd->argv, shell, current_cmd->input_fd, current_cmd->output_fd, &pids[i]);
+		current_cmd = current_cmd->next;
+		i++;
+	}
+	i = 0;
+	current_cmd = cmds;
+	while (i < commands_count)
+	{
+		if (current_cmd->input_fd != STDIN)
+			close(current_cmd->input_fd);
+		if (current_cmd->output_fd != STDOUT)
+			close(current_cmd->output_fd);
+		waitpid(pids[i], NULL, 0);
+		i++;
+		current_cmd = current_cmd->next;
+	}
 }
 
 void	execute_sequence_of_commands(t_cmd_node *cmds, t_shell *shell)
 {
-	int		input_fd;
-	int		output_fd;
-	//char	*input_file;
-
-	input_fd = STDIN;
-	output_fd = STDOUT;
+	(void)shell;
 	if (cmds == NULL)
 		return ;
-	if (cmds->flags)
-	{
-		if (handle_redirections(cmds->flags, &input_fd, &output_fd, shell))
-			return ;
-	}
-	while (cmds)
-	{
-		execute_one_command(cmds->argv, shell, input_fd, output_fd);
-		cmds = cmds->next;
-	}
+	init_input_output_fds(cmds);
+	// handle_heredoc_redirections(cmds, shell);
+	if (prepare_all_redirections(cmds) == ERROR)
+		return ;
+	execute_pipeline(cmds, shell);
 }
