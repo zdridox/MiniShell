@@ -6,7 +6,7 @@
 /*   By: anatoliy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 06:26:23 by anatoliy          #+#    #+#             */
-/*   Updated: 2026/04/16 19:10:35 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/04/16 23:14:14 by anatoliy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,12 +98,10 @@ void	execute_linux_command(char **tokens, t_shell *shell, int input_fd, int outp
 		execve(bin_path, tokens, shell->env);
 		error_exit("Command execution failed", shell);
 	}
-	/*
 	if (input_fd != STDIN)
 		close(input_fd);
 	if (output_fd != STDOUT)
 		close(output_fd);
-	*/
 	free(bin_path);
 }
 
@@ -143,12 +141,10 @@ void	execute_binary_with_path(char **tokens, t_shell *shell, int input_fd, int o
 		execve(tokens[0], tokens, shell->env);
 		error_exit("Command execution failed", shell);
 	}
-	/*
 	if (input_fd != STDIN)
 		close(input_fd);
 	if (output_fd != STDOUT)
 		close(output_fd);
-	*/
 }
 /*
 void	execute_comand(char **tokens, t_shell *shell)
@@ -246,14 +242,14 @@ int	prepare_all_redirections(t_cmd_node *cmds)
 	t_cmd_node	*current_cmd;
 
 	current_cmd = cmds;
+	if (prepare_pipe_redirections(cmds))
+		return (ERROR);
 	while (current_cmd)
 	{
 		if (prepare_command_redirections(current_cmd, &current_cmd->input_fd, &current_cmd->output_fd))
 			return (ERROR);
 		current_cmd = current_cmd->next;
 	}
-	if (prepare_pipe_redirections(cmds))
-		return (ERROR);
 	return (SUCCESS);
 }
 
@@ -317,10 +313,6 @@ void	execute_pipeline(t_cmd_node *cmds, t_shell *shell)
 	current_cmd = cmds;
 	while (i < commands_count)
 	{
-		if (current_cmd->input_fd != STDIN)
-			close(current_cmd->input_fd);
-		if (current_cmd->output_fd != STDOUT)
-			close(current_cmd->output_fd);
 		waitpid(pids[i], NULL, 0);
 		i++;
 		current_cmd = current_cmd->next;
