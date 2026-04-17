@@ -6,7 +6,7 @@
 /*   By: anatoliy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 18:42:42 by anatoliy          #+#    #+#             */
-/*   Updated: 2026/02/05 18:37:50 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/04/17 09:26:27 by anatoliy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	display_error_message(const char *error_message)
 {
-	ft_putstr_fd("Erorr: ", STDERR);
+	ft_putstr_fd("Error: ", STDERR);
 	ft_putstr_fd((char *)error_message, STDERR);
 	ft_putchar_fd('\n', STDERR);
 }
