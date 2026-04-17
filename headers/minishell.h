@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:04:20 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/04/16 18:41:54 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/04/17 12:04:53 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@
 #define CHILD_PROCESS 0
 #define	ERROR 1
 #define SUCCESS 0
-#define GREEN "\033[38;5;121m"
-#define BLUE "\033[38;5;87m"
-#define ORANGE "\033[38;5;222m"
-#define PURPLE "\033[38;5;135m"
-#define PINK "\033[38;5;198m"
-#define RESET "\033[0m"
+#define GREEN "\001\033[38;5;121m\002"
+#define BLUE "\001\033[38;5;87m\002"
+#define ORANGE "\001\033[38;5;222m\002"
+#define PURPLE "\001\033[38;5;135m\002"
+#define PINK "\001\033[38;5;198m\002"
+#define RESET "\001\033[0m\002"
 
 #include <stdio.h>
 #include <stdlib.h>
