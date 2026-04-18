@@ -1,61 +1,56 @@
-#include "../headers/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/17 16:52:45 by mamelnyk          #+#    #+#             */
+/*   Updated: 2026/04/17 19:45:31 by mamelnyk         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void safe_cat(char **line, char *buffer) // podjebane z GNL z egzaminu XD
+#include "minishell.h"
+
+int	heredoc(t_cmd_node *cmd, t_shell *shell, char *delimiter)
 {
-    char *new_line;
-    int index = 0;
-    int move_index = 0;
+	char	*line;
+	int		fd_temp_file;
 
-    new_line = malloc(ft_strlen(*line) + ft_strlen(buffer) + 1);
-    while ((*line)[move_index])
-    {
-        new_line[index] = (*line)[move_index];
-        ++move_index;
-        ++index;
-    }
-    move_index = 0;
-    while (buffer[move_index])
-    {
-        new_line[index] = buffer[move_index];
-        ++move_index;
-        ++index;
-    }
-    new_line[index] = 0;
-    free(*line);
-    *line = new_line;
+	fd_temp_file = open("/tmp/.heredoc_temp", O_RDWR | O_CREAT | O_TRUNC, 0600);
+	if (fd_temp_file < 0)
+	{
+		// display_error_message("Failed to create temporary file for heredoc");
+		return (ERROR);
+	}
+	line = readline("> ");
+	while (line && ft_strcmp(line, delimiter) != EQUAL)
+	{
+		line = readline("> ");
+		if (line == NULL)
+		{
+			// display_error_message("Unexpected EOF while reading heredoc");
+			break ;
+		}
+		write(fd_temp_file, line, ft_strlen(line));
+		write(fd_temp_file, "\n", 1);
+		free(line);
+		if (!line)
+			break ;
+	}
+	return (SUCCESS);
 }
 
-char *heredoc(char *EOI)
+int	main(void)
 {
-    char *out;
-    char *line;
-    char *compare;
-
-    out = ft_strdup("");
-    line = ft_strdup("");
-    compare = ft_strjoin(EOI, "\n");
-    while (1)
-    {
-        free(line);
-        ft_printf("heredoc> ");
-        line = get_next_line(0);
-        if (!ft_strncmp(line, compare, ft_strlen(line)))
-        {
-            free(line);
-            break;
-        }
-        safe_cat(&out, line);
-    }
-    free(compare);
-    return (out);
+	char *delimiter = "END";
+	int fd = heredoc(NULL, NULL, delimiter);
+	if (fd < 0)
+	{
+		perror("Heredoc error");
+		return (1);
+	}
+	printf("Heredoc content written to temporary file with fd: %d\n", fd);
+	close(fd);
+	return (0);
 }
-
-// int main(int argc, char **argv)
-// {
-//     if (argc != 2)
-//         return (1);
-//     char *heredoc_test = heredoc(argv[1]);
-//     printf("%s", heredoc_test);
-//     free(heredoc_test);
-//     return (0);
-// }
