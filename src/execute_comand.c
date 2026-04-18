@@ -6,7 +6,7 @@
 /*   By: anatoliy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 06:26:23 by anatoliy          #+#    #+#             */
-/*   Updated: 2026/04/16 23:14:14 by anatoliy         ###   ########.fr       */
+/*   Updated: 2026/04/17 16:50:43 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,19 +146,6 @@ void	execute_binary_with_path(char **tokens, t_shell *shell, int input_fd, int o
 	if (output_fd != STDOUT)
 		close(output_fd);
 }
-/*
-void	execute_comand(char **tokens, t_shell *shell)
-{
-	if (tokens[0] == NULL)
-		return ;
-	if (is_builtin_command(tokens[0], shell->our_commands) == TRUE)
-		execute_builtin_command(tokens, shell);
-	else if (ft_strchr(tokens[0], '/') != NULL)
-		execute_binary_with_path(tokens, shell);
-	else
-		execute_linux_command(tokens, shell);
-}
-*/
 
 int	prepare_command_redirections(t_cmd_node *cmds, int *input_fd, int *output_fd)
 {
@@ -291,13 +278,32 @@ int	count_commands(t_cmd_node *cmds)
 	return (count);
 }
 
+void	update_exit_status(t_shell *shell, int status)
+{
+	if (WIFEXITED(status))
+	{
+		shell->last_exit_status = WEXITSTATUS(status);
+		return ;
+	}
+	if (WIFSIGNALED(status))
+	{
+		shell->last_exit_status = 128 + WTERMSIG(status);
+		return ;
+	}
+	else
+	{
+		shell->last_exit_status = status;
+		return ;
+	}
+}
+
 void	execute_pipeline(t_cmd_node *cmds, t_shell *shell)
 {
 	t_cmd_node	*current_cmd;
-	pid_t	*pids;
-	int	commands_count;
-	//int	status;
-	int	i;
+	pid_t		*pids;
+	int			commands_count;
+	int			status;
+	int			i;
 
 	commands_count = count_commands(cmds);
 	pids = malloc(sizeof(pid_t) * commands_count);
@@ -313,9 +319,10 @@ void	execute_pipeline(t_cmd_node *cmds, t_shell *shell)
 	current_cmd = cmds;
 	while (i < commands_count)
 	{
-		waitpid(pids[i], NULL, 0);
+		waitpid(pids[i], &status, 0);
 		i++;
 		current_cmd = current_cmd->next;
+		update_exit_status(shell, status);
 	}
 }
 
