@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/18 19:45:05 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/04/21 14:42:57 by maxim            ###   ########.fr       */
+/*   Updated: 2026/04/21 16:27:43 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,43 +52,4 @@ t_token	*tokenize_input(char *input)
 	}
 	add_token(&tail, END, NULL);
 	return (head);
-}
-
-int	main(int argc, char **argv)
-{
-	char	*input;
-	t_token	*tokens;
-	t_token *current;
-	char	*token_values[] = {"WORD", "PIPE", "REDIRECT_IN", "REDIRECT_OUT", "APPEND", "HEREDOC", "AND", "OR", "LEFT_PARENTHESIS", "RIGHT_PARENTHESIS", "ERROR", "END"};
-	char	*word_part_values[] = {"PLAIN", "SINGLE_QUOTED", "DOUBLE_QUOTED"};
-	int		i;
-
-	if (argc != 2)
-	{
-		printf("Usage: %s <input>\n", argv[0]);
-		return (1);
-	}
-	input = argv[1];
-	tokens = tokenize_input(input);
-	i = 1;
-	current = tokens;
-	while (current)
-	{
-		printf("Token %d: Type=%s, Value=\'%s\'\n", i , token_values[current->type], current->value ? current->value : "NULL");
-		if (current->type == WORD)
-		{
-			t_word_part *part = current->word_parts;
-			int part_num = 1;
-			while (part)
-			{
-				printf("	Word Part %d: Type=%s, Value=\'%s\'\n", part_num, word_part_values[part->type], part->value ? part->value : "NULL");
-				part = part->next;
-				part_num++;
-			}
-		}
-		current = current->next;
-		i++;
-	}
-	free_tokens(tokens);
-	return (0);
 }
