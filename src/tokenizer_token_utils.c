@@ -6,7 +6,7 @@
 /*   By: maxim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 14:13:10 by maxim             #+#    #+#             */
-/*   Updated: 2026/04/21 14:18:29 by maxim            ###   ########.fr       */
+/*   Updated: 2026/04/21 16:44:01 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ static int	get_operator_token_length(t_token_type token_type)
 {
 	if (token_type == OR || token_type == APPEND || token_type == HEREDOC || token_type == AND)
 		return (2);
-	else if (token_type != ERROR)
-		return (1);
 	return (0);
 }
 
@@ -70,7 +68,8 @@ static t_token_type get_operator_token_type(char *input, int i)
 		return (LEFT_PARENTHESIS);
 	else if (input[i] == ')')
 		return (RIGHT_PARENTHESIS);
-	return (ERROR);
+	else
+		return (ERROR);
 }
 
 bool	add_operator_token(char *input, int *i, t_token **current)
