@@ -21,11 +21,25 @@ typedef enum	e_redirect_type
 	REDIRECT_HEREDOC
 }				t_redirect_type;
 
-typedef struct	s_word_part
+typedef struct	s_word
 {
 	t_word_part			*word_parts;
-	struct s_word_part	*next;
-}				t_word_part;
+	struct s_word		*next;
+}				t_word;
+
+typedef struct	s_redirect_node
+{
+	t_redirect_type			type;
+	t_word					*target;
+	struct s_redirect_node	*next;
+}				t_redirect_node;
+
+typedef struct	s_command
+{
+	t_word			*words;
+	char			**argv;
+	t_redirect_node	*redirects;
+}				t_command;
 
 typedef struct	s_ast_node
 {
@@ -35,17 +49,6 @@ typedef struct	s_ast_node
 	struct s_ast_node	*right;
 }				t_ast_node;
 
-typedef struct	s_redirect
-{
-	t_redirect_type		type;
-	t_word				*target;
-	struct s_redirect	*next;
-}				t_redirect;
-
-typedef struct	s_command
-{
-	t_word				*words;
-	t_redirect			*redirects;
-}				t_command;
+t_ast_node	*parse_tokens(t_token *tokens);
 
 #endif

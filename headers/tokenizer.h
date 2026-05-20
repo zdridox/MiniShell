@@ -8,18 +8,18 @@
 
 typedef enum	e_token_type
 {
-	WORD,
-	PIPE,
-	REDIRECT_IN,
-	REDIRECT_OUT,
-	APPEND,
-	HEREDOC,
-	AND,
-	OR,
-	LEFT_PARENTHESIS,
-	RIGHT_PARENTHESIS,
-	ERROR,
-	END
+	TOKEN_WORD,
+	TOKEN_PIPE,
+	TOKEN_REDIRECT_IN,
+	TOKEN_REDIRECT_OUT,
+	TOKEN_APPEND,
+	TOKEN_HEREDOC,
+	TOKEN_AND,
+	TOKEN_OR,
+	TOKEN_LEFT_PARENTHESIS,
+	TOKEN_RIGHT_PARENTHESIS,
+	TOKEN_ERROR,
+	TOKEN_END
 }				t_token_type;
 
 typedef enum	e_word_part_type
@@ -67,5 +67,6 @@ int		get_quoted_part_length(char *input, int i, char quote_char);
 
 //tokenizer_free.c
 void	free_tokens(t_token *tokens);
+void	free_word_parts(t_word_part	*word_parts);
 
 #endif

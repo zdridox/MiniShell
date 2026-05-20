@@ -6,13 +6,13 @@
 /*   By: maxim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 14:41:26 by maxim             #+#    #+#             */
-/*   Updated: 2026/04/21 14:43:07 by maxim            ###   ########.fr       */
+/*   Updated: 2026/04/26 21:26:35 by anatoliy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokenizer.h"
 
-static void	free_word_parts(t_word_part	*word_parts)
+void	free_word_parts(t_word_part	*word_parts)
 {
 	t_word_part	*temp;
 

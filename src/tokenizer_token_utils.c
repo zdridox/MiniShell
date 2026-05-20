@@ -6,7 +6,7 @@
 /*   By: maxim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 14:13:10 by maxim             #+#    #+#             */
-/*   Updated: 2026/04/21 16:44:01 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/04/27 16:16:16 by anatoliy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ bool	add_word_token(char *input, int *i, t_token **current)
 {
 	t_token	*word_token;
 
-	if (!add_token(current, WORD, NULL))
+	if (!add_token(current, TOKEN_WORD, NULL))
 		return (false);
 	word_token = *current;
 	if (!add_word_parts(word_token, input, i))
@@ -43,33 +43,37 @@ bool	add_word_token(char *input, int *i, t_token **current)
 
 static int	get_operator_token_length(t_token_type token_type)
 {
-	if (token_type == OR || token_type == APPEND || token_type == HEREDOC || token_type == AND)
+	if (token_type == TOKEN_OR || token_type == TOKEN_APPEND || token_type == TOKEN_HEREDOC || token_type == TOKEN_AND)
 		return (2);
-	return (0);
+	else if (token_type == TOKEN_PIPE || token_type == TOKEN_REDIRECT_OUT || token_type == TOKEN_REDIRECT_IN
+		|| token_type == TOKEN_LEFT_PARENTHESIS || token_type == TOKEN_RIGHT_PARENTHESIS)
+		return (1);
+	else
+		return (0);
 }
 
 static t_token_type get_operator_token_type(char *input, int i)
 {
 	if (input[i] == '|' && input[i + 1] == '|')
-		return (OR);
+		return (TOKEN_OR);
 	else if (input[i] == '|')
-		return (PIPE);
+		return (TOKEN_PIPE);
 	else if (input[i] == '>' && input[i + 1] == '>')
-		return (APPEND);
+		return (TOKEN_APPEND);
 	else if (input[i] == '>')
-		return (REDIRECT_OUT);
+		return (TOKEN_REDIRECT_OUT);
 	else if (input[i] == '<' && input[i + 1] == '<')
-		return (HEREDOC);
+		return (TOKEN_HEREDOC);
 	else if (input[i] == '<')
-		return (REDIRECT_IN);
+		return (TOKEN_REDIRECT_IN);
 	else if (input[i] == '&' && input[i + 1] == '&')
-		return (AND);
+		return (TOKEN_AND);
 	else if (input[i] == '(')
-		return (LEFT_PARENTHESIS);
+		return (TOKEN_LEFT_PARENTHESIS);
 	else if (input[i] == ')')
-		return (RIGHT_PARENTHESIS);
+		return (TOKEN_RIGHT_PARENTHESIS);
 	else
-		return (ERROR);
+		return (TOKEN_ERROR);
 }
 
 bool	add_operator_token(char *input, int *i, t_token **current)
@@ -77,7 +81,7 @@ bool	add_operator_token(char *input, int *i, t_token **current)
 	t_token_type	token_type;
 
 	token_type = get_operator_token_type(input, *i);
-	if (token_type == ERROR)
+	if (token_type == TOKEN_ERROR)
 		return (false);
 	*i += get_operator_token_length(token_type);
 	return (add_token(current, token_type, NULL));
