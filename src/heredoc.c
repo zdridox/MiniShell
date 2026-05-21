@@ -85,20 +85,26 @@ int heredoc_fd(char *EOI)
         write(file_fd, line, ft_strlen(line));
     }
     free(compare);
+    close(file_fd);
+    file_fd = open(random, O_RDONLY);
     free(random);
     return (file_fd);
 }
 
-int main()
-{
-    // for (size_t i = 0; i < 1000; i++)
-    // {
-    //     long num = rng("sraka wilkolaka");
-    //     printf("%ld, %s\n", num, ltoa(num));
-    // }
+// int main()
+// {
+//     // for (size_t i = 0; i < 1000; i++)
+//     // {
+//     //     long num = rng("sraka wilkolaka");
+//     //     printf("%ld, %s\n", num, ltoa(num));
+//     // }
 
-    // int fd = heredoc_fd("dupa");
-}
+//     // int fd = heredoc_fd("dupa");
+//     // char *buff = malloc(100);
+//     // int size = read(fd, buff, 10);
+//     // buff[size] = 0;
+//     // printf("\n\n%s\n", buff);
+// }
 
 // old no save to file type shi
 // void safe_cat(char **line, char *buffer) // podjebane z GNL z egzaminu XD
