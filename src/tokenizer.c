@@ -1,4 +1,5 @@
 #include "../headers/parser.h"
+#include "../headers/minishell.h"
 
 static int	is_space(char a)
 {
@@ -96,8 +97,10 @@ char	**tokenizer(char *input)
 
 // int	main(void)
 // {
-// 	char **tokens = tokenizer("  sraka    wilkolaka ");
-//
+// 	char *str = readline("test jebanego tokenizera: ");
+// 	//char **tokens = tokenizer("echo \"srakaw  ilkolaka\"");
+// 	char **tokens = tokenizer(str);
+
 // 	for (int i = 0; tokens[i]; i++) {
 // 		ft_printf(".%s.\n", tokens[i]);
 // 		free(tokens[i]);

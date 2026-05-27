@@ -6,11 +6,7 @@
 /*   By: mzdrodow <mzdrodow@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 13:24:53 by maxim             #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2026/05/27 21:00:25 by mzdrodow         ###   ########.fr       */
-=======
-/*   Updated: 2026/02/05 20:26:53 by mamelnyk         ###   ########.fr       */
->>>>>>> main
+/*   Updated: 2026/05/27 22:12:31 by mzdrodow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +26,7 @@ int	cd_command(t_shell *shell, char **args)
 	old_dir = ft_strdup(get_env_value("PWD", shell->env));
 	if (!old_dir)
 		return (1);
-		// TODO make makro for error codes
+	// TODO make makro for error codes
 	set_env_variable("OLDPWD", old_dir, shell->env);
 	free(old_dir);
 	if (!args[1] || ft_strcmp(args[1], "~") == EQUAL)
@@ -61,7 +57,7 @@ int	exit_command(t_shell *shell, char **args)
 
 int	env_command(t_shell *shell, char **args)
 {
-	int exit_code;
+	int	exit_code;
 
 	(void)args;
 	exit_code = 0;
@@ -80,9 +76,42 @@ int	pwd_command(t_shell *shell, char **args)
 	return (exit_code);
 }
 
-int echo_command(t_shell *shell, char **args) {
-	int exit_code;
+int	echo_command(t_shell *shell, char **args)
+{
+	int		exit_code;
+	int		nl_flag;
+	int		i;
+	int		len;
+	char	*trimmed;
 
+	(void)shell;
+	i = 1;
 	exit_code = 0;
-	
+	nl_flag = 0;
+	while (args[i])
+	{
+		if (i == 1 && ft_strcmp(args[1], "-n") == EQUAL)
+		{
+			nl_flag = 1;
+			++i;
+			continue ;
+		}
+		if (args[i][0] == '"' || args[i][0] == '\'')
+		{
+			len = ft_strlen(args[i]);
+			trimmed = malloc(len - 1);
+			ft_memcpy(trimmed, args[i] + 1, len - 2);
+			trimmed[len - 2] = 0;
+			ft_printf("%s", trimmed);
+			free(trimmed);
+		} else {
+			ft_printf("%s", args[i]);
+		}
+		if (args[i + 1])
+			ft_putchar(' ');
+		++i;
+	}
+	if (nl_flag == 0)
+		ft_putchar('\n');
+	return (exit_code);
 }
