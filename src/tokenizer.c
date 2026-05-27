@@ -47,17 +47,20 @@ static int	token_counter(const char *s)
 char	**tokenizer(char *input)
 {
 	char	*p;
+	char	*trimmed;
 	int		i;
 	int		j;
 	int		brace_flag;
 	char	**tokens;
 	int in_word;
+	static char trim_set[] = {9, 10, 11, 12, 13, 32};
 
 	i = 0;
 	j = 0;
 	brace_flag = 0;
 	in_word = 0;
-	p = input;
+	trimmed = ft_strtrim(input, trim_set);
+	p = trimmed;
 	tokens = malloc(sizeof(char *) * (token_counter(input) + 1));
 	while (*p)
 	{
@@ -87,17 +90,18 @@ char	**tokenizer(char *input)
 		p++;
 	}
 	tokens[j] = NULL;
+	free(trimmed);
 	return (tokens);
 }
 
 // int	main(void)
 // {
-// 	char **tokens = tokenizer("      echo         \"sraka ' hihi '    wilkolaka\"    |     wc       -l");
-// 	while (*tokens)
-// 	{
-// 		ft_printf(".%s.\n", *tokens);
-// 		tokens++;
+// 	char **tokens = tokenizer("  sraka    wilkolaka ");
+//
+// 	for (int i = 0; tokens[i]; i++) {
+// 		ft_printf(".%s.\n", tokens[i]);
+// 		free(tokens[i]);
 // 	}
-
+// 	free(tokens);
 // 	return (0);
 // }

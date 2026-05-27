@@ -6,7 +6,11 @@
 /*   By: mzdrodow <mzdrodow@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 13:24:53 by maxim             #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2026/05/27 21:00:25 by mzdrodow         ###   ########.fr       */
+=======
+/*   Updated: 2026/02/05 20:26:53 by mamelnyk         ###   ########.fr       */
+>>>>>>> main
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +22,30 @@ int	cd_command(t_shell *shell, char **args)
 	char	*new_dir;
 	int		result;
 
-	// free(get_env_pointer("OLDPWD", shell->env));
 	if (str_arr_len(args) >= 3)
+	{
 		display_error_message("cd: too many arguments");
+		return (1);
+	}
 	old_dir = ft_strdup(get_env_value("PWD", shell->env));
-	if (old_dir == NULL)
+	if (!old_dir)
 		return (1);
 		// TODO make makro for error codes
 	set_env_variable("OLDPWD", old_dir, shell->env);
-	if (args[1] == NULL || ft_strcmp(args[1], "~") == EQUAL)
+	free(old_dir);
+	if (!args[1] || ft_strcmp(args[1], "~") == EQUAL)
 		new_dir = get_env_value("HOME", shell->env);
 	else
 		new_dir = args[1];
 	result = chdir(new_dir);
-	set_env_variable("PWD", getcwd(NULL, 0), shell->env);
+	new_dir = getcwd(NULL, 0);
+	if (result != 0)
+	{
+		display_error_message("cd: no such file or directory");
+		return (1);
+	}
+	set_env_variable("PWD", new_dir, shell->env);
+	free(new_dir);
 	return (result);
 }
 
