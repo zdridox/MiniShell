@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   our_commands.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxim <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: mzdrodow <mzdrodow@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 13:24:53 by maxim             #+#    #+#             */
-/*   Updated: 2026/01/24 20:05:02 by anatoliy         ###   ########.fr       */
+/*   Updated: 2026/05/27 21:00:25 by mzdrodow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,11 @@ int	pwd_command(t_shell *shell, char **args)
 	ft_putstr(get_env_value("PWD", shell->env));
 	ft_putchar('\n');
 	return (exit_code);
+}
+
+int echo_command(t_shell *shell, char **args) {
+	int exit_code;
+
+	exit_code = 0;
+	
 }
