@@ -93,11 +93,11 @@ int heredoc_fd(char *EOI)
 
 // int main()
 // {
-//     // for (size_t i = 0; i < 1000; i++)
-//     // {
-//     //     long num = rng("sraka wilkolaka");
-//     //     printf("%ld, %s\n", num, ltoa(num));
-//     // }
+//     for (size_t i = 0; i < 1000; i++)
+//     {
+//         long num = rng("sraka wilkolaka");
+//         printf("%ld, %s\n", num, ltoa(num));
+//     }
 
 //     // int fd = heredoc_fd("dupa");
 //     // char *buff = malloc(100);
