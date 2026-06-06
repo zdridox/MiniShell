@@ -2,25 +2,24 @@ NAME = minishell
 
 # Src files
 
-# SRC = $(SRC_DIR)/ft_split_space.c \
-	  $(SRC_DIR)/node_utilities.c \
-	  $(SRC_DIR)/str_arr_utilities.c \
-	  $(SRC_DIR)/error_handling.c \
-	  $(SRC_DIR)/parser.c \
-
 SRC = $(SRC_DIR)/main.c \
 	  $(SRC_DIR)/init.c \
 	  $(SRC_DIR)/error_handling.c \
 	  $(SRC_DIR)/str_utilities.c \
 	  $(SRC_DIR)/build_prompt.c \
-	  $(SRC_DIR)/cmd_list_utils.c \
-	  $(SRC_DIR)/tokenizer.c \
 	  $(SRC_DIR)/execute_comand.c \
 	  $(SRC_DIR)/env_utilities.c \
 	  $(SRC_DIR)/our_commands.c \
 	  $(SRC_DIR)/str_arr_utilities.c \
 	  $(SRC_DIR)/shell_utilities.c \
-	  $(SRC_DIR)/parser.c
+	  $(SRC_DIR)/tokenize_input.c \
+	  $(SRC_DIR)/tokenizer_char_utils.c \
+	  $(SRC_DIR)/tokenizer_free.c \
+	  $(SRC_DIR)/tokenizer_token_utils.c \
+	  $(SRC_DIR)/tokenizer_word_length.c \
+	  $(SRC_DIR)/tokenizer_word_parts.c \
+      $(SRC_DIR)/parser_new.c \
+      $(SRC_DIR)/expansion.c \
 
 # -- Directories --
 

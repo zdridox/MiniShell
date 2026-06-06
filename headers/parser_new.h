@@ -1,11 +1,13 @@
 #ifndef	PARSER_NEW_H
 #define	PARSER_NEW_H
 
+#include "minishell.h"
 #include "tokenizer.h"
 #include "libft.h"
 #include <stdlib.h>
 
 # define INITIAL_BUFFER_SIZE 64
+# define EQUAL 0
 
 typedef enum	e_node_type
 {
@@ -40,6 +42,7 @@ typedef struct	s_redirect_node
 {
 	t_redirect_type			type;
 	t_word					*target;
+	char					*target_str;
 	struct s_redirect_node	*next;
 }				t_redirect_node;
 
@@ -61,6 +64,5 @@ typedef struct	s_ast_node
 char		*get_env_value(char *name, char **env);
 void		free_words(t_word *words);
 void		free_str_arr(char **str_arr);
-t_ast_node	*parse_tokens(t_token *tokens);
 
 #endif

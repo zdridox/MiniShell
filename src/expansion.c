@@ -6,7 +6,7 @@
 /*   By: anatoliy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 15:18:34 by anatoliy          #+#    #+#             */
-/*   Updated: 2026/05/22 23:02:49 by anatoliy         ###   ########.fr       */
+/*   Updated: 2026/06/05 12:24:34 by anatoliy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ bool	append_char_to_buffer(t_buffer *buffer, char c)
 			return (false);
 	}
 	buffer->data[buffer->length] = c;
+	buffer->length++;
+	return (true);
 }
 
 int	get_variable_name_length(const char *str)
@@ -71,7 +73,7 @@ bool	append_expanded_variable_to_buffer(t_buffer *buffer, char *str, int *i, cha
 	(*i)++;
 	//TODO first check if it's a $?
 	var_name_length = get_variable_name_length(str + *i);
-	if (var_name_length = 0)
+	if (var_name_length == 0)
 		return (append_char_to_buffer(buffer, '$'));
 	var_value = get_env_value(str + *i, env);
 	if (!var_value)
@@ -92,8 +94,6 @@ bool	append_expanded_variable_to_buffer(t_buffer *buffer, char *str, int *i, cha
 char	*expand_environment_variables_in_string(char *str, char **env)
 {
 	t_buffer	buffer;
-	char		*expanded_str;
-	int			expanded_length;
 	int			i;
 
 	if (!init_buffer(&buffer))
@@ -129,11 +129,13 @@ bool	expand_environment_variables_in_word(t_word_part *word_parts, char **env)
 			expanded_value = expand_environment_variables_in_string(word_parts->value, env);
 			if (!expanded_value)
 				return (false);
-			if (expanded_value != word_parts->value)
+			if (ft_strcmp(expanded_value, word_parts->value) != EQUAL)
 			{
 				free(word_parts->value);
 				word_parts->value = expanded_value;
 			}
+			else
+				free(expanded_value);
 		}
 		word_parts = word_parts->next;
 	}
@@ -183,6 +185,7 @@ void	append_word_part_to_buffer(char *buffer, int *index, const char *str)
 		(*index)++;
 		str_index++;
 	}
+	buffer[*index] = '\0';
 }
 
 char	*convert_word_to_string(t_word_part *word_parts)
@@ -239,6 +242,7 @@ char	**convert_words_to_argv(t_word *words)
 		i++;
 		words = words->next;
 	}
+	argv[i] = NULL;
 	return (argv);
 }
 
@@ -256,6 +260,24 @@ char	**expand_to_argv(t_word *words, char **env)
 	return (argv);
 }
 
+bool	expand_words_in_ast(t_ast_node *node, char **env)
+{
+	if (!node)
+		return (true);
+	if (node->type == NODE_COMMAND)
+	{
+		node->command->argv = expand_to_argv(node->command->words, env);
+		if (!node->command->argv)
+			return (false);
+	}
+	if (!expand_words_in_ast(node->left, env))
+		return (false);
+	if (!expand_words_in_ast(node->right, env))
+		return (false);
+	return (true);
+}
+
+/*
 bool ft_isspace(char c)
 {
 	return (c == ' ' || c == '\t' || c == '\n' || c == '\r' || c == '\v' || c == '\f');
@@ -329,15 +351,18 @@ int	main(void)
 		"PATH=/usr/bin:/bin",
 		NULL
 	};
-	char	*input = "echo $USER $HOME $PATH";
+	char	*input = "echo $USER $HOME$PATH";
 	char	**argv;
 
 	argv = expand_to_argv(create_word_list_from_string(input), env);
 	if (argv)
 	{
+		printf("Original input: '%s'\n", input);
+		printf("Expanded argv:\n");
 		for (int i = 0; argv[i]; i++)
-			printf("argv[%d]: %s\n", i, argv[i]);
+			printf("argv[%d]: '%s'\n", i, argv[i]);
 		free_str_arr(argv);
 	}
 	return (0);
 }
+*/

@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:23:22 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/02/05 20:28:25 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/05/28 12:48:56 by anatoliy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ t_shell	*init_shell(char **envp)
 	init_shell_with_null(shell);
 	shell->env = copy_arr(envp);
 	shell->our_commands = init_our_commands();
+	shell->last_exit_code = 0;
 	if (shell->env == NULL || shell->our_commands == NULL)
 		error_exit("Failed to initialize shell", shell);
 	return (shell);

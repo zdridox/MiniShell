@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:04:20 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/04/17 12:04:53 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/06/05 12:14:36 by anatoliy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,12 @@
 #include <sys/wait.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include "../libft/libft.h"
-# include "parser.h"
+#include "libft.h"
+#include "parser_new.h"
+#include "tokenizer.h"
 
 typedef struct s_shell t_shell;
+typedef struct s_ast_node t_ast_node;
 
 typedef int (*t_our_command_fn)(t_shell *shell, char **args);
 
@@ -54,12 +56,24 @@ typedef struct s_our_commands
 
 typedef struct	s_shell
 {
-	int				last_exit_status;
+	int				last_exit_code;
 	char			**env;
 	t_our_commands	*our_commands;
 }					t_shell;
 
-char **tokenizer(char *input);
+typedef	enum	e_exec_status
+{
+	EXEC_SUCCESS,	// Command executed successfully
+	EXEC_FAILURE,	// Command execution failed
+	EXEC_EXIT		// Shell should exit, (exit command was executed)
+}				t_exec_status;
+
+typedef struct	s_cmd_io
+{
+	int		input_fd;
+	int		output_fd;
+}				t_cmd_io;
+
 t_shell *init_shell(char **envp);
 void print_current_dir_name(t_shell *shell);
 void display_prompt(t_shell *shell);
@@ -86,7 +100,9 @@ int env_command(t_shell *shell, char **args);
 int pwd_command(t_shell *shell, char **args);
 char *get_current_dir_name(t_shell *shell);
 int check_empty_input(char *input);
-void		execute_sequence_of_commands(t_cmd_node *cmds, t_shell *shell);
-t_cmd_node	*parse_tokens(char **tokens);
+void	execute_parsed(t_ast_node *ast, t_shell *shell);
+void	free_ast(t_ast_node *node);
+bool	expand_words_in_ast(t_ast_node *node, char **env);
+t_ast_node	*parse_tokens(t_token *tokens, t_shell *shell);
 
 #endif

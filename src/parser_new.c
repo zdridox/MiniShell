@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 19:47:02 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/05/14 19:04:28 by anatoliy         ###   ########.fr       */
+/*   Updated: 2026/06/04 17:23:03 by anatoliy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_redirect_type	token_type_to_redirect_type(t_token_type type)
 		return (REDIRECT_APPEND);
 	else if (type == TOKEN_HEREDOC)
 		return (REDIRECT_HEREDOC);
+	return (REDIRECT_IN);
 }
 
 t_word	*create_word_from_token(t_token **token)
@@ -54,7 +55,7 @@ t_word	*create_word_from_token(t_token **token)
 t_redirect_node	*parse_redirect(t_token **current_token)
 {
 	t_redirect_node	*redirect_node;
-	t_token_type	redirect_type;
+	t_redirect_type	redirect_type;
 	t_word			*target;
 
 	redirect_node = malloc(sizeof(t_redirect_node));
@@ -328,10 +329,14 @@ t_ast_node	*parse_logical(t_token **current_token)
 		return (logical_node);
 }
 
-t_ast_node	*parse_tokens(t_token *tokens)
+t_ast_node	*parse_tokens(t_token *tokens, t_shell *shell)
 {
 	t_ast_node	*root;
 
 	root = parse_logical(&tokens);
+	if (!root)
+		return (NULL);
+	if (!expand_words_in_ast(root, shell->env))
+		return (free_ast(root), NULL);
 	return (root);
 }
