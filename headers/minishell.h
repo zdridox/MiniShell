@@ -6,7 +6,7 @@
 /*   By: mzdrodow <mzdrodow@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:04:20 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/05/27 21:30:20 by mzdrodow         ###   ########.fr       */
+/*   Updated: 2026/06/06 21:02:31 by mzdrodow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,7 @@ int pwd_command(t_shell *shell, char **args);
 char *get_current_dir_name(t_shell *shell);
 int check_empty_input(char *input);
 int echo_command(t_shell *shell, char **args);
+void		execute_sequence_of_commands(t_cmd_node *cmds, t_shell *shell);
+t_cmd_node	*parse_tokens(char **tokens);
 
 #endif

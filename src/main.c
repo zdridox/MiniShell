@@ -6,7 +6,7 @@
 /*   By: mzdrodow <mzdrodow@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 19:57:40 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/05/27 21:46:56 by mzdrodow         ###   ########.fr       */
+/*   Updated: 2026/06/06 21:03:33 by mzdrodow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_shell	*shell;
-	char	**tokens;
-	char	*input;
-	char	*prompt;
+	t_shell		*shell;
+	t_cmd_node	*parsed;
+	char		**tokens;
+	char		*input;
+	char		*prompt;
 
 	(void)argc;
 	(void)argv;
@@ -37,10 +38,11 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		add_history(input);
-		//tokens = ft_split(input, ' ');
 		tokens = tokenizer(input);
+		parsed = parse_tokens(tokens);
 		free(input);
-		execute_comand(tokens, shell);
+		execute_sequence_of_commands(parsed, shell);
+		free_parsed(parsed);
 		free_str_arr(tokens);
 	}
 	return (0);
