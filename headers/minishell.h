@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: mzdrodow <mzdrodow@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:04:20 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/04/07 19:13:41 by maxim            ###   ########.fr       */
+/*   Updated: 2026/05/27 21:30:20 by mzdrodow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,6 @@ int env_command(t_shell *shell, char **args);
 int pwd_command(t_shell *shell, char **args);
 char *get_current_dir_name(t_shell *shell);
 int check_empty_input(char *input);
+int echo_command(t_shell *shell, char **args);
 
 #endif
