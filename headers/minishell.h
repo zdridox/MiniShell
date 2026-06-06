@@ -6,7 +6,7 @@
 /*   By: mzdrodow <mzdrodow@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:04:20 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/06/06 21:02:31 by mzdrodow         ###   ########.fr       */
+/*   Updated: 2026/06/06 21:10:09 by mzdrodow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,22 @@
 #define MINISHELL_H
 #define TRUE 1
 #define FALSE 0
-#define STDERR 2
+#define STDIN 0
 #define STDOUT 1
+#define STDERR 2
 #define EQUAL 0
 #define EMPTY 0
 #define NOT_EMPTY 1
 #define EXIST 0
 #define CHILD_PROCESS 0
-#define GREEN "\033[38;5;121m"
-#define BLUE "\033[38;5;87m"
-#define ORANGE "\033[38;5;222m"
-#define PURPLE "\033[38;5;135m"
-#define PINK "\033[38;5;198m"
-#define RESET "\033[0m"
+#define	ERROR 1
+#define SUCCESS 0
+#define GREEN "\001\033[38;5;121m\002"
+#define BLUE "\001\033[38;5;87m\002"
+#define ORANGE "\001\033[38;5;222m\002"
+#define PURPLE "\001\033[38;5;135m\002"
+#define PINK "\001\033[38;5;198m\002"
+#define RESET "\001\033[0m\002"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -36,10 +39,12 @@
 #include <sys/wait.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include "../libft/libft.h"
-# include "parser.h"
+#include "libft.h"
+#include "parser_new.h"
+#include "tokenizer.h"
 
 typedef struct s_shell t_shell;
+typedef struct s_ast_node t_ast_node;
 
 typedef int (*t_our_command_fn)(t_shell *shell, char **args);
 
@@ -49,13 +54,26 @@ typedef struct s_our_commands
 	t_our_command_fn function;
 } t_our_commands;
 
-typedef struct s_shell
+typedef struct	s_shell
 {
-	char **env;
-	t_our_commands *our_commands;
-} t_shell;
+	int				last_exit_code;
+	char			**env;
+	t_our_commands	*our_commands;
+}					t_shell;
 
-char **tokenizer(char *input);
+typedef	enum	e_exec_status
+{
+	EXEC_SUCCESS,	// Command executed successfully
+	EXEC_FAILURE,	// Command execution failed
+	EXEC_EXIT		// Shell should exit, (exit command was executed)
+}				t_exec_status;
+
+typedef struct	s_cmd_io
+{
+	int		input_fd;
+	int		output_fd;
+}				t_cmd_io;
+
 t_shell *init_shell(char **envp);
 void print_current_dir_name(t_shell *shell);
 void display_prompt(t_shell *shell);
@@ -82,8 +100,10 @@ int env_command(t_shell *shell, char **args);
 int pwd_command(t_shell *shell, char **args);
 char *get_current_dir_name(t_shell *shell);
 int check_empty_input(char *input);
+void	execute_parsed(t_ast_node *ast, t_shell *shell);
+void	free_ast(t_ast_node *node);
+bool	expand_words_in_ast(t_ast_node *node, char **env);
+t_ast_node	*parse_tokens(t_token *tokens, t_shell *shell);
 int echo_command(t_shell *shell, char **args);
-void		execute_sequence_of_commands(t_cmd_node *cmds, t_shell *shell);
-t_cmd_node	*parse_tokens(char **tokens);
 
 #endif

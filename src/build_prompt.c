@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 22:53:50 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/04/02 19:04:23 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/04/17 14:31:07 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,15 +117,15 @@ char	*build_prompt(t_shell *shell)
 		if (!git_prompt)
 			return (free(git_path),
 				error_exit("Failed to build git prompt", shell), NULL);
-		prompt = ft_strjoin_many(9, GREEN, " ➜ ", BLUE,
+		prompt = ft_strjoin_many(9, GREEN, " > ", BLUE,
 			get_current_dir_name(shell), RESET, git_prompt, ORANGE,
-			" ✗ ", RESET);
+			" $ ", RESET);
 		free(git_prompt);
 	}
 	else
 	{
-		prompt = ft_strjoin_many(7, GREEN, " ➜ ", BLUE,
-			get_current_dir_name(shell), ORANGE, " ✗ ", RESET);
+		prompt = ft_strjoin_many(7, GREEN, " > ", BLUE,
+			get_current_dir_name(shell), ORANGE, " $ ", RESET);
 	}
 	if (!prompt)
 		error_exit("Failed to build prompt", shell);
