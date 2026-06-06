@@ -6,7 +6,7 @@
 /*   By: mzdrodow <mzdrodow@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 19:57:40 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/06/06 21:07:36 by mzdrodow         ###   ########.fr       */
+/*   Updated: 2026/06/06 22:32:48 by mzdrodow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ int	main(int argc, char **argv, char **envp)
 	while (TRUE)
 	{
 		prompt = build_prompt(shell);
-		input = readline(prompt);
+		if (isatty(STDIN)) // for testing purposes, we want to read from stdin without readline if it's not a terminal
+			input = readline(prompt);
+		else
+			input = get_next_line(STDIN);
 		free(prompt);
 		if (!input)
 			exit_shell(shell);
@@ -52,6 +55,17 @@ int	main(int argc, char **argv, char **envp)
 		execute_parsed(parsed, shell);
 		free_ast(parsed);
 		free_tokens(tokens);
+		if(!isatty(STDIN)) // for testing purposes, we want to exit after one command if we're not in a terminal
+		{
+			int	exit_code = shell->last_exit_code;
+			free_shell(shell);
+			return (exit_code);
+		}
 	}
 	return (0);
 }
+
+
+// need combine of words function
+// change how execute commands looks for builtin
+// change how eecute commands passes args to command

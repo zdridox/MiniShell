@@ -6,7 +6,7 @@
 /*   By: anatoliy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 06:26:23 by anatoliy          #+#    #+#             */
-/*   Updated: 2026/06/05 12:43:02 by anatoliy         ###   ########.fr       */
+/*   Updated: 2026/06/06 15:49:39 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,7 +254,8 @@ t_exec_status	execute_pipe(t_ast_node *ast, t_shell *shell)
 	{
 		dup2(pipe_fds[1], STDOUT);
 		close_fds(pipe_fds[0], pipe_fds[1]);
-		exit(execute_node(ast->left, shell));
+		execute_node(ast->left, shell);
+		exit(shell->last_exit_code);
 	}
 	pid_right = fork();
 	if (pid_right < 0)
@@ -266,7 +267,8 @@ t_exec_status	execute_pipe(t_ast_node *ast, t_shell *shell)
 	{
 		dup2(pipe_fds[0], STDIN);
 		close_fds(pipe_fds[0], pipe_fds[1]);
-		exit(execute_node(ast->right, shell));
+		execute_node(ast->right, shell);
+		exit(shell->last_exit_code);
 	}
 	close_fds(pipe_fds[0], pipe_fds[1]);
 	waitpid(pid_left, NULL, 0);
@@ -310,7 +312,7 @@ t_exec_status	execute_node(t_ast_node *ast, t_shell *shell)
 	else if (ast->type == NODE_PIPE)
 		execution_status = execute_pipe(ast, shell);
 	else if (ast->type == NODE_AND)
-		execution_status  = execute_logical_and(ast, shell);
+		execution_status = execute_logical_and(ast, shell);
 	else if (ast->type == NODE_OR)
 		execution_status  = execute_logical_or(ast, shell);
 	return (execution_status);
