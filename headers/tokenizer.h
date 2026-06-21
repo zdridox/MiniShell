@@ -1,7 +1,7 @@
 #ifndef	TOKENIZER_H
 #define	TOKENIZER_H
 
-#include "libft.h"
+#include "../libft/libft.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   str_utilities.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: mzdrodow <mzdrodow@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 22:55:36 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/30 20:04:00 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/06/20 21:37:23 by mzdrodow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../headers/minishell.h"
 
 char	*ft_strjoin_three(const char *s1, const char *s2, const char *s3)
 {

@@ -3,7 +3,7 @@
 
 #include "minishell.h"
 #include "tokenizer.h"
-#include "libft.h"
+#include "../libft/libft.h"
 #include <stdlib.h>
 
 # define INITIAL_BUFFER_SIZE 64

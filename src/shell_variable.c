@@ -20,6 +20,14 @@ int strchraindex(char *str, const char *set) // get index of first apperance of 
     return (-1);
 }
 
+int	ft_isspace(char c)
+{
+	if (c == ' ' || c == '\t' || c == '\n' || c == '\v'
+		|| c == '\f' || c == '\r')
+		return (TRUE);
+	return (FALSE);
+}
+
 int is_shell_var(char *input)
 {
     char *input_trimmed;
@@ -32,7 +40,7 @@ int is_shell_var(char *input)
     whitespace_index = strchraindex(input_trimmed, (char[]){9, 10, 11, 12, 13, 32, 0});
     equal_sign_index = strchraindex(input_trimmed, "=");
     brace_sign_index = strchraindex(input_trimmed, "'");
-    double_brace_sign_index = strchrindex(input_trimmed, "\"");
+    double_brace_sign_index = strchraindex(input_trimmed, "\"");
     if (whitespace_index < equal_sign_index || brace_sign_index < equal_sign_index || double_brace_sign_index < equal_sign_index || equal_sign_index == 0)
         return (free(input_trimmed), 0);
     return (free(input_trimmed), 1);
@@ -75,9 +83,16 @@ int is_shell_var_valid(char *sv)
     i = equal_sign_index + 1;
     while (sv_trimmed[i])
     {
-        if (ft_is_space(sv_trimmed[i]) && (sv_trimmed[equal_sign_index + 1] != '"' && sv_trimmed[equal_sign_index + 1] != '\''))
+        if (ft_isspace(sv_trimmed[i]) && (sv_trimmed[equal_sign_index + 1] != '"' && sv_trimmed[equal_sign_index + 1] != '\''))
             return (free(sv_trimmed), 0);
         ++i;
     }
     return (free(sv_trimmed), 1);
 }
+
+
+// int main() {
+//     ft_printf("%d, %d\n\n", is_shell_var("=15"), is_shell_var("a=\"x=1\""));
+//     ft_printf("%d, %d\n\n", is_shell_var_valid("a= "), is_shell_var_valid("a=\"1#5\""));
+//     return 0;
+// }

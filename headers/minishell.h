@@ -6,7 +6,7 @@
 /*   By: mzdrodow <mzdrodow@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:04:20 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/06/06 21:10:09 by mzdrodow         ###   ########.fr       */
+/*   Updated: 2026/06/21 01:18:01 by mzdrodow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 #include <sys/wait.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include "libft.h"
+#include "../libft/libft.h"
 #include "parser_new.h"
 #include "tokenizer.h"
 
@@ -73,6 +73,12 @@ typedef struct	s_cmd_io
 	int		input_fd;
 	int		output_fd;
 }				t_cmd_io;
+
+typedef struct s_var_arr {
+	int size;
+	int allocated_size;
+	char **var_arr;
+} t_var_arr;
 
 t_shell *init_shell(char **envp);
 void print_current_dir_name(t_shell *shell);
