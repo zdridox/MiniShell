@@ -19,7 +19,7 @@ SRC = $(SRC_DIR)/main.c \
 	  $(SRC_DIR)/tokenizer_word_length.c \
 	  $(SRC_DIR)/tokenizer_word_parts.c \
       $(SRC_DIR)/parser_new.c \
-      $(SRC_DIR)/expansion.c \
+      $(SRC_DIR)/expansion.c
 
 # -- Directories --
 
