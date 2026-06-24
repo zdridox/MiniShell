@@ -6,7 +6,7 @@
 /*   By: maxim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/07 14:24:36 by maxim             #+#    #+#             */
-/*   Updated: 2026/06/24 17:39:16 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/06/24 18:43:21 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,12 +222,12 @@ bool	find_matchaes_in_dir(char *pattern, char *dir_name, t_string_vector *matcha
 			continue ;
 		if (match_pattern(pattern, entrie->d_name, strlen(entrie->d_name), matchaes))
 		{
-			if (is_directory(entrie->d_name)
+			if (is_directory(entrie->d_name))
 			{
 				if (!find_matchaes_with_this_prefix(pattern, entrie->d_name, matchaes))
 					return (false);
 			}
-			if (!add_string_to_vector(entrie->d_name, matchaes))
+			else if (!add_string_to_vector(entrie->d_name, matchaes))
 				return (false);
 		}
 	}
