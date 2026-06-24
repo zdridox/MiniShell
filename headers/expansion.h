@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <dirent.h>
+#include "libft.h"
 //for development:
 #include <string.h>
 #include <stdio.h>

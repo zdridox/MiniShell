@@ -6,7 +6,7 @@
 /*   By: maxim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/07 14:24:36 by maxim             #+#    #+#             */
-/*   Updated: 2026/06/10 15:21:55 by maxim            ###   ########.fr       */
+/*   Updated: 2026/06/24 17:39:16 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,31 +170,39 @@ bool	find_matchaes_with_this_prefix(char *pattern, char *prefix, t_string_vector
 {
 	t_string_vector	matchaes_with_prefix;
 
-	if (!init_string_vector(matchaes_with_prefix))
+	if (!init_string_vector(&matchaes_with_prefix))
 		return (false);
 	skip_pattern_prefix(&pattern);
 	if (*pattern == '\0')
 	{
-		free_string_vector(&matchaes_with_prefix);
+		free(matchaes_with_prefix.entries);
 		return (add_string_to_vector(prefix, prefix_matchaes));
 	}
 	if (!find_matchaes_in_dir(pattern, prefix, &matchaes_with_prefix))
 	{
-		free_string_vector(&matchaes_with_prefix);
+		free(matchaes_with_prefix.entries);
 		return (false);
 	}
 	if (matchaes_with_prefix.size == 0)
 	{
-		free_string_vector(&matchaes_with_prefix);
+		free(matchaes_with_prefix.entries);
 		return (true);
 	}
 	if (!add_mathaes_with_prefix_to_matchaes(prefix_matchaes, &matchaes_with_prefix, prefix))
 	{
-		free_string_vector(&matchaes_with_prefix);
+		free(matchaes_with_prefix.entries);
 		return (false);
 	}
-	free_string_vector(&matchaes_with_prefix);
+	free(matchaes_with_prefix.entries);
 	return (true);
+}
+
+bool	is_directory(const char *path)
+{
+	struct stat	path_stat;
+
+	stat(path, &path_stat);
+	return (S_ISDIR(path_stat.st_mode));
 }
 
 bool	find_matchaes_in_dir(char *pattern, char *dir_name, t_string_vector *matchaes)
