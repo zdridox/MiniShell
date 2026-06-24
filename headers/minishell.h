@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:04:20 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/06/05 12:14:36 by anatoliy         ###   ########.fr       */
+/*   Updated: 2026/06/23 17:33:35 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,18 @@ typedef struct s_ast_node t_ast_node;
 
 typedef int (*t_our_command_fn)(t_shell *shell, char **args);
 
-typedef struct s_our_commands
+typedef struct s_our_command
 {
 	char *name;
 	t_our_command_fn function;
-} t_our_commands;
+	bool	run_in_child_process;
+} t_our_command;
 
 typedef struct	s_shell
 {
 	int				last_exit_code;
 	char			**env;
-	t_our_commands	*our_commands;
+	t_our_command	*our_commands;
 }					t_shell;
 
 typedef	enum	e_exec_status

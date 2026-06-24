@@ -6,7 +6,7 @@
 /*   By: anatoliy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 06:26:23 by anatoliy          #+#    #+#             */
-/*   Updated: 2026/06/06 15:49:39 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/06/24 14:13:15 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char *find_bin_path(char *bin_name, t_shell *shell)
 	return (NULL);
 }
 
-int	is_builtin_command(char *command_name, t_our_commands *command)
+int	is_builtin_command(char *command_name, t_our_command *command)
 {
 	while (command && command->name)
 	{
@@ -75,21 +75,29 @@ void	update_exit_status(t_shell *shell, int status)
 	}
 }
 
-t_exec_status	execute_builtin_command(char **argv, t_shell *shell)
+t_our_command	*find_builtin_command(char *command_name, t_shell *shell)
 {
-	t_our_commands	*our_commands;
+	t_our_command	*our_commands;
 
+	if (command_name == NULL || shell == NULL)
+		return (NULL);
 	our_commands = shell->our_commands;
 	while (our_commands && our_commands->name)
 	{
-		if (ft_strcmp(argv[0], our_commands->name) == EQUAL)
-		{
-			shell->last_exit_code = our_commands->function(shell, argv);
-			return (EXEC_SUCCESS);
-		}
+		if (ft_strcmp(command_name, our_commands->name) == EQUAL)
+			return (our_commands);
 		our_commands++;
 	}
-	return (EXEC_FAILURE);
+	return (NULL);
+}
+
+void	change_stream_fd(int fd, int stream_fd)
+{
+	if (fd != stream_fd)
+	{
+		dup2(fd, stream_fd);
+		close(fd);
+	}
 }
 
 void	close_fds(int input_fd, int output_fd)
@@ -100,13 +108,34 @@ void	close_fds(int input_fd, int output_fd)
 		close(output_fd);
 }
 
-void	change_stream_fd(int fd, int stream_fd)
+t_exec_status	execute_our_command_in_child(t_our_command_fn function, char **argv, t_cmd_io *cmd_io, t_shell *shell)
 {
-	if (fd != stream_fd)
+	pid_t	pid;
+	int		status;
+
+	pid = fork();
+	if (pid < 0)
+		error_exit("Can make new process", shell);
+	else if (pid == CHILD_PROCESS)
 	{
-		dup2(fd, stream_fd);
-		close(fd);
+		change_stream_fd(cmd_io->input_fd, STDIN);
+		change_stream_fd(cmd_io->output_fd, STDOUT);
+		status = function(shell, argv);
+		exit(status);
 	}
+	close_fds(cmd_io->input_fd, cmd_io->output_fd);
+	waitpid(pid, &status, 0);
+	update_exit_status(shell, status);
+	return (EXEC_SUCCESS);
+}
+
+// my version of OOP:
+t_exec_status	execute_builtin_command(t_our_command *our_command, char **argv, t_cmd_io *cmd_io, t_shell *shell)
+{
+	if (our_command->run_in_child_process)
+		return (execute_our_command_in_child(our_command->function, argv, cmd_io, shell));
+	shell->last_exit_code = our_command->function(shell, argv);
+	return (EXEC_SUCCESS);
 }
 
 t_exec_status	execute_binary_with_path(char **argv, t_cmd_io *cmd_io, t_shell *shell)
@@ -214,15 +243,17 @@ void	init_cmd_io(t_cmd_io *cmd_io)
 
 t_exec_status	execute_command(t_command *command, t_shell *shell)
 {
-	t_cmd_io		cmd_io;
+	t_cmd_io			cmd_io;
+	t_our_command		*builtin_command;
 
 	init_cmd_io(&cmd_io);
 	if (command == NULL || command->argv == NULL || command->argv[0] == NULL)
 		return (EXEC_FAILURE);
 	if (handle_redirections(command->redirects, &cmd_io) == ERROR)
 		return (EXEC_FAILURE);
-	if (is_builtin_command(command->argv[0], shell->our_commands)) // TODO is_builtin_command should return the pointer to the builtin command function, not just a boolean
-		return (execute_builtin_command(command->argv, shell));
+	builtin_command = find_builtin_command(command->argv[0], shell);
+	if (builtin_command != NULL)
+		return (execute_builtin_command(builtin_command, command->argv, &cmd_io, shell));
 	else if (ft_strchr(command->argv[0], '/') != NULL)
 		return(execute_binary_with_path(command->argv, &cmd_io, shell));
 	else

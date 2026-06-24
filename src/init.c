@@ -6,24 +6,25 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:23:22 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/05/28 12:48:56 by anatoliy         ###   ########.fr       */
+/*   Updated: 2026/06/24 14:08:06 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_our_commands	*init_our_commands(void)
+t_our_command	*init_our_commands(void)
 {
-	static t_our_commands	our_commands[] = {
-		{"cd", &cd_command},
-		{"exit", &exit_command},
-		{"env", &env_command},
-		{"pwd", &pwd_command},
+	static t_our_command	our_commands[] = {
+		{"cd", &cd_command, false},
+		{"exit", &exit_command, false},
+		{"env", &env_command, true},
+		{"pwd", &pwd_command, true},
 		//{"echo", &echo_command},
 		//{"export", &export_command},
 		//{"unset", &unset_command},
-		{NULL, NULL}
+		{NULL, NULL, false}
 	};
+
 	return (our_commands);
 }
 
