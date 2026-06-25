@@ -52,7 +52,7 @@ int is_shell_var_valid(char *sv)
     char *sv_trimmed;
     size_t sv_trimmed_len;
     size_t equal_sign_index;
-    const char illegal_name_chars[38] = {
+    static char illegal_name_chars[38] = {
         ' ', '\t', '\n', '\r', '\v', '\f',
         '-', '+', '.', ',', '!', '@', '#', '$', '%', '^', '&', '*',
         '(', ')', '[', ']', '{', '}', '|', '\\', '/', '=', ':', ';', '\'', '"', '<', '>', '?', '`', '~', 0};
