@@ -20,7 +20,7 @@ typedef struct	s_dynamic_string
 	char	*string;
 	size_t	size;
 	size_t	capacity;
-}				t_vector;
+}				t_dynamic_string;
 
 typedef struct	t_dynamic_string
 {
