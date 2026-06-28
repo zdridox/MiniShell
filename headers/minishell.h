@@ -6,7 +6,7 @@
 /*   By: mzdrodow <mzdrodow@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:04:20 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/06/25 16:40:46 by mzdrodow         ###   ########.fr       */
+/*   Updated: 2026/06/28 15:46:34 by mzdrodow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,5 +119,18 @@ int							echo_command(t_shell *shell, char **args);
 t_var_arr					*var_arr_create(void);
 void						var_arr_add(t_var_arr *varr, char *str);
 void						var_arr_remove_index(t_var_arr *varr, size_t index);
-
+void						remove_shell_var(t_var_arr *varr, char *var_name);
+void						set_shell_var_value(t_var_arr *varr, char *var_name,
+								char *value);
+char						*get_shell_var_value(t_var_arr *varr,
+								char *var_name);
+char						*get_name_from_full_var(char *var);
+char						*get_value_from_full_var(char *var);
+void						var_arr_free(t_var_arr *varr);
+int							var_name_cmp(char *var_name, char *full_var);
+int							strchraindex(char *str, const char *set);
+int							fvar_to_fvar_name_cmp(char *full_var1,
+								char *full_var2);
+void						set_shell_var_from_full_var(t_var_arr *varr,
+								char *full_var);
 #endif

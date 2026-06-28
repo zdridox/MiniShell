@@ -1,29 +1,57 @@
 #include "../headers/minishell.h"
 
-t_var_arr	*var_arr_create()
+t_var_arr	*var_arr_create(void)
 {
 	t_var_arr	*varr;
+	int			i;
 
 	varr = malloc(sizeof(t_var_arr));
 	varr->size = 0;
-	varr->allocated_size = 1;
-	varr->var_arr = malloc(sizeof(char *));
-	varr->var_arr[0] = NULL;
+	varr->allocated_size = 5;
+	varr->var_arr = malloc(sizeof(char *) * 5);
+	i = -1;
+	while (++i < 5)
+	{
+		varr->var_arr[i] = NULL;
+	}
 	return (varr);
+}
+
+void	var_arr_resize(t_var_arr *varr)
+{
+	char	**new_arr;
+	int		i;
+
+	new_arr = malloc(sizeof(char *) * (varr->allocated_size + 5));
+	i = -1;
+	while (++i < varr->allocated_size)
+	{
+		if (varr->var_arr[i] != NULL)
+		{
+			new_arr[i] = ft_strdup(varr->var_arr[i]);
+			free(varr->var_arr[i]);
+		}
+		else
+		{
+			new_arr[i] = NULL;
+		}
+	}
+	i = -1;
+	while (++i < 5)
+		new_arr[varr->allocated_size + i] = NULL;
+	varr->allocated_size += 5;
+	free(varr->var_arr);
+	varr->var_arr = new_arr;
 }
 
 void	var_arr_add(t_var_arr *varr, char *str)
 {
-	int	i;
+	size_t	i;
 
+	if (!varr || !str)
+		return ;
 	if (varr->allocated_size == varr->size)
-	{
-		varr->var_arr = resize_str_arr(varr->var_arr, varr->allocated_size + 5);
-		varr->allocated_size += 5;
-		i = 0;
-		while (i < 5)
-			varr->var_arr[(varr->size - 1) + i++] = NULL;
-	}
+		var_arr_resize(varr);
 	i = 0;
 	while (varr->var_arr[i] != NULL)
 		++i;
@@ -33,12 +61,23 @@ void	var_arr_add(t_var_arr *varr, char *str)
 
 void	var_arr_remove_index(t_var_arr *varr, size_t index)
 {
+	if (!varr)
+		return ;
 	free(varr->var_arr[index]);
 	varr->var_arr[index] = NULL;
 	varr->size -= 1;
 }
 
-// int	main(void)
-// {
-// 	t_var_arr *varr = var_arr_create();
-// }
+void	var_arr_free(t_var_arr *varr)
+{
+	int	i;
+
+	i = -1;
+	while (++i < varr->allocated_size)
+	{
+		if (varr->var_arr[i])
+			free(varr->var_arr[i]);
+	}
+	free(varr->var_arr);
+	free(varr);
+}

@@ -20,14 +20,6 @@ int strchraindex(char *str, const char *set) // get index of first apperance of 
     return (-1);
 }
 
-int	ft_isspace(char c)
-{
-	if (c == ' ' || c == '\t' || c == '\n' || c == '\v'
-		|| c == '\f' || c == '\r')
-		return (TRUE);
-	return (FALSE);
-}
-
 int is_shell_var(char *input)
 {
     char *input_trimmed;
