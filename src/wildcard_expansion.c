@@ -6,254 +6,109 @@
 /*   By: maxim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/07 14:24:36 by maxim             #+#    #+#             */
-/*   Updated: 2026/06/24 18:43:21 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/06/30 18:59:35 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expansion.h"
 
-char	*ft_strdup(const char *str)
+bool	match_pattern(char *entry_name, char *pattern);
+
+bool	handle_wildcard(char *entry_name, char *pattern)
 {
-	char	*duplicate;
-	size_t	i;
-
-	if (str == NULL)
-		return (NULL);
-	duplicate = (char *)malloc(sizeof(char) * (strlen(str) + 1));
-	if (duplicate == NULL)
-		return (NULL);
-	i = 0;
-	while (str[i])
-	{
-		duplicate[i] = str[i];
-		i++;
-	}
-	duplicate[i] = '\0';
-	return (duplicate);
-}
-
-void free_str_arr(char **str_arr)
-{
-	unsigned int i;
-
-	i = 0;
-	if (!str_arr)
-		return;
-	while (str_arr[i])
-	{
-		free(str_arr[i++]);
-	}
-	free(str_arr);
-}
-
-bool	init_string_vector(t_string_vector *vector)
-{
-	vector->size = 0;
-	vector->capacity = INITIAL_STRING_VECTOR_CAPACITY;
-	vector->entries = malloc(sizeof(char *) * vector->capacity);
-	if (vector->entries == NULL)
-		return (false);
-	vector->entries[0] = NULL;
-	return (true);
-}
-
-bool	resize_string_vector(t_string_vector *vector)
-{
-	char	**new_entries;
-	size_t	i;
-
-	vector->capacity *= 2;
-	new_entries = malloc(sizeof(char *) * vector->capacity);
-	if (!new_entries)
-	{
-		free(vector->entries);
-		vector->entries = NULL;
-		return (false);
-	}
-	i = 0;
-	while (i <= vector->size)
-	{
-		new_entries[i] = vector->entries[i];
-		i++;
-	}
-	free(vector->entries);
-	vector->entries = new_entries;
-	return (true);
-}
-
-bool	add_string_to_vector(char *string, t_string_vector *vector)
-{
-	char	*new_string;
-
-	if (vector->size + 1 >= vector->capacity)
-	{
-		if (!resize_string_vector(vector))
-			return (false);
-	}
-	vector->entries[vector->size] = ft_strdup(string);
-	vector->entries[vector->size + 1] = NULL;
-	vector->size += 1;
-	return (true);
-}
-
-bool	find_matchaes_in_dir(char *pattern, char *dir_name, t_string_vector *matchaes);
-
-bool	match_pattern(char *pattern, char *file_name, int file_name_len, t_string_vector *matchaes)
-{
-	if (matchaes->entries == NULL)
-		return (false);
-	if (*pattern == '\0' && *file_name == '\0')
+	while (*pattern == '*')
+		pattern++;
+	if (*pattern == '\0')
 		return (true);
-	if (*pattern == '\0' && *file_name != '\0')
-		return (false);
-	if (*pattern == '*')
+	while (*entry_name)
 	{
-		while (*(pattern + 1) == '*')
-			pattern++;
-		if (*(pattern + 1) == '\0') // it is not necessaty because of the loop
-			return (true);
-		while (*file_name)
+		if (*entry_name == *pattern)
 		{
-			if (*(pattern + 1) == *file_name)
-			{
-				if (match_pattern(pattern + 1, file_name, file_name_len, matchaes))
-					return (true);
-			}
-			file_name++;
+			if (match_pattern(entry_name + 1, pattern + 1))
+				return (true);
 		}
-		if (*file_name == '\0' && *(pattern + 1) == '\0')
-			return (true);
-	}
-	else if (*pattern == *file_name)
-	{
-		return (match_pattern(pattern + 1, file_name + 1, file_name_len, matchaes));
-	}
-	else if (*pattern == '/' && *file_name == '\0')
-	{
-		find_matchaes_in_dir(pattern + 1, file_name - file_name_len, matchaes);
-		return (false);
+		entry_name++;
 	}
 	return (false);
 }
 
-void	skip_pattern_prefix(char **pattern)
+bool	match_pattern(char *entry_name, char *pattern)
 {
-	while (**pattern && **pattern != '/')
-		(*pattern)++;
-	if (**pattern == '/')
-		(*pattern)++;
-}
-
-bool	add_mathaes_with_prefix_to_matchaes(t_string_vector *matchaes, t_string_vector *matchaes_with_prefix, char *prefix)
-{
-	size_t	i;
-	char	*added_path;
-
-	i = 0;
-	while (i < matchaes_with_prefix->size)
-	{
-		added_path = ft_strjoin(prefix, matchaes_with_prefix->entries[i]);
-		if (!added_path)
-			return (false);
-		if (!add_string_to_vector(added_path, matchaes))
-		{
-			free(added_path);
-			return (false);
-		}
-		free(added_path);
-		i++;
-	}
-	return (true);
-}
-
-bool	find_matchaes_with_this_prefix(char *pattern, char *prefix, t_string_vector *prefix_matchaes)
-{
-	t_string_vector	matchaes_with_prefix;
-
-	if (!init_string_vector(&matchaes_with_prefix))
-		return (false);
-	skip_pattern_prefix(&pattern);
 	if (*pattern == '\0')
-	{
-		free(matchaes_with_prefix.entries);
-		return (add_string_to_vector(prefix, prefix_matchaes));
-	}
-	if (!find_matchaes_in_dir(pattern, prefix, &matchaes_with_prefix))
-	{
-		free(matchaes_with_prefix.entries);
-		return (false);
-	}
-	if (matchaes_with_prefix.size == 0)
-	{
-		free(matchaes_with_prefix.entries);
+		return (*entry_name == '\0');
+	if (*pattern == '/' && *entry_name == '\0')
 		return (true);
-	}
-	if (!add_mathaes_with_prefix_to_matchaes(prefix_matchaes, &matchaes_with_prefix, prefix))
-	{
-		free(matchaes_with_prefix.entries);
+	if (*pattern == '*')
+		return (handle_wildcard(entry_name, pattern));
+	else if (*pattern == *entry_name || (*pattern == QUOTED_WILDCARD  && *entry_name == '*'))
+		return (match_pattern(entry_name + 1, pattern + 1));
+	return (false);
+}
+
+bool	is_valid_match(char *entry_name, char *pattern)
+{
+	if (*entry_name == '.' && *pattern != '.')
 		return (false);
-	}
-	free(matchaes_with_prefix.entries);
-	return (true);
+	return (match_pattern(entry_name, pattern));
 }
 
 bool	is_directory(const char *path)
 {
-	struct stat	path_stat;
+	struct stat path_stat;
 
-	stat(path, &path_stat);
+	if (stat(path, &path_stat) != 0)
+		return (false);
 	return (S_ISDIR(path_stat.st_mode));
 }
 
-bool	find_matchaes_in_dir(char *pattern, char *dir_name, t_string_vector *matchaes)
+char	*skip_after_slash(char *pattern)
+{
+	return (ft_strchr(pattern, '/') + 1);
+}
+
+bool	find_matchaes_in_dir(char *pattern, char *dir_name, t_dynamic_string *matchaes)
 {
 	DIR				*dir;
-	struct dirent	*entrie;
+	struct dirent	*entry;
 
 	dir = opendir(dir_name);
 	if (!dir)
 	{
-		display_error_message("Failed to open dir");
+		//display_error_message("Failed to open dir");
+		printf("Failed to open dir: %s\n", dir_name);
 		return (false);
 	}
-	while ((entrie = readdir(dir)) != NULL)
+	while ((entry = readdir(dir)) != NULL)
 	{
-		if (*(entrie->d_name) == '.' && *pattern != '.')
+		if (!is_valid_match(entry->d_name, pattern))
 			continue ;
-		if (match_pattern(pattern, entrie->d_name, strlen(entrie->d_name), matchaes))
+		if (is_directory(entry->d_name) && ft_strchr(pattern, '/') != NULL)
 		{
-			if (is_directory(entrie->d_name))
-			{
-				if (!find_matchaes_with_this_prefix(pattern, entrie->d_name, matchaes))
-					return (false);
-			}
-			else if (!add_string_to_vector(entrie->d_name, matchaes))
+			if (!find_matchaes_in_dir(skip_after_slash(pattern), entry->d_name, matchaes))
 				return (false);
 		}
+		else if (!add_string_to_dynamic_string(entry->d_name, matchaes))
+			return (false);
 	}
 	closedir(dir);
 	return (true);
 }
 
-char	**expand_one_wildcard(char *pattern)
+bool	expand_wildcard(char *pattern, t_dynamic_string *matchaes)
 {
-	t_string_vector	matchaes;
-
-	if (!init_string_vector(&matchaes))
-		return (NULL);
 	if (pattern[0] == '/')
 	{
-		if (!find_matchaes_in_dir(pattern + 1, "/", &matchaes))
-			return (NULL);
+		if (!find_matchaes_in_dir(pattern + 1, "/", matchaes))
+			return (false);
 	}
 	else
 	{
-		if (!find_matchaes_in_dir(pattern, ".", &matchaes))
-			return (NULL);
+		if (!find_matchaes_in_dir(pattern, ".", matchaes))
+			return (false);
 	}
-	return(matchaes.entries);
+	return (true);
 }
-
+/*
 int	main(int argc, char **argv)
 {
 	char	**expanded;
@@ -269,13 +124,14 @@ int	main(int argc, char **argv)
 		printf("No wildcard found in pattern.\n");
 		return (1);
 	}
-	expanded = expand_one_wildcard(argv[1]);
+	expanded = expand_wildcard(argv[1]);
 	i = 0;
 	while (expanded[i])
 	{
 		printf("%s\n", expanded[i]);
 		i++;
 	}
-	free_str_arr(expanded);
+	free(expanded);
 	return (0);
 }
+*/

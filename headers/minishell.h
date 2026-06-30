@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:04:20 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/06/23 17:33:35 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/06/30 19:00:05 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ char *get_current_dir_name(t_shell *shell);
 int check_empty_input(char *input);
 void	execute_parsed(t_ast_node *ast, t_shell *shell);
 void	free_ast(t_ast_node *node);
-bool	expand_words_in_ast(t_ast_node *node, char **env);
-t_ast_node	*parse_tokens(t_token *tokens, t_shell *shell);
+bool	expand_words_in_ast(t_ast_node *node, t_shell *shell);
+t_ast_node	*parse_tokens(t_token *tokens);
 
 #endif

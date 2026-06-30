@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 19:47:02 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/06/04 17:23:03 by anatoliy         ###   ########.fr       */
+/*   Updated: 2026/06/30 19:11:50 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,6 +219,12 @@ t_ast_node	*parse_command(t_token **current_token)
 	command_node->command = command;
 	return (command_node);
 }
+//argv is dynanic sthring
+void	free_argv(char **argv)
+{
+	free(argv[0]);
+	free(argv);
+}
 
 void	free_ast(t_ast_node *node)
 {
@@ -228,6 +234,7 @@ void	free_ast(t_ast_node *node)
 	{
 		free_words(node->command->words);
 		free_redirects(node->command->redirects);
+		free_argv(node->command->argv);
 		free(node->command);
 	}
 	free_ast(node->left);
@@ -329,14 +336,10 @@ t_ast_node	*parse_logical(t_token **current_token)
 		return (logical_node);
 }
 
-t_ast_node	*parse_tokens(t_token *tokens, t_shell *shell)
+t_ast_node	*parse_tokens(t_token *tokens)
 {
 	t_ast_node	*root;
 
 	root = parse_logical(&tokens);
-	if (!root)
-		return (NULL);
-	if (!expand_words_in_ast(root, shell->env))
-		return (free_ast(root), NULL);
 	return (root);
 }
