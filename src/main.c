@@ -6,25 +6,12 @@
 /*   By: mzdrodow <mzdrodow@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 19:57:40 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/06/30 21:42:13 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/07/01 16:25:05 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parser_new.h"
-
-
-void	print_tokens(t_token *tokens)
-{
-	t_token	*current;
-
-	current = tokens;
-	while (current)
-	{
-		printf("Token: '%s', Type: %d\n", current->value, current->type);
-		current = current->next;
-	}
-}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -56,7 +43,6 @@ int	main(int argc, char **argv, char **envp)
 		}
 		add_history(input);
 		tokens = tokenize_input(input);
-		print_tokens(tokens);
 		free(input);
 		if (!tokens)
 			continue ;

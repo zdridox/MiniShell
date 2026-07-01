@@ -6,7 +6,7 @@
 /*   By: maxim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/07 14:24:36 by maxim             #+#    #+#             */
-/*   Updated: 2026/06/30 18:59:35 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/07/01 19:54:44 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,11 +108,11 @@ bool	expand_wildcard(char *pattern, t_dynamic_string *matchaes)
 	}
 	return (true);
 }
-/*
+
 int	main(int argc, char **argv)
 {
-	char	**expanded;
-	int		i;
+	t_dynamic_string	expanded;
+	int	i;
 
 	if (argc != 2)
 	{
@@ -124,14 +124,21 @@ int	main(int argc, char **argv)
 		printf("No wildcard found in pattern.\n");
 		return (1);
 	}
-	expanded = expand_wildcard(argv[1]);
-	i = 0;
-	while (expanded[i])
+	if (expand_wildcard(argv[1], &expanded))
+		printf("Wildcard expansion successful.\n");
+	else
 	{
-		printf("%s\n", expanded[i]);
+		printf("Wildcard expansion failed.\n");
+		return (1);
+	}
+	i = 0;
+	argv = convert_dynamic_string_to_str_arr(&expanded);
+	while (argv[i])
+	{
+		printf("%s\n", argv[i]);
 		i++;
 	}
-	free(expanded);
+	free(argv[0]);
+	free(argv);
 	return (0);
 }
-*/

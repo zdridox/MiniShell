@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:04:20 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/06/30 19:00:05 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/07/01 19:18:53 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 #define CHILD_PROCESS 0
 #define	ERROR 1
 #define SUCCESS 0
+# define MAX_ENV_VARIABLE_NAME_LENGTH 256
 #define GREEN "\001\033[38;5;121m\002"
 #define BLUE "\001\033[38;5;87m\002"
 #define ORANGE "\001\033[38;5;222m\002"

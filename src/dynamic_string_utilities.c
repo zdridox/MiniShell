@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/30 17:29:26 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/06/30 21:39:58 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/07/01 18:58:22 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,12 @@ bool	add_string_to_dynamic_string(char *string, t_dynamic_string *dynamic_string
 	
 	string_len = (size_t)ft_strlen(string);
 	needed_capacity = dynamic_string->size + string_len + 1;
-	if (dynamic_string->capacity > needed_capacity)
-		ft_memcpy(dynamic_string->string + dynamic_string->size, string, string_len);
-	else
+	if (needed_capacity > dynamic_string->capacity)
 	{
 		if (!resize_dynamic_string(dynamic_string, needed_capacity * 2))
 			return (false);
-		ft_memcpy(dynamic_string->string + dynamic_string->size, string, string_len);
 	}
+	ft_memcpy(dynamic_string->string + dynamic_string->size, string, string_len);
 	dynamic_string->string[dynamic_string->size + string_len] = '\0';
 	dynamic_string->size += string_len + 1;
 	return (true);

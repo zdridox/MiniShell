@@ -6,7 +6,7 @@
 /*   By: anatoliy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 15:18:34 by anatoliy          #+#    #+#             */
-/*   Updated: 2026/06/30 21:40:32 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/07/01 19:35:29 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,58 +25,61 @@ bool	is_last_exit_status_variable(char *str)
 	return (str[0] == '?' && !is_valid_env_variable_char(str[1]));
 }
 
-int	get_variable_name_length(const char *str)
-{
-	int length = 0;
-
-	while (str[length] && is_valid_env_variable_char(str[length]))
+int	get_variable_name_length(const char *str) { int length = 0; while (str[length] && is_valid_env_variable_char(str[length]))
 		length++;
 	return (length);
+}
+
+void	skip_variable_in_string(char *str, int *i)
+{
+	while (str[*i] && str[*i] != '$' && is_valid_env_variable_char(str[*i]))
+		(*i)++;
 }
 
 bool	append_expanded_variable_to_dynamic_string(t_dynamic_string *dynamic_string, char *str, int *i, t_shell *shell)
 {
 	char	*var_value;
 	int		var_name_length;
+	char	variable_name[MAX_ENV_VARIABLE_NAME_LENGTH + 1];
 
 	(*i)++;
 	if (is_last_exit_status_variable(str + *i))
+	{
+		(*i)++;
 		return (append_int_to_dynamic_string(shell->last_exit_code, dynamic_string));
+	}
 	var_name_length = get_variable_name_length(str + *i);
+	if (var_name_length > MAX_ENV_VARIABLE_NAME_LENGTH)
+		var_name_length = MAX_ENV_VARIABLE_NAME_LENGTH;
 	if (var_name_length == 0)
 		return (add_char_to_dynamic_string('$', dynamic_string));
-	var_value = get_env_value(str + *i, shell->env);
+	ft_strlcpy(variable_name, str + *i, var_name_length + 1);
+	var_value = get_env_value(variable_name, shell->env);
+	*i += var_name_length;
 	if (!var_value)
 		return (true);
-	if (!add_string_to_dynamic_string(var_value, dynamic_string))
+	if (!add_n_chars_to_dynamic_string(var_value, ft_strlen(var_value), dynamic_string))
 		return (false);
-	*i += var_name_length;
 	return (true);
 }
 
 char	*expand_environment_variables_in_string(char *str, t_shell *shell)
 {
 	t_dynamic_string	expanded_string;
-	int			len;
 	int			i;
 
 	if (!init_dynamic_string(&expanded_string, INITIAL_DYNAMIC_STRING_CAPACITY))
 		return (NULL);
-	len = 0;
 	i = 0;
 	while (str[i])
 	{
 		if (str[i] == '$')
 		{
-			if (!add_n_chars_to_dynamic_string(&str[i - len], len, &expanded_string))
-				return (free(expanded_string.string), NULL);
 			if (!append_expanded_variable_to_dynamic_string(&expanded_string, str, &i, shell))
 				return (free(expanded_string.string), NULL);
-			len = 0;
 		}
-		else
-			len++;
-		i++;
+		else if (!add_char_to_dynamic_string(str[i++], &expanded_string))
+			return (free(expanded_string.string), NULL);
 	}
 	if (!add_char_to_dynamic_string('\0', &expanded_string))
 		return (free(expanded_string.string), NULL);
@@ -89,8 +92,7 @@ bool	expand_environment_variables_in_word(t_word_part *word_parts, t_shell *shel
 
 	while (word_parts)
 	{
-		if ((word_parts->type == PLAIN || word_parts->type == DOUBLE_QUOTED)
-			&& expand_environment_variables_in_string(word_parts->value, shell))
+		if ((word_parts->type == PLAIN || word_parts->type == DOUBLE_QUOTED))
 		{
 			expanded_value = expand_environment_variables_in_string(word_parts->value, shell);
 			if (!expanded_value)
