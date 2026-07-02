@@ -59,5 +59,6 @@ int	main(void)
 	
 	ft_printf("\n\n\nsize: %d\nallocated_size: %d", varr->size, varr->allocated_size);
 	var_arr_free(varr);
+
 	return (0);
 }

@@ -53,9 +53,7 @@ void	var_arr_add(t_var_arr *varr, char *str)
 	if (varr->allocated_size == varr->size)
 		var_arr_resize(varr);
 	i = 0;
-	while (varr->var_arr[i] != NULL)
-		++i;
-	varr->var_arr[i] = ft_strdup(str);
+	varr->var_arr[varr->size] = ft_strdup(str);
 	varr->size += 1;
 }
 
@@ -64,7 +62,9 @@ void	var_arr_remove_index(t_var_arr *varr, size_t index)
 	if (!varr)
 		return ;
 	free(varr->var_arr[index]);
-	varr->var_arr[index] = NULL;
+	varr->var_arr[index] = ft_strdup(varr->var_arr[varr->size - 1]);
+	free(varr->var_arr[varr->size - 1]);
+	varr->var_arr[varr->size - 1] = NULL;
 	varr->size -= 1;
 }
 
@@ -72,6 +72,8 @@ void	var_arr_free(t_var_arr *varr)
 {
 	int	i;
 
+	if(!varr)
+		return;
 	i = -1;
 	while (++i < varr->allocated_size)
 	{

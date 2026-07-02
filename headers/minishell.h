@@ -6,7 +6,7 @@
 /*   By: mzdrodow <mzdrodow@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:04:20 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/06/28 15:46:34 by mzdrodow         ###   ########.fr       */
+/*   Updated: 2026/07/02 19:08:13 by mzdrodow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,20 @@ typedef struct s_var_arr
 	int						allocated_size;
 	char					**var_arr;
 }							t_var_arr;
+
+// typedef struct s_variable
+// {
+// 	char					*name;
+// 	char					*value;
+// }							t_variable;
+
+// typedef struct s_vars
+// {
+// 	size_t					size;
+// 	size_t					allocated_size;
+// 	size_t					first_free_index;
+// 	t_variable				*vars;
+// }							t_vars;
 
 t_shell						*init_shell(char **envp);
 void						print_current_dir_name(t_shell *shell);
