@@ -6,7 +6,7 @@
 /*   By: maxim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/07 14:24:36 by maxim             #+#    #+#             */
-/*   Updated: 2026/07/01 19:54:44 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/07/02 15:29:50 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,12 +108,17 @@ bool	expand_wildcard(char *pattern, t_dynamic_string *matchaes)
 	}
 	return (true);
 }
-
+/*
 int	main(int argc, char **argv)
 {
 	t_dynamic_string	expanded;
 	int	i;
 
+	if (!init_dynamic_string(&expanded))
+	{
+		printf("Failed to initialize dynamic string.\n");
+		return (1);
+	}
 	if (argc != 2)
 	{
 		printf("Usage: %s <pattern>\n", argv[0]);
@@ -142,3 +147,4 @@ int	main(int argc, char **argv)
 	free(argv);
 	return (0);
 }
+*/
