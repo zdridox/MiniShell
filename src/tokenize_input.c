@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/18 19:45:05 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/04/27 16:16:34 by anatoliy         ###   ########.fr       */
+/*   Updated: 2026/07/04 19:38:52 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,6 @@ t_token	*tokenize_input(char *input)
 		if (!head)
 			head = tail;
 	}
-	add_token(&tail, TOKEN_END, NULL);
+	add_token(&tail, TOKEN_END);
 	return (head);
 }

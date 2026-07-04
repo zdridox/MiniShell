@@ -6,7 +6,7 @@
 /*   By: maxim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/07 14:24:36 by maxim             #+#    #+#             */
-/*   Updated: 2026/07/04 17:23:11 by maxim            ###   ########.fr       */
+/*   Updated: 2026/07/04 19:45:36 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ bool	handle_wildcard(char *entry_name, char *pattern)
 {
 	while (*pattern == '*')
 		pattern++;
-	if (*pattern == '\0')
+	if (*pattern == '\0' || *pattern == '/')
 		return (true);
 	while (*entry_name)
 	{
-		if (*entry_name == *pattern)
+		if (*entry_name == *pattern || (*pattern == QUOTED_WILDCARD  && *entry_name == '*'))
 		{
 			if (match_pattern(entry_name + 1, pattern + 1))
 				return (true);
@@ -122,6 +122,7 @@ bool	handle_match(char *entry_full_path, char *pattern, bool pattern_has_slash, 
 	return (true);
 }
 
+// better to rewrite it to not make allocations for each entry
 bool	find_matchaes_in_dir(char *pattern, char *dir_path, t_dynamic_string *matchaes)
 {
 	DIR				*dir;

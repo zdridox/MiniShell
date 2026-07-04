@@ -6,13 +6,13 @@
 /*   By: maxim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 14:13:10 by maxim             #+#    #+#             */
-/*   Updated: 2026/04/27 16:16:16 by anatoliy         ###   ########.fr       */
+/*   Updated: 2026/07/04 19:38:19 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokenizer.h"
 
-bool	add_token(t_token **current, t_token_type type, char *value)
+bool	add_token(t_token **current, t_token_type type)
 {
 	t_token	*new_token;
 
@@ -20,7 +20,6 @@ bool	add_token(t_token **current, t_token_type type, char *value)
 	if (!new_token)
 		return (false);
 	new_token->type = type;
-	new_token->value = value;
 	new_token->next = NULL;
 	new_token->word_parts = NULL;
 	if (*current)
@@ -33,7 +32,7 @@ bool	add_word_token(char *input, int *i, t_token **current)
 {
 	t_token	*word_token;
 
-	if (!add_token(current, TOKEN_WORD, NULL))
+	if (!add_token(current, TOKEN_WORD))
 		return (false);
 	word_token = *current;
 	if (!add_word_parts(word_token, input, i))
@@ -84,5 +83,5 @@ bool	add_operator_token(char *input, int *i, t_token **current)
 	if (token_type == TOKEN_ERROR)
 		return (false);
 	*i += get_operator_token_length(token_type);
-	return (add_token(current, token_type, NULL));
+	return (add_token(current, token_type));
 }

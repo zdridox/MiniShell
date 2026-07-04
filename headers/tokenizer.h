@@ -53,7 +53,7 @@ bool	is_operator(char c);
 bool	is_word_end(char c);
 
 // tokenizer_token_utils.c
-bool	add_token(t_token **current, t_token_type type, char *value);
+bool	add_token(t_token **current, t_token_type type);
 bool	add_word_token(char *input, int *i, t_token **current);
 bool	add_operator_token(char *input, int *i, t_token **current);
 
