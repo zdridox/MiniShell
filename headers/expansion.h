@@ -40,4 +40,8 @@ bool	expand_wildcard(char *pattern, t_dynamic_string *matchaes);
 
 // str_utilities.c
 char	*ft_strjoin_three(const char *s1, const char *s2, const char *s3);
+
+// parser_new.c
+void	free_argv(char **argv);
+
 #endif
