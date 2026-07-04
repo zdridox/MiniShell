@@ -38,4 +38,6 @@ char	**convert_dynamic_string_to_str_arr(t_dynamic_string *dynamic_string);
 // wildcard_expansion.c
 bool	expand_wildcard(char *pattern, t_dynamic_string *matchaes);
 
+// str_utilities.c
+char	*ft_strjoin_three(const char *s1, const char *s2, const char *s3);
 #endif

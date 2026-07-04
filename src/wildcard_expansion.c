@@ -6,7 +6,7 @@
 /*   By: maxim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/07 14:24:36 by maxim             #+#    #+#             */
-/*   Updated: 2026/07/02 15:29:50 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/07/04 17:23:11 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,29 +66,89 @@ char	*skip_after_slash(char *pattern)
 	return (ft_strchr(pattern, '/') + 1);
 }
 
-bool	find_matchaes_in_dir(char *pattern, char *dir_name, t_dynamic_string *matchaes)
+bool	is_last_char(char *pattern, char last_char)
+{
+	int	len;
+
+	if (!pattern)
+		return (false);
+	len = ft_strlen(pattern);
+	if (len > 0 && pattern[len - 1] == last_char)
+		return (true);
+	return (false);
+}
+
+char	*build_entry_full_path(char *dir_path, char *entry_name)
+{
+	char	*entry_full_path;
+
+	if (ft_strcmp(dir_path, ".") == 0)
+		entry_full_path = ft_strdup(entry_name);
+	else if (ft_strcmp(dir_path, "/") == 0)
+		entry_full_path = ft_strjoin("/", entry_name);
+	else
+		entry_full_path = ft_strjoin_three(dir_path, "/", entry_name);
+	return (entry_full_path);
+}
+
+bool	find_matchaes_in_dir(char *pattern, char *dir_path, t_dynamic_string *matchaes);
+
+bool	handle_directory(char *entry_full_path, char *pattern, t_dynamic_string *matchaes)
+{
+	if (is_last_char(pattern, '/'))
+	{
+		// or write function to add string without null terminator to dynamic string
+		if (!add_n_chars_to_dynamic_string(entry_full_path, ft_strlen(entry_full_path), matchaes))
+			return (false);
+		if (!add_char_to_dynamic_string('/', matchaes))
+			return (false);
+		if (!add_char_to_dynamic_string('\0', matchaes))
+			return (false);
+	}
+	if (!find_matchaes_in_dir(skip_after_slash(pattern), entry_full_path, matchaes))
+		return (false);
+	return (true);
+}
+
+bool	handle_match(char *entry_full_path, char *pattern, bool pattern_has_slash, t_dynamic_string *matchaes)
+{
+	if (is_directory(entry_full_path) && pattern_has_slash)
+	{
+		if (handle_directory(entry_full_path, pattern, matchaes) == false)
+			return (false);
+	}
+	else if (!pattern_has_slash && !add_string_to_dynamic_string(entry_full_path, matchaes))
+		return (false);
+	return (true);
+}
+
+bool	find_matchaes_in_dir(char *pattern, char *dir_path, t_dynamic_string *matchaes)
 {
 	DIR				*dir;
 	struct dirent	*entry;
+	char			*entry_full_path;
+	bool			pattern_has_slash;
 
-	dir = opendir(dir_name);
+	dir = opendir(dir_path);
 	if (!dir)
 	{
 		//display_error_message("Failed to open dir");
-		printf("Failed to open dir: %s\n", dir_name);
+		printf("Failed to open dir: %s\n", dir_path);
 		return (false);
 	}
+	pattern_has_slash = ft_strchr(pattern, '/') != NULL;
 	while ((entry = readdir(dir)) != NULL)
 	{
 		if (!is_valid_match(entry->d_name, pattern))
 			continue ;
-		if (is_directory(entry->d_name) && ft_strchr(pattern, '/') != NULL)
+		entry_full_path = build_entry_full_path(dir_path, entry->d_name);
+		if (!handle_match(entry_full_path, pattern, pattern_has_slash, matchaes))
 		{
-			if (!find_matchaes_in_dir(skip_after_slash(pattern), entry->d_name, matchaes))
-				return (false);
-		}
-		else if (!add_string_to_dynamic_string(entry->d_name, matchaes))
+			free(entry_full_path);
+			closedir(dir);
 			return (false);
+		}
+		free(entry_full_path);
 	}
 	closedir(dir);
 	return (true);
@@ -114,7 +174,7 @@ int	main(int argc, char **argv)
 	t_dynamic_string	expanded;
 	int	i;
 
-	if (!init_dynamic_string(&expanded))
+	if (!init_dynamic_string(&expanded, 100))
 	{
 		printf("Failed to initialize dynamic string.\n");
 		return (1);
@@ -129,20 +189,24 @@ int	main(int argc, char **argv)
 		printf("No wildcard found in pattern.\n");
 		return (1);
 	}
-	if (expand_wildcard(argv[1], &expanded))
-		printf("Wildcard expansion successful.\n");
-	else
+	if (!expand_wildcard(argv[1], &expanded))
 	{
 		printf("Wildcard expansion failed.\n");
 		return (1);
 	}
 	i = 0;
 	argv = convert_dynamic_string_to_str_arr(&expanded);
+	if (!argv)
+	{
+		printf("Failed to convert dynamic string to string array.\n");
+		return (1);
+	}
 	while (argv[i])
 	{
-		printf("%s\n", argv[i]);
+		printf("%s ", argv[i]);
 		i++;
 	}
+	printf("\n");
 	free(argv[0]);
 	free(argv);
 	return (0);
