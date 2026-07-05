@@ -6,12 +6,21 @@
 /*   By: mzdrodow <mzdrodow@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 19:57:40 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/07/01 16:25:05 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/07/05 00:40:41 by anatoliy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parser_new.h"
+
+void	sigint_handler(int signum)
+{
+	(void)signum;
+	write(STDOUT, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -21,6 +30,8 @@ int	main(int argc, char **argv, char **envp)
 	char		*input;
 	char		*prompt;
 
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
 	(void)argc;
 	(void)argv;
 	shell = init_shell(envp);

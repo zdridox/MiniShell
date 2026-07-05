@@ -6,7 +6,7 @@
 /*   By: anatoliy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 06:26:23 by anatoliy          #+#    #+#             */
-/*   Updated: 2026/07/04 22:42:37 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/07/05 00:26:02 by anatoliy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,13 +118,16 @@ t_exec_status	execute_our_command_in_child(t_our_command_fn function, char **arg
 		error_exit("Can make new process", shell);
 	else if (pid == CHILD_PROCESS)
 	{
+		signal(SIGINT, SIG_DFL);
 		change_stream_fd(cmd_io->input_fd, STDIN);
 		change_stream_fd(cmd_io->output_fd, STDOUT);
 		status = function(shell, argv);
 		exit(status);
 	}
+	signal(SIGINT, SIG_IGN);
 	close_fds(cmd_io->input_fd, cmd_io->output_fd);
 	waitpid(pid, &status, 0);
+	signal(SIGINT, sigint_handler);
 	update_exit_status(shell, status);
 	return (EXEC_SUCCESS);
 }
@@ -150,13 +153,16 @@ t_exec_status	execute_binary_with_path(char **argv, t_cmd_io *cmd_io, t_shell *s
 	}
 	else if (pid == CHILD_PROCESS)
 	{
+		signal(SIGINT, SIG_DFL);
 		change_stream_fd(cmd_io->input_fd, STDIN);
 		change_stream_fd(cmd_io->output_fd, STDOUT);
 		execve(argv[0], argv, shell->env);
 		display_error_message("Command execution failed");
 		return (EXEC_FAILURE);
 	}
+	signal(SIGINT, SIG_IGN);
 	close_fds(cmd_io->input_fd, cmd_io->output_fd);
+	signal(SIGINT, sigint_handler);
 	return (EXEC_SUCCESS);
 }
 
@@ -178,14 +184,17 @@ void	execute_linux_command(char **argv, t_cmd_io *cmd_io, t_shell *shell)
 		error_exit("Can make new process", shell);
 	else if (pid == CHILD_PROCESS)
 	{
+		signal(SIGINT, SIG_DFL);
 		change_stream_fd(cmd_io->input_fd, STDIN);
 		change_stream_fd(cmd_io->output_fd, STDOUT);
 		execve(bin_path, argv, shell->env);
 		error_exit("Command execution failed", shell);
 	}
+	signal(SIGINT, SIG_IGN);
 	close_fds(cmd_io->input_fd, cmd_io->output_fd);
 	free(bin_path);
 	waitpid(pid, &status, 0);
+	signal(SIGINT, sigint_handler);
 	update_exit_status(shell, status);
 }
 
@@ -283,11 +292,13 @@ t_exec_status	execute_pipe(t_ast_node *ast, t_shell *shell)
 	}
 	if (pid_left == CHILD_PROCESS)
 	{
+		signal(SIGINT, SIG_DFL);
 		dup2(pipe_fds[1], STDOUT);
 		close_fds(pipe_fds[0], pipe_fds[1]);
 		execute_node(ast->left, shell);
 		exit(shell->last_exit_code);
 	}
+	signal(SIGINT, SIG_IGN);
 	pid_right = fork();
 	if (pid_right < 0)
 	{
@@ -296,6 +307,7 @@ t_exec_status	execute_pipe(t_ast_node *ast, t_shell *shell)
 	}
 	if (pid_right == CHILD_PROCESS)
 	{
+		signal(SIGINT, SIG_DFL);
 		dup2(pipe_fds[0], STDIN);
 		close_fds(pipe_fds[0], pipe_fds[1]);
 		execute_node(ast->right, shell);
@@ -304,6 +316,7 @@ t_exec_status	execute_pipe(t_ast_node *ast, t_shell *shell)
 	close_fds(pipe_fds[0], pipe_fds[1]);
 	waitpid(pid_left, NULL, 0);
 	waitpid(pid_right, &status, 0);
+	signal(SIGINT, sigint_handler);
 	update_exit_status(shell, status);
 	return (EXEC_SUCCESS);
 }
