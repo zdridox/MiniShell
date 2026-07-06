@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:04:20 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/07/06 17:04:42 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/07/06 21:30:58 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,8 @@ void	free_ast(t_ast_node *node);
 bool	expand_words_in_ast(t_ast_node *node, t_shell *shell);
 t_ast_node	*parse_tokens(t_token *tokens);
 void	sigint_handler(int signum);
-int heredoc_fd(char *EOI);
+// heredoc.c 
+char *generate_temp_file_path(void *seed);
+bool write_heredoc_to_file(char *EOI, char *file_path);
 
 #endif

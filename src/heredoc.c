@@ -1,32 +1,5 @@
 #include "../headers/minishell.h"
 
-long rng(char *seed) // lol shitty but its enough at least for now
-{
-    static long first_number = 0;
-    static long number = 0;
-    static int n = 0;
-    const long magic = 6700;
-    const long magic_2 = 7;
-
-    if (number == 0 || first_number != (long)seed)
-    {
-        first_number = (long)seed;
-        number = (long)seed;
-        n = 0;
-    }
-
-    number /= magic_2;
-    number += magic * (number % 10);
-    number *= 10;
-    if (n == 13)
-    {
-        number /= 100;
-        n = 0;
-    }
-    ++n;
-    return (number);
-}
-
 char *ltoa(long number)
 {
     char *str;
@@ -58,36 +31,73 @@ char *ltoa(long number)
     return (str);
 }
 
-int heredoc_fd(char *EOI)
+static long hash_long(long x)
 {
-    char *line;
-    char *compare;
-    int file_fd;
-    char *random;
+    x ^= x >> 16;
+    x *= 0x7feb352d;
+    x ^= x >> 15;
+    x *= 0x846ca68b;
+    x ^= x >> 16;
+    return (x);
+}
 
-    random = ltoa(rng(EOI));
-    file_fd = open(random, O_CREAT | O_RDWR | O_TRUNC, 0644);
-    // out = ft_strdup("");
-    line = ft_strdup("");
-    compare = ft_strjoin(EOI, "\n");
-    while (1)
-    {
-        free(line);
-        ft_printf("heredoc> ");
-        line = get_next_line(0);
-        if (!ft_strncmp(line, compare, ft_strlen(line)) || !ft_strncmp(line, EOI, ft_strlen(line)))
-        {
-            free(line);
-            break;
-        }
-        // safe_cat(&out, line);
-        write(file_fd, line, ft_strlen(line));
-    }
-    free(compare);
-    close(file_fd);
-    file_fd = open(random, O_RDONLY);
-    free(random);
-    return (file_fd);
+long	generate_random_number(void *seed)
+{
+	long	random_number;
+
+	random_number = hash_long((long)seed);
+	return (random_number);
+}
+
+char *generate_temp_file_path(void *seed)
+{
+	char *temp_dir = "/tmp/minishell_heredoc_";
+	char *temp_file_name;
+	char *temp_file_path;
+	long random_number;
+
+	random_number = generate_random_number(seed);
+	temp_file_name = ltoa(random_number);
+	if (!temp_file_name)
+	{
+		display_error_message("Failed to allocate memory for temp file name");
+		return (NULL);
+	}
+	temp_file_path = ft_strjoin(temp_dir, temp_file_name);
+	free(temp_file_name);
+	if (!temp_file_path)
+	{
+		display_error_message("Failed to allocate memory for temp file path");
+		return (NULL);
+	}
+	return (temp_file_path);
+}
+
+bool	write_heredoc_to_file(char *delimiter, char *file_path)
+{
+    int		file_fd;
+    char	*line;
+
+    file_fd = open(file_path, O_CREAT | O_RDWR | O_TRUNC, 0644);
+	if (file_fd < 0)
+	{
+		display_error_message("Failed to open heredoc temp file");
+		return (false);
+	}
+	while (true)
+	{
+		line = readline("> ");
+		if (!line || ft_strcmp(line, delimiter) == 0)
+		{
+			free(line);
+			break;
+		}
+		write(file_fd, line, ft_strlen(line));
+		write(file_fd, "\n", 1);
+		free(line);
+	}
+	close(file_fd);
+    return (true);
 }
 
 // int main()

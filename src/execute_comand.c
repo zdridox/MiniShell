@@ -6,7 +6,7 @@
 /*   By: anatoliy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 06:26:23 by anatoliy          #+#    #+#             */
-/*   Updated: 2026/07/06 17:40:21 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/07/06 22:09:38 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,22 +200,39 @@ void	execute_linux_command(char **argv, t_cmd_io *cmd_io, t_shell *shell)
 
 t_exec_status	run_heredoc_in_child(char *target_str, t_cmd_io *cmd_io, t_shell *shell)
 {
+	char	*temp_file_path;
 	pid_t	pid;
 	int		status;
 
+	temp_file_path = generate_temp_file_path(shell);
+	if (!temp_file_path)
+	{
+		display_error_message("Failed to create temporary file for heredoc");
+		return (EXEC_FAILURE);
+	}
 	pid = fork();
 	if (pid < 0)
 		error_exit("Can make new process", shell);
 	else if (pid == CHILD_PROCESS)
 	{
 		signal(SIGINT, SIG_DFL);
-		cmd_io->input_fd = heredoc_fd(target_str);
+		if (!write_heredoc_to_file(target_str, temp_file_path))
+			exit(1);
 		exit(0);
 	}
 	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
 	signal(SIGINT, sigint_handler);
 	update_exit_status(shell, status);
+	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+	{
+		unlink(temp_file_path);
+		free(temp_file_path);
+		return (EXEC_FAILURE);
+	}
+	cmd_io->input_fd = open(temp_file_path, O_RDONLY);
+	unlink(temp_file_path);
+	free(temp_file_path);
 	return (EXEC_SUCCESS);
 }
 
@@ -266,12 +283,10 @@ int	handle_redirections(t_redirect_node *redirects, t_cmd_io *cmd_io, t_shell *s
 		{
 			if (cmd_io->input_fd != STDIN)
 				close(cmd_io->input_fd);
-			run_heredoc_in_child(redirects->target_str, cmd_io, shell);
-			if (cmd_io->input_fd < 0)
+			if (run_heredoc_in_child(redirects->target_str, cmd_io, shell) == EXEC_FAILURE)
 			{
 				cmd_io->input_fd = STDIN;
 				close_fds(cmd_io->input_fd, cmd_io->output_fd);
-				display_error_message("Failed to create heredoc");
 				return (ERROR);
 			}
 		}
