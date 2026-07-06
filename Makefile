@@ -21,7 +21,8 @@ SRC = $(SRC_DIR)/main.c \
       $(SRC_DIR)/parser_new.c \
       $(SRC_DIR)/expansion.c \
       $(SRC_DIR)/wildcard_expansion.c \
-      $(SRC_DIR)/dynamic_string_utilities.c
+      $(SRC_DIR)/dynamic_string_utilities.c \
+      $(SRC_DIR)/heredoc.c
 
 # -- Directories --
 

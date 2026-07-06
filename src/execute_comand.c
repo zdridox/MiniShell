@@ -6,7 +6,7 @@
 /*   By: anatoliy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 06:26:23 by anatoliy          #+#    #+#             */
-/*   Updated: 2026/07/05 00:26:02 by anatoliy         ###   ########.fr       */
+/*   Updated: 2026/07/06 17:40:21 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,8 +198,28 @@ void	execute_linux_command(char **argv, t_cmd_io *cmd_io, t_shell *shell)
 	update_exit_status(shell, status);
 }
 
+t_exec_status	run_heredoc_in_child(char *target_str, t_cmd_io *cmd_io, t_shell *shell)
+{
+	pid_t	pid;
+	int		status;
 
-int	handle_redirections(t_redirect_node *redirects, t_cmd_io *cmd_io)
+	pid = fork();
+	if (pid < 0)
+		error_exit("Can make new process", shell);
+	else if (pid == CHILD_PROCESS)
+	{
+		signal(SIGINT, SIG_DFL);
+		cmd_io->input_fd = heredoc_fd(target_str);
+		exit(0);
+	}
+	signal(SIGINT, SIG_IGN);
+	waitpid(pid, &status, 0);
+	signal(SIGINT, sigint_handler);
+	update_exit_status(shell, status);
+	return (EXEC_SUCCESS);
+}
+
+int	handle_redirections(t_redirect_node *redirects, t_cmd_io *cmd_io, t_shell *shell)
 {
 	while (redirects != NULL)
 	{
@@ -210,6 +230,7 @@ int	handle_redirections(t_redirect_node *redirects, t_cmd_io *cmd_io)
 			cmd_io->input_fd = open(redirects->target_str, O_RDONLY);
 			if (cmd_io->input_fd < 0)
 			{
+				cmd_io->input_fd = STDIN;
 				close_fds(cmd_io->input_fd, cmd_io->output_fd);
 				display_error_message("Failed to open input file");
 				return (ERROR);
@@ -222,6 +243,7 @@ int	handle_redirections(t_redirect_node *redirects, t_cmd_io *cmd_io)
 			cmd_io->output_fd = open(redirects->target_str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if (cmd_io->output_fd < 0)
 			{
+				cmd_io->output_fd = STDOUT;
 				close_fds(cmd_io->input_fd, cmd_io->output_fd);
 				display_error_message("Failed to open output file");
 				return (ERROR);
@@ -234,8 +256,22 @@ int	handle_redirections(t_redirect_node *redirects, t_cmd_io *cmd_io)
 			cmd_io->output_fd = open(redirects->target_str, O_WRONLY | O_CREAT | O_APPEND, 0644);
 			if (cmd_io->output_fd < 0)
 			{
+				cmd_io->output_fd = STDOUT;
 				close_fds(cmd_io->input_fd, cmd_io->output_fd);
 				display_error_message("Failed to open output file");
+				return (ERROR);
+			}
+		}
+		else if (redirects->type == REDIRECT_HEREDOC)
+		{
+			if (cmd_io->input_fd != STDIN)
+				close(cmd_io->input_fd);
+			run_heredoc_in_child(redirects->target_str, cmd_io, shell);
+			if (cmd_io->input_fd < 0)
+			{
+				cmd_io->input_fd = STDIN;
+				close_fds(cmd_io->input_fd, cmd_io->output_fd);
+				display_error_message("Failed to create heredoc");
 				return (ERROR);
 			}
 		}
@@ -258,7 +294,7 @@ t_exec_status	execute_command(t_command *command, t_shell *shell)
 	init_cmd_io(&cmd_io);
 	if (command == NULL || command->argv == NULL || command->argv[0] == NULL)
 		return (EXEC_FAILURE);
-	if (handle_redirections(command->redirects, &cmd_io) == ERROR)
+	if (handle_redirections(command->redirects, &cmd_io, shell) == ERROR)
 		return (EXEC_FAILURE);
 	builtin_command = find_builtin_command(command->argv[0], shell);
 	if (builtin_command != NULL)
@@ -359,6 +395,8 @@ t_exec_status	execute_node(t_ast_node *ast, t_shell *shell)
 		execution_status = execute_logical_and(ast, shell);
 	else if (ast->type == NODE_OR)
 		execution_status  = execute_logical_or(ast, shell);
+	else
+		execution_status = EXEC_FAILURE;
 	return (execution_status);
 }
 
