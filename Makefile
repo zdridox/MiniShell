@@ -31,7 +31,7 @@ LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
 # Headers
-HEADERS_DIR = headers
+HEADERS_DIR = include
 
 # Src
 SRC_DIR = src
