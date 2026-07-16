@@ -102,9 +102,9 @@ void	change_stream_fd(int fd, int stream_fd)
 
 void	close_fds(int input_fd, int output_fd)
 {
-	if (input_fd != STDIN && input_fd != STDOUT)
+	if (input_fd != STDIN_FILENO && input_fd != STDOUT_FILENO)
 		close(input_fd);
-	if (output_fd != STDOUT && output_fd != STDIN)
+	if (output_fd != STDOUT_FILENO && output_fd != STDIN_FILENO)
 		close(output_fd);
 }
 
@@ -119,8 +119,8 @@ t_exec_status	execute_our_command_in_child(t_our_command_fn function, char **arg
 	else if (pid == CHILD_PROCESS)
 	{
 		signal(SIGINT, SIG_DFL);
-		change_stream_fd(cmd_io->input_fd, STDIN);
-		change_stream_fd(cmd_io->output_fd, STDOUT);
+		change_stream_fd(cmd_io->input_fd, STDIN_FILENO);
+		change_stream_fd(cmd_io->output_fd, STDOUT_FILENO);
 		status = function(shell, argv);
 		exit(status);
 	}
@@ -154,8 +154,8 @@ t_exec_status	execute_binary_with_path(char **argv, t_cmd_io *cmd_io, t_shell *s
 	else if (pid == CHILD_PROCESS)
 	{
 		signal(SIGINT, SIG_DFL);
-		change_stream_fd(cmd_io->input_fd, STDIN);
-		change_stream_fd(cmd_io->output_fd, STDOUT);
+		change_stream_fd(cmd_io->input_fd, STDIN_FILENO);
+		change_stream_fd(cmd_io->output_fd, STDOUT_FILENO);
 		execve(argv[0], argv, shell->env);
 		display_error_message("Command execution failed");
 		return (EXEC_FAILURE);
@@ -185,8 +185,8 @@ void	execute_linux_command(char **argv, t_cmd_io *cmd_io, t_shell *shell)
 	else if (pid == CHILD_PROCESS)
 	{
 		signal(SIGINT, SIG_DFL);
-		change_stream_fd(cmd_io->input_fd, STDIN);
-		change_stream_fd(cmd_io->output_fd, STDOUT);
+		change_stream_fd(cmd_io->input_fd, STDIN_FILENO);
+		change_stream_fd(cmd_io->output_fd, STDOUT_FILENO);
 		execve(bin_path, argv, shell->env);
 		error_exit("Command execution failed", shell);
 	}
@@ -242,12 +242,12 @@ int	handle_redirections(t_redirect_node *redirects, t_cmd_io *cmd_io, t_shell *s
 	{
 		if (redirects->type == REDIRECT_IN)
 		{
-			if (cmd_io->input_fd != STDIN)
+			if (cmd_io->input_fd != STDIN_FILENO)
 				close(cmd_io->input_fd);
 			cmd_io->input_fd = open(redirects->target_str, O_RDONLY);
 			if (cmd_io->input_fd < 0)
 			{
-				cmd_io->input_fd = STDIN;
+				cmd_io->input_fd = STDIN_FILENO;
 				close_fds(cmd_io->input_fd, cmd_io->output_fd);
 				display_error_message("Failed to open input file");
 				return (ERROR);
@@ -255,12 +255,12 @@ int	handle_redirections(t_redirect_node *redirects, t_cmd_io *cmd_io, t_shell *s
 		}
 		else if (redirects->type == REDIRECT_OUT)
 		{
-			if (cmd_io->output_fd != STDOUT)
+			if (cmd_io->output_fd != STDOUT_FILENO)
 				close(cmd_io->output_fd);
 			cmd_io->output_fd = open(redirects->target_str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if (cmd_io->output_fd < 0)
 			{
-				cmd_io->output_fd = STDOUT;
+				cmd_io->output_fd = STDOUT_FILENO;
 				close_fds(cmd_io->input_fd, cmd_io->output_fd);
 				display_error_message("Failed to open output file");
 				return (ERROR);
@@ -268,12 +268,12 @@ int	handle_redirections(t_redirect_node *redirects, t_cmd_io *cmd_io, t_shell *s
 		}
 		else if (redirects->type == REDIRECT_APPEND)
 		{
-			if (cmd_io->output_fd != STDOUT)
+			if (cmd_io->output_fd != STDOUT_FILENO)
 				close(cmd_io->output_fd);
 			cmd_io->output_fd = open(redirects->target_str, O_WRONLY | O_CREAT | O_APPEND, 0644);
 			if (cmd_io->output_fd < 0)
 			{
-				cmd_io->output_fd = STDOUT;
+				cmd_io->output_fd = STDOUT_FILENO;
 				close_fds(cmd_io->input_fd, cmd_io->output_fd);
 				display_error_message("Failed to open output file");
 				return (ERROR);
@@ -281,11 +281,11 @@ int	handle_redirections(t_redirect_node *redirects, t_cmd_io *cmd_io, t_shell *s
 		}
 		else if (redirects->type == REDIRECT_HEREDOC)
 		{
-			if (cmd_io->input_fd != STDIN)
+			if (cmd_io->input_fd != STDIN_FILENO)
 				close(cmd_io->input_fd);
 			if (run_heredoc_in_child(redirects->target_str, cmd_io, shell) == EXEC_FAILURE)
 			{
-				cmd_io->input_fd = STDIN;
+				cmd_io->input_fd = STDIN_FILENO;
 				close_fds(cmd_io->input_fd, cmd_io->output_fd);
 				return (ERROR);
 			}
@@ -297,8 +297,8 @@ int	handle_redirections(t_redirect_node *redirects, t_cmd_io *cmd_io, t_shell *s
 
 void	init_cmd_io(t_cmd_io *cmd_io)
 {
-	cmd_io->input_fd = STDIN;
-	cmd_io->output_fd = STDOUT;
+	cmd_io->input_fd = STDIN_FILENO;
+	cmd_io->output_fd = STDOUT_FILENO;
 }
 
 t_exec_status	execute_command(t_command *command, t_shell *shell)
@@ -344,7 +344,7 @@ t_exec_status	execute_pipe(t_ast_node *ast, t_shell *shell)
 	if (pid_left == CHILD_PROCESS)
 	{
 		signal(SIGINT, SIG_DFL);
-		dup2(pipe_fds[1], STDOUT);
+		dup2(pipe_fds[1], STDOUT_FILENO);
 		close_fds(pipe_fds[0], pipe_fds[1]);
 		execute_node(ast->left, shell);
 		exit(shell->last_exit_code);
@@ -359,7 +359,7 @@ t_exec_status	execute_pipe(t_ast_node *ast, t_shell *shell)
 	if (pid_right == CHILD_PROCESS)
 	{
 		signal(SIGINT, SIG_DFL);
-		dup2(pipe_fds[0], STDIN);
+		dup2(pipe_fds[0], STDIN_FILENO);
 		close_fds(pipe_fds[0], pipe_fds[1]);
 		execute_node(ast->right, shell);
 		exit(shell->last_exit_code);

@@ -16,7 +16,7 @@
 void	sigint_handler(int signum)
 {
 	(void)signum;
-	write(STDOUT, "\n", 1);
+	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
@@ -40,10 +40,10 @@ int	main(int argc, char **argv, char **envp)
 	while (true)
 	{
 		prompt = build_prompt(shell);
-		if (isatty(STDIN)) // for testing purposes, we want to read from stdin without readline if it's not a terminal
+		if (isatty(STDIN_FILENO)) // for testing purposes, we want to read from stdin without readline if it's not a terminal
 			input = readline(prompt);
 		else
-			input = get_next_line(STDIN);
+			input = get_next_line(STDIN_FILENO);
 		free(prompt);
 		if (!input)
 			exit_shell(shell);
@@ -72,7 +72,7 @@ int	main(int argc, char **argv, char **envp)
 		execute_parsed(parsed, shell);
 		free_ast(parsed);
 		free_tokens(tokens);
-		if(!isatty(STDIN)) // for testing purposes, we want to exit after one command if we're not in a terminal
+		if(!isatty(STDIN_FILENO)) // for testing purposes, we want to exit after one command if we're not in a terminal
 		{
 			int	exit_code = shell->last_exit_code;
 			free_shell(shell);

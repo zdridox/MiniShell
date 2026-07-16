@@ -13,9 +13,9 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# define STDIN	0
-# define STDOUT	1
-# define STDERR	2
+# define STDIN_FILENO	0
+# define STDOUT_FILENO	1
+# define STDERR_FILENO	2
 
 # define SUCCESS	0
 # define ERROR		1

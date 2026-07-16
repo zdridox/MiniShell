@@ -14,9 +14,9 @@
 
 void	display_error_message(const char *error_message)
 {
-	ft_putstr_fd("Error: ", STDERR);
-	ft_putstr_fd((char *)error_message, STDERR);
-	ft_putchar_fd('\n', STDERR);
+	ft_putstr_fd("Error: ", STDERR_FILENO);
+	ft_putstr_fd((char *)error_message, STDERR_FILENO);
+	ft_putchar_fd('\n', STDERR_FILENO);
 }
 
 void	free_shell(t_shell *shell)
