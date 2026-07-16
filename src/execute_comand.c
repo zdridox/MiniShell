@@ -6,7 +6,7 @@
 /*   By: anatoliy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 06:26:23 by anatoliy          #+#    #+#             */
-/*   Updated: 2026/07/06 22:09:38 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/07/16 18:01:42 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ int	is_builtin_command(char *command_name, t_our_command *command)
 	while (command && command->name)
 	{
 		if (ft_strcmp(command_name, command->name) == EQUAL)
-			return (TRUE);
+			return (true);
 		command++;
 	}
-	return (FALSE);
+	return (false);
 }
 
 void	update_exit_status(t_shell *shell, int status)

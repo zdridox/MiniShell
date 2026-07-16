@@ -6,7 +6,7 @@
 /*   By: mzdrodow <mzdrodow@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 19:57:40 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/07/05 00:40:41 by anatoliy         ###   ########.fr       */
+/*   Updated: 2026/07/16 18:01:05 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	main(int argc, char **argv, char **envp)
 	shell = init_shell(envp);
 	if (!shell)
 		error_exit("Failed to initialize shell", shell);
-	while (TRUE)
+	while (true)
 	{
 		prompt = build_prompt(shell);
 		if (isatty(STDIN)) // for testing purposes, we want to read from stdin without readline if it's not a terminal

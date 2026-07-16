@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 22:55:36 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/30 20:04:00 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/07/16 18:01:24 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,6 @@ int	ft_is_space(char c)
 {
 	if (c == ' ' || c == '\t' || c == '\n' || c == '\v'
 		|| c == '\f' || c == '\r')
-		return (TRUE);
-	return (FALSE);
+		return (true);
+	return (false);
 }

@@ -6,15 +6,12 @@
 /*   By: mamelnyk <mamelnyk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:04:20 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/07/16 17:58:18 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/07/16 18:00:44 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-
-# define TRUE	1
-# define FALSE	0
 
 # define STDIN	0
 # define STDOUT	1
