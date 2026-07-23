@@ -7,3 +7,4 @@ libft.a
 .gdb_history
 .idea
 .idea/*
+compile_commands.json
