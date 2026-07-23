@@ -18,7 +18,12 @@ SRC = $(SRC_DIR)/main.c \
 	  $(SRC_DIR)/tokenizer_token_utils.c \
 	  $(SRC_DIR)/tokenizer_word_length.c \
 	  $(SRC_DIR)/tokenizer_word_parts.c \
-      $(SRC_DIR)/parser_new.c \
+      $(SRC_DIR)/parser.c \
+      $(SRC_DIR)/parser_ast.c \
+      $(SRC_DIR)/parser_command.c \
+      $(SRC_DIR)/parser_free.c \
+      $(SRC_DIR)/parser_word.c \
+      $(SRC_DIR)/parser_redirect.c \
       $(SRC_DIR)/expansion.c \
       $(SRC_DIR)/wildcard_expansion.c \
       $(SRC_DIR)/dynamic_string_utilities.c \

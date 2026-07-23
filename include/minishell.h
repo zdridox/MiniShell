@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:04:20 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/07/16 18:00:44 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/07/23 21:51:08 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@
 # include <unistd.h>
 
 # include "libft.h"
-# include "parser_new.h"
+# include "parser.h"
 # include "tokenizer.h"
 
 typedef struct s_shell			t_shell;

@@ -6,12 +6,11 @@
 /*   By: mzdrodow <mzdrodow@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 19:57:40 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/07/16 18:01:05 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/07/23 19:46:20 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "parser_new.h"
 
 void	sigint_handler(int signum)
 {

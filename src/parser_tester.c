@@ -1,4 +1,4 @@
-#include "parser_new.h"
+#include "parser.h"
 #include <stdio.h>
 
 void	print_word_parts(t_word_part *word_parts)
