@@ -14,10 +14,11 @@
 
 int	get_plain_part_length(char *input, int i)
 {
-	int		len;
+	int	len;
 
 	len = 0;
-	while (input[i] && !is_space(input[i]) && !is_operator(input[i]) && !is_quote(input[i]))
+	while (input[i] && !is_space(input[i]) && !is_operator(input[i])
+		&& !is_quote(input[i]))
 	{
 		len++;
 		i++;
@@ -37,4 +38,3 @@ int	get_quoted_part_length(char *input, int i, char quote_char)
 	}
 	return (len);
 }
-

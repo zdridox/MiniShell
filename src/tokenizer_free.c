@@ -12,7 +12,7 @@
 
 #include "tokenizer.h"
 
-void	free_word_parts(t_word_part	*word_parts)
+void	free_word_parts(t_word_part *word_parts)
 {
 	t_word_part	*temp;
 

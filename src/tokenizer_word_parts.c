@@ -6,13 +6,14 @@
 /*   By: maxim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 14:25:19 by maxim             #+#    #+#             */
-/*   Updated: 2026/04/28 16:25:24 by anatoliy         ###   ########.fr       */
+/*   Updated: 2026/07/24 16:39:39 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokenizer.h"
 
-static bool	add_word_part_back(t_word_part **current_part, t_word_part_type type, char *value)
+static bool	add_word_part_back(t_word_part **current_part,
+		t_word_part_type type, char *value)
 {
 	t_word_part	*new_part;
 
@@ -46,7 +47,8 @@ static bool	add_plain_word_part(t_word_part **current_part, char *input, int *i)
 	return (true);
 }
 
-static bool	add_quoted_word_part(t_word_part **current_part, char *input, int *i, t_word_part_type word_part_type)
+static bool	add_quoted_word_part(t_word_part **current_part, char *input,
+		int *i, t_word_part_type word_part_type)
 {
 	int		plain_part_len;
 	char	*quoted_value;
@@ -68,6 +70,7 @@ static bool	add_quoted_word_part(t_word_part **current_part, char *input, int *i
 	*i += plain_part_len + 1;
 	return (true);
 }
+
 static bool	add_next_word_part(t_word_part **current_part, char *input, int *i)
 {
 	if (input[*i] == '\'')
@@ -89,7 +92,7 @@ bool	add_word_parts(t_token *word_token, char *input, int *i)
 	while (input[*i])
 	{
 		if (is_word_end(input[*i]))
-			break;
+			break ;
 		if (!add_next_word_part(tail, input, i))
 			return (false);
 		if (!head)

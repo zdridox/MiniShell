@@ -42,16 +42,19 @@ bool	add_word_token(char *input, int *i, t_token **current)
 
 static int	get_operator_token_length(t_token_type token_type)
 {
-	if (token_type == TOKEN_OR || token_type == TOKEN_APPEND || token_type == TOKEN_HEREDOC || token_type == TOKEN_AND)
+	if (token_type == TOKEN_OR || token_type == TOKEN_APPEND
+		|| token_type == TOKEN_HEREDOC || token_type == TOKEN_AND)
 		return (2);
-	else if (token_type == TOKEN_PIPE || token_type == TOKEN_REDIRECT_OUT || token_type == TOKEN_REDIRECT_IN
-		|| token_type == TOKEN_LEFT_PARENTHESIS || token_type == TOKEN_RIGHT_PARENTHESIS)
+	else if (token_type == TOKEN_PIPE || token_type == TOKEN_REDIRECT_OUT
+		|| token_type == TOKEN_REDIRECT_IN
+		|| token_type == TOKEN_LEFT_PARENTHESIS
+		|| token_type == TOKEN_RIGHT_PARENTHESIS)
 		return (1);
 	else
 		return (0);
 }
 
-static t_token_type get_operator_token_type(char *input, int i)
+static t_token_type	get_operator_token_type(char *input, int i)
 {
 	if (input[i] == '|' && input[i + 1] == '|')
 		return (TOKEN_OR);

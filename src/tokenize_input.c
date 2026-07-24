@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/18 19:45:05 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/07/04 19:38:52 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/07/24 16:38:23 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_token	*tokenize_input(char *input)
 		while (is_space(input[i]))
 			i++;
 		if (!input[i])
-			break;
+			break ;
 		if (!add_next_token(input, &i, &tail))
 		{
 			free_tokens(head);

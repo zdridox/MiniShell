@@ -24,7 +24,8 @@ bool	is_quote(char c)
 
 bool	is_operator(char c)
 {
-	return (c == '|' || c == '<' || c == '>' || c == '&' || c == '(' || c == ')');
+	return (c == '|' || c == '<' || c == '>' || c == '&' || c == '('
+		|| c == ')');
 }
 
 bool	is_word_end(char c)
