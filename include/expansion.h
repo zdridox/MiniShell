@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/24 16:20:19 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/07/24 16:35:55 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/07/24 20:43:24 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct s_dynamic_string
 
 void		display_error_message(const char *error_message);
 
-// dynamic_string_utilities.c
+// dynamic_string.c
 bool		init_dynamic_string(t_dynamic_string *dynamic_string,
 				size_t inital_cappacity);
 bool		resize_dynamic_string(t_dynamic_string *dynamic_string,
@@ -47,9 +47,12 @@ bool		add_char_to_dynamic_string(char c,
 				t_dynamic_string *dynamic_string);
 bool		add_n_chars_to_dynamic_string(char *string, size_t string_len,
 				t_dynamic_string *dynamic_string);
+
+// dynamic_string_int.c
 bool		append_int_to_dynamic_string(int num,
 				t_dynamic_string *dynamic_string);
-size_t		count_strings_in_dynamic_string(t_dynamic_string *dynamic_string);
+
+// dynamic_string_convert.c
 char		**convert_dynamic_string_to_str_arr(
 				t_dynamic_string *dynamic_string);
 
