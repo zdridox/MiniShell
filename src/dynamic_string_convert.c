@@ -6,13 +6,14 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/24 17:31:35 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/07/24 17:53:59 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/07/27 17:02:30 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expansion.h"
 
-static size_t	count_strings_in_dynamic_string(t_dynamic_string *dynamic_string)
+static size_t	count_strings_in_dynamic_string(
+			t_dynamic_string *dynamic_string)
 {
 	size_t	count;
 	size_t	i;
@@ -52,4 +53,3 @@ char	**convert_dynamic_string_to_str_arr(t_dynamic_string *dynamic_string)
 	str_arr[str_count] = NULL;
 	return (str_arr);
 }
-
