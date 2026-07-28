@@ -6,7 +6,7 @@
 /*   By: anatoliy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 07:21:03 by anatoliy          #+#    #+#             */
-/*   Updated: 2026/02/05 21:14:48 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/07/28 14:21:26 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	set_env_variable(char *env_name, char *value, char **env)
 		}
 		if (env_name[j] == '\0')
 		{
-			//free(env[i]);
+			free(env[i]);
 			env[i] = ft_strjoin_three(env_name, "=", value);
 			return ;
 		}
