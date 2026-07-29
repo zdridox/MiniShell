@@ -24,8 +24,14 @@ SRC = $(SRC_DIR)/main.c \
       $(SRC_DIR)/parser_free.c \
       $(SRC_DIR)/parser_word.c \
       $(SRC_DIR)/parser_redirect.c \
-      $(SRC_DIR)/expansion.c \
-      $(SRC_DIR)/wildcard_expansion.c \
+      $(SRC_DIR)/env_expand.c \
+      $(SRC_DIR)/env_expand_utilities.c \
+      $(SRC_DIR)/word_expand.c \
+      $(SRC_DIR)/pattern_expand.c \
+      $(SRC_DIR)/ast_expand.c \
+      $(SRC_DIR)/wildcard_match.c \
+      $(SRC_DIR)/wildcard_search.c \
+      $(SRC_DIR)/wildcard_utilities.c \
       $(SRC_DIR)/dynamic_string.c \
       $(SRC_DIR)/dynamic_string_int.c \
       $(SRC_DIR)/dynamic_string_convert.c \
