@@ -6,7 +6,7 @@
 /*   By: mzdrodow <mzdrodow@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:04:20 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/07/02 19:08:13 by mzdrodow         ###   ########.fr       */
+/*   Updated: 2026/08/02 21:57:10 by mzdrodow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,20 @@ typedef struct s_our_commands
 	t_our_command_fn		function;
 }							t_our_commands;
 
+typedef struct s_var_arr
+{
+	int						size;
+	int						allocated_size;
+	char					**var_arr;
+}							t_var_arr;
+
 typedef struct s_shell
 {
 	int						last_exit_code;
 	char					**env;
 	t_our_commands			*our_commands;
+	t_var_arr 				*shl_varr;
+	t_var_arr				*env_varr;
 }							t_shell;
 
 typedef enum e_exec_status
@@ -73,13 +82,6 @@ typedef struct s_cmd_io
 	int						input_fd;
 	int						output_fd;
 }							t_cmd_io;
-
-typedef struct s_var_arr
-{
-	int						size;
-	int						allocated_size;
-	char					**var_arr;
-}							t_var_arr;
 
 // typedef struct s_variable
 // {

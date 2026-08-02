@@ -6,7 +6,7 @@
 /*   By: mzdrodow <mzdrodow@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 19:57:40 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/06/06 22:32:48 by mzdrodow         ###   ########.fr       */
+/*   Updated: 2026/08/02 21:58:38 by mzdrodow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int	main(int argc, char **argv, char **envp)
 	shell = init_shell(envp);
 	if (!shell)
 		error_exit("Failed to initialize shell", shell);
+	shell->shl_varr = var_arr_create();
+	shell->env_varr = var_arr_create();
 	while (TRUE)
 	{
 		prompt = build_prompt(shell);
