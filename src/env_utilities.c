@@ -6,7 +6,7 @@
 /*   By: anatoliy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 07:21:03 by anatoliy          #+#    #+#             */
-/*   Updated: 2026/07/28 14:21:26 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/08/02 18:19:58 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,29 +34,43 @@ char	*get_env_value(char *name, char **env)
 	return (NULL);
 }
 
-void	set_env_variable(char *env_name, char *value, char **env)
+static bool	is_env_name_equal(char *env_name, char *env_variable)
 {
 	int	i;
-	int	j;
 
+	i = 0;
+	while (env_name[i] && env_variable[i])
+	{
+		if (env_name[i] != env_variable[i])
+			return (false);
+		i++;
+	}
+	if (env_name[i] == '\0' && env_variable[i] == '=')
+		return (true);
+	return (false);
+}
+
+bool	set_env_variable(char *env_name, char *value, char **env)
+{
+	int	i;
+
+	if (!env_name || !value || !env)
+		return (false);
 	i = 0;
 	while (env[i])
 	{
-		j = 0;
-		while (env[i][j] && env_name[j])
-		{
-			if (env_name[j] != env[i][j])
-				break ;
-			j++;
-		}
-		if (env_name[j] == '\0')
+		if (is_env_name_equal(env_name, env[i]))
 		{
 			free(env[i]);
 			env[i] = ft_strjoin_three(env_name, "=", value);
-			return ;
+			if (!env[i])
+				return (false);
+			else
+				return (true);
 		}
 		i++;
 	}
+	return (true);
 }
 
 char	**get_env_pointer(char *name, char **env)

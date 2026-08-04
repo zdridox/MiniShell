@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:04:20 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/07/29 16:08:08 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/08/03 21:21:36 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void		execute_parsed(t_ast_node *ast, t_shell *shell);
 
 char		*get_env_value(char *name, char **env);
 char		**get_env_pointer(char *name, char **env);
-void		set_env_variable(char *env_name, char *value, char **env);
+bool		set_env_variable(char *env_name, char *value, char **env);
 
 char		*ft_strjoin_three(const char *s1, const char *s2,
 				const char *s3);
@@ -105,11 +105,14 @@ char		**copy_arr(char **old_str_arr);
 void		print_str_arr(char **str_arr);
 
 void		error_exit(const char *error_message, t_shell *shell);
+void		display_error_message_with_context(const char *error_message,
+				const char *context);
 void		display_error_message(const char *error_message);
 
 void		exit_shell(t_shell *shell);
 void		free_shell(t_shell *shell);
 
+// builtin_cd.c
 int			cd_command(t_shell *shell, char **args);
 int			pwd_command(t_shell *shell, char **args);
 int			exit_command(t_shell *shell, char **args);
@@ -124,6 +127,9 @@ char		*generate_temp_file_path(void *seed);
 // ast_expand.c
 void		free_ast(t_ast_node *node);
 bool		expand_words_in_ast(t_ast_node *node, t_shell *shell);
+
+// exec_ast.c
+void		execute_parsed(t_ast_node *ast, t_shell *shell);
 
 t_ast_node	*parse_tokens(t_token *tokens);
 

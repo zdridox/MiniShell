@@ -7,9 +7,17 @@ SRC = $(SRC_DIR)/main.c \
 	  $(SRC_DIR)/error_handling.c \
 	  $(SRC_DIR)/str_utilities.c \
 	  $(SRC_DIR)/build_prompt.c \
-	  $(SRC_DIR)/execute_comand.c \
+      $(SRC_DIR)/exec_ast.c \
+      $(SRC_DIR)/exec_builtin.c \
+      $(SRC_DIR)/exec_command.c \
+      $(SRC_DIR)/exec_external.c \
+      $(SRC_DIR)/exec_heredoc.c \
+      $(SRC_DIR)/exec_redirect.c \
+      $(SRC_DIR)/exec_pipe.c \
+      $(SRC_DIR)/exec_utilities.c \
 	  $(SRC_DIR)/env_utilities.c \
 	  $(SRC_DIR)/our_commands.c \
+	  $(SRC_DIR)/builtin_cd.c \
 	  $(SRC_DIR)/str_arr_utilities.c \
 	  $(SRC_DIR)/shell_utilities.c \
 	  $(SRC_DIR)/tokenize_input.c \

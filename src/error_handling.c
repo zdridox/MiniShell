@@ -6,7 +6,7 @@
 /*   By: anatoliy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 18:42:42 by anatoliy          #+#    #+#             */
-/*   Updated: 2026/04/17 09:26:27 by anatoliy         ###   ########.fr       */
+/*   Updated: 2026/08/02 20:46:04 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,16 @@ void	display_error_message(const char *error_message)
 {
 	ft_putstr_fd("Error: ", STDERR_FILENO);
 	ft_putstr_fd((char *)error_message, STDERR_FILENO);
+	ft_putchar_fd('\n', STDERR_FILENO);
+}
+
+void	display_error_message_with_context(const char *error_message,
+			const char *context)
+{
+	ft_putstr_fd("Error: ", STDERR_FILENO);
+	ft_putstr_fd((char *)error_message, STDERR_FILENO);
+	if (context)
+		ft_putstr_fd((char *)context, STDERR_FILENO);
 	ft_putchar_fd('\n', STDERR_FILENO);
 }
 
