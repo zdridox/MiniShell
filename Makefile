@@ -1,49 +1,48 @@
 NAME = minishell
 
 # Src files
-
 SRC = $(SRC_DIR)/main.c \
 	  $(SRC_DIR)/init.c \
-	  $(SRC_DIR)/error_handling.c \
-	  $(SRC_DIR)/str_utilities.c \
-	  $(SRC_DIR)/build_prompt.c \
-      $(SRC_DIR)/exec_ast.c \
-      $(SRC_DIR)/exec_builtin.c \
-      $(SRC_DIR)/exec_command.c \
-      $(SRC_DIR)/exec_external.c \
-      $(SRC_DIR)/exec_heredoc.c \
-      $(SRC_DIR)/exec_redirect.c \
-      $(SRC_DIR)/exec_pipe.c \
-      $(SRC_DIR)/exec_utilities.c \
-	  $(SRC_DIR)/env_utilities.c \
-	  $(SRC_DIR)/our_commands.c \
-	  $(SRC_DIR)/builtin_cd.c \
-	  $(SRC_DIR)/str_arr_utilities.c \
-	  $(SRC_DIR)/shell_utilities.c \
-	  $(SRC_DIR)/tokenize_input.c \
-	  $(SRC_DIR)/tokenizer_char_utils.c \
-	  $(SRC_DIR)/tokenizer_free.c \
-	  $(SRC_DIR)/tokenizer_token_utils.c \
-	  $(SRC_DIR)/tokenizer_word_length.c \
-	  $(SRC_DIR)/tokenizer_word_parts.c \
-      $(SRC_DIR)/parser.c \
-      $(SRC_DIR)/parser_ast.c \
-      $(SRC_DIR)/parser_command.c \
-      $(SRC_DIR)/parser_free.c \
-      $(SRC_DIR)/parser_word.c \
-      $(SRC_DIR)/parser_redirect.c \
-      $(SRC_DIR)/env_expand.c \
-      $(SRC_DIR)/env_expand_utilities.c \
-      $(SRC_DIR)/word_expand.c \
-      $(SRC_DIR)/pattern_expand.c \
-      $(SRC_DIR)/ast_expand.c \
-      $(SRC_DIR)/wildcard_match.c \
-      $(SRC_DIR)/wildcard_search.c \
-      $(SRC_DIR)/wildcard_utilities.c \
-      $(SRC_DIR)/dynamic_string.c \
-      $(SRC_DIR)/dynamic_string_int.c \
-      $(SRC_DIR)/dynamic_string_convert.c \
-      $(SRC_DIR)/heredoc.c
+	  $(SRC_DIR)/$(TOKENIZER_DIR)/tokenize_input.c \
+	  $(SRC_DIR)/$(TOKENIZER_DIR)/tokenizer_char_utils.c \
+	  $(SRC_DIR)/$(TOKENIZER_DIR)/tokenizer_word_parts.c \
+	  $(SRC_DIR)/$(TOKENIZER_DIR)/tokenizer_word_length.c \
+	  $(SRC_DIR)/$(TOKENIZER_DIR)/tokenizer_token_utils.c \
+	  $(SRC_DIR)/$(TOKENIZER_DIR)/tokenizer_free.c \
+      $(SRC_DIR)/$(PARSER_DIR)/parser.c \
+      $(SRC_DIR)/$(PARSER_DIR)/parser_ast.c \
+      $(SRC_DIR)/$(PARSER_DIR)/parser_word.c \
+      $(SRC_DIR)/$(PARSER_DIR)/parser_command.c \
+      $(SRC_DIR)/$(PARSER_DIR)/parser_redirect.c \
+      $(SRC_DIR)/$(PARSER_DIR)/parser_free.c \
+      $(SRC_DIR)/$(EXPANSION_DIR)/env_expand.c \
+      $(SRC_DIR)/$(EXPANSION_DIR)/env_expand_utilities.c \
+      $(SRC_DIR)/$(EXPANSION_DIR)/word_expand.c \
+      $(SRC_DIR)/$(EXPANSION_DIR)/pattern_expand.c \
+      $(SRC_DIR)/$(EXPANSION_DIR)/ast_expand.c \
+      $(SRC_DIR)/$(EXPANSION_DIR)/wildcard_match.c \
+      $(SRC_DIR)/$(EXPANSION_DIR)/wildcard_search.c \
+      $(SRC_DIR)/$(EXPANSION_DIR)/wildcard_utilities.c \
+      $(SRC_DIR)/$(EXPANSION_DIR)/dynamic_string.c \
+      $(SRC_DIR)/$(EXPANSION_DIR)/dynamic_string_int.c \
+      $(SRC_DIR)/$(EXPANSION_DIR)/dynamic_string_convert.c \
+      $(SRC_DIR)/$(EXEC_DIR)/exec_ast.c \
+      $(SRC_DIR)/$(EXEC_DIR)/exec_builtin.c \
+      $(SRC_DIR)/$(EXEC_DIR)/exec_command.c \
+      $(SRC_DIR)/$(EXEC_DIR)/exec_external.c \
+      $(SRC_DIR)/$(EXEC_DIR)/exec_heredoc.c \
+      $(SRC_DIR)/$(EXEC_DIR)/exec_redirect.c \
+      $(SRC_DIR)/$(EXEC_DIR)/exec_pipe.c \
+      $(SRC_DIR)/$(EXEC_DIR)/exec_utilities.c \
+      $(SRC_DIR)/$(EXEC_DIR)/heredoc.c \
+	  $(SRC_DIR)/$(UTILS_DIR)/error_handling.c \
+	  $(SRC_DIR)/$(UTILS_DIR)/str_utilities.c \
+	  $(SRC_DIR)/$(UTILS_DIR)/build_prompt.c \
+	  $(SRC_DIR)/$(UTILS_DIR)/env_utilities.c \
+	  $(SRC_DIR)/$(UTILS_DIR)/str_arr_utilities.c \
+	  $(SRC_DIR)/$(UTILS_DIR)/shell_utilities.c \
+	  $(SRC_DIR)/$(BUILTIN_DIR)/our_commands.c \
+	  $(SRC_DIR)/$(BUILTIN_DIR)/builtin_cd.c \
 
 # -- Directories --
 
@@ -56,6 +55,12 @@ HEADERS_DIR = include
 
 # Src
 SRC_DIR = src
+TOKENIZER_DIR = tokenizer
+PARSER_DIR = parser
+EXPANSION_DIR = expansion
+EXEC_DIR = executor
+BUILTIN_DIR = builtins
+UTILS_DIR = utils
 
 # Obj
 OBJ_DIR = obj
@@ -108,6 +113,7 @@ $(OBJ_DIR):
 			mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+			mkdir -p $(dir $@)
 			echo "$(YELLOW) 🔧 Compiling ... $<$(RESET)"
 			$(CC) $(CFLAGS) $(DFLAGS) -I$(LIBFT_DIR) -I$(HEADERS_DIR) -c $< -o $@
 			printf $(UP)
