@@ -6,77 +6,90 @@
 /*   By: mzdrodow <mzdrodow@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 19:57:40 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/07/23 19:46:20 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/08/05 15:30:15 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	sigint_handler(int signum)
+static void	init_signals(void)
 {
-	(void)signum;
-	write(STDOUT_FILENO, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+static char	*read_input(t_shell *shell)
+{
+	char	*input;
+	char	*prompt;
+
+	prompt = build_prompt(shell);
+	if (isatty(STDIN_FILENO))
+		input = readline(prompt);
+	else
+		input = get_next_line(STDIN_FILENO);
+	free(prompt);
+	if (!input)
+		exit_shell(shell);
+	return (input);
+}
+
+static void	process_input(char *input, t_shell *shell)
+{
+	t_token		*tokens;
+	t_ast_node	*parsed;
+
+	add_history(input);
+	tokens = tokenize_input(input);
+	if (!tokens)
+		return ;
+	parsed = parse_tokens(tokens);
+	if (!parsed)
+	{
+		free_tokens(tokens);
+		return ;
+	}
+	if (!expand_words_in_ast(parsed, shell))
+	{
+		free_ast(parsed);
+		free_tokens(tokens);
+		return ;
+	}
+	execute_parsed(parsed, shell);
+	free_ast(parsed);
+	free_tokens(tokens);
+}
+
+static int	clean_up_get_exit_code(t_shell *shell)
+{
+	int	exit_code;
+
+	exit_code = shell->last_exit_code;
+	free_shell(shell);
+	return (exit_code);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell		*shell;
-	t_ast_node	*parsed;
-	t_token		*tokens;
 	char		*input;
-	char		*prompt;
 
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, SIG_IGN);
 	(void)argc;
 	(void)argv;
+	init_signals();
 	shell = init_shell(envp);
-	if (!shell)
-		error_exit("Failed to initialize shell", shell);
 	while (true)
 	{
-		prompt = build_prompt(shell);
-		if (isatty(STDIN_FILENO)) // for testing purposes, we want to read from stdin without readline if it's not a terminal
-			input = readline(prompt);
-		else
-			input = get_next_line(STDIN_FILENO);
-		free(prompt);
-		if (!input)
-			exit_shell(shell);
+		input = read_input(shell);
 		if (check_empty_input(input) == EMPTY)
 		{
 			free(input);
 			continue ;
 		}
-		add_history(input);
-		tokens = tokenize_input(input);
+		process_input(input, shell);
 		free(input);
-		if (!tokens)
-			continue ;
-		parsed = parse_tokens(tokens);
-		if (!parsed)
-		{
-			free_tokens(tokens);
-			continue ;
-		}
-		if (!expand_words_in_ast(parsed, shell))
-		{
-			free_ast(parsed);
-			free_tokens(tokens);
-			continue ;
-		}
-		execute_parsed(parsed, shell);
-		free_ast(parsed);
-		free_tokens(tokens);
-		if(!isatty(STDIN_FILENO)) // for testing purposes, we want to exit after one command if we're not in a terminal
-		{
-			int	exit_code = shell->last_exit_code;
-			free_shell(shell);
-			return (exit_code);
-		}
+		if (!isatty(STDIN_FILENO))
+			return (clean_up_get_exit_code(shell));
 	}
 	return (0);
 }

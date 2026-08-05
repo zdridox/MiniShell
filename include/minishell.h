@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:04:20 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/08/03 21:21:36 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/08/05 15:32:14 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,9 @@ int			exit_command(t_shell *shell, char **args);
 int			env_command(t_shell *shell, char **args);
 
 char		*get_current_dir_name(t_shell *shell);
+// shell_utilities.c
 int			check_empty_input(char *input);
+void		sigint_handler(int signum);
 
 bool		write_heredoc_to_file(char *delimiter, char *file_path);
 char		*generate_temp_file_path(void *seed);
@@ -132,7 +134,5 @@ bool		expand_words_in_ast(t_ast_node *node, t_shell *shell);
 void		execute_parsed(t_ast_node *ast, t_shell *shell);
 
 t_ast_node	*parse_tokens(t_token *tokens);
-
-void		sigint_handler(int signum);
 
 #endif
