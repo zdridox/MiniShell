@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/02 20:53:19 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/08/04 22:31:34 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/08/06 21:20:39 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,8 @@ void			update_exit_status(t_shell *shell, int status);
 t_our_command	*find_builtin_command(char *command_name, t_shell *shell);
 void			change_stream_fd(int fd, int stream_fd);
 void			close_fds(int input_fd, int output_fd);
+
+// wildcard_utilities.c
+bool			is_directory(const char *path);
 
 #endif
