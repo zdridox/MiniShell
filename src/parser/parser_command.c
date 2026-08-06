@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/23 18:54:33 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/07/23 21:51:34 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/08/06 20:04:42 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static t_command	*create_command(t_word *words, t_redirect_node *redirects)
 	command = malloc(sizeof(t_command));
 	if (!command)
 		return (NULL);
+	command->argv = NULL;
 	command->words = words;
 	command->redirects = redirects;
 	return (command);

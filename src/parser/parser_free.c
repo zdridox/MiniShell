@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/22 18:28:58 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/07/23 21:49:19 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/08/06 20:24:41 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 //argv is dynanic sthring
 void	free_argv(char **argv)
 {
-	free(argv[0]);
+	if (!argv)
+		return ;
+	if (argv[0])
+		free(argv[0]);
 	free(argv);
 }
 
