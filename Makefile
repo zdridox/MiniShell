@@ -73,7 +73,6 @@ OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 # Flags
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-LDLIBS = -lreadline
 DFLAGS = -g3
 MAKE_FLAGS = --silent --no-print-directory
 
@@ -86,6 +85,18 @@ BOLD	= \033[1m
 RESET   = \033[0m
 UP		= "\033[A""\033[K"
 
+# Readline library
+
+UNAME := $(shell uname)
+
+ifeq ($(UNAME), Darwin)
+    READLINE_DIR := $(shell brew --prefix readline 2>/dev/null)
+    CFLAGS  += -I$(READLINE_DIR)/include
+    LDFLAGS += -L$(READLINE_DIR)/lib
+endif
+
+LIBS = -lreadline
+
 .SILENT:
 
 all:		$(NAME)
@@ -93,7 +104,7 @@ all:		$(NAME)
 
 $(NAME):	$(LIBFT) $(OBJ_DIR) $(OBJ)
 			echo "$(YELLOW) 🔧 Compiling ... $(NAME)$(RESET)"
-			$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -I$(LIBFT_DIR) -I$(HEADERS_DIR) -o $(NAME) $(LDLIBS)
+			$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -I$(LIBFT_DIR) -I$(HEADERS_DIR) $(LIBS) $(LDFLAGS) -o $(NAME)
 			printf $(UP)
 			echo "$(GREEN) ✅ Built $(NAME)$(RESET)"
 
@@ -143,7 +154,7 @@ run:		all
 			./$(NAME) maps/map.ber
 
 dbug:
-			$(CC) $(CFLAGS) $(DFLAGS) $(OBJ) $(LIBFT) -o $(NAME) $(LDLIBS)
+			$(CC) $(CFLAGS) $(DFLAGS) $(OBJ) $(LIBFT) $(LIBS) $(LDFLAGS) -o $(NAME)
 			gdb $(NAME)
 
 re:
