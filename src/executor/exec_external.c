@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/03 18:01:03 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/08/04 22:30:16 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/08/06 20:39:09 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ t_exec_status	execute_binary_with_path(char **argv, t_cmd_io *cmd_io,
 		t_shell *shell)
 {
 	pid_t	pid;
+	int		status;
 
 	pid = fork();
 	if (pid < 0)
@@ -78,7 +79,9 @@ t_exec_status	execute_binary_with_path(char **argv, t_cmd_io *cmd_io,
 		run_binary_in_child(argv[0], argv, cmd_io, shell);
 	signal(SIGINT, SIG_IGN);
 	close_fds(cmd_io->input_fd, cmd_io->output_fd);
+	waitpid(pid, &status, 0);
 	signal(SIGINT, sigint_handler);
+	update_exit_status(shell, status);
 	return (EXEC_SUCCESS);
 }
 
