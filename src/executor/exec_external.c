@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/03 18:01:03 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/08/06 20:39:09 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/08/06 21:07:31 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,13 @@ static void	run_binary_in_child(char *bin_path, char **argv,
 	change_stream_fd(cmd_io->input_fd, STDIN_FILENO);
 	change_stream_fd(cmd_io->output_fd, STDOUT_FILENO);
 	execve(bin_path, argv, shell->env);
-	error_exit("Command execution failed", shell);
+	if (access(bin_path, X_OK) != 0)
+	{
+		display_error_message_with_context("Permission denied: ", argv[0]);
+		exit(126);
+	}
+	display_error_message_with_context("Command not found: ", argv[0]);
+	exit(127);
 }
 
 t_exec_status	execute_binary_with_path(char **argv, t_cmd_io *cmd_io,
@@ -95,6 +101,7 @@ void	execute_linux_command(char **argv, t_cmd_io *cmd_io, t_shell *shell)
 	if (bin_path == NULL)
 	{
 		display_error_message_with_context("Command not found: ", argv[0]);
+		update_exit_status(shell, 127);
 		return ;
 	}
 	pid = fork();
