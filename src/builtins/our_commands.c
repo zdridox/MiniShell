@@ -6,7 +6,7 @@
 /*   By: maxim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 13:24:53 by maxim             #+#    #+#             */
-/*   Updated: 2026/08/02 18:50:52 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/08/06 20:28:59 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	exit_command(t_shell *shell, char **args)
 {
-	free_str_arr(args);
+	free_argv(args);
 	exit_shell(shell);
 	return (0);
 }
