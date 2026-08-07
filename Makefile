@@ -116,7 +116,7 @@ $(LIBFT):	| $(LIBFT_DIR)
 
 $(LIBFT_DIR):
 			echo "$(YELLOW) 📁 Cloning libft repository ...$(RESET)"
-			git clone git@github.com:MaybeMaxim/libft.git >/dev/null 2>&1
+			git clone https://github.com/MaybeMaxim/libft.git >/dev/null 2>&1
 			printf $(UP)
 			echo "$(GREEN) ✅ Cloned libft$(RESET)"
 
