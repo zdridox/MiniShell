@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 17:12:44 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/07/29 22:11:05 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/08/07 14:12:06 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,13 @@ static bool	expand_word_to_dynamic_string(t_word_part *word_parts,
 {
 	while (word_parts)
 	{
-		if (!add_string_to_dynamic_string(word_parts->value, dynamic_string))
+		if (!add_n_chars_to_dynamic_string(word_parts->value,
+				ft_strlen(word_parts->value), dynamic_string))
 			return (false);
 		word_parts = word_parts->next;
 	}
+	if (!add_char_to_dynamic_string('\0', dynamic_string))
+		return (false);
 	return (true);
 }
 
