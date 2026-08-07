@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/03 18:01:03 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/08/06 21:21:05 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/08/07 10:41:28 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ static void	run_binary_in_child(char *bin_path, char **argv,
 				t_cmd_io *cmd_io, t_shell *shell)
 {
 	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	change_stream_fd(cmd_io->input_fd, STDIN_FILENO);
 	change_stream_fd(cmd_io->output_fd, STDOUT_FILENO);
 	execve(bin_path, argv, shell->env);
