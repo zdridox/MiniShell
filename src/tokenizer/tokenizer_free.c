@@ -6,7 +6,7 @@
 /*   By: maxim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 14:41:26 by maxim             #+#    #+#             */
-/*   Updated: 2026/07/04 19:35:54 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/08/07 10:31:26 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	free_word_parts(t_word_part *word_parts)
 	{
 		temp = word_parts;
 		word_parts = word_parts->next;
+		if (temp->value)
+			free(temp->value);
 		free(temp);
 	}
 }
