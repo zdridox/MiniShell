@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/03 18:01:03 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/08/07 10:41:28 by maxim            ###   ########.fr       */
+/*   Updated: 2026/08/07 11:49:07 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ static char	*find_bin_path(char *bin_name, t_shell *shell)
 	if (bin_name == NULL || bin_name[0] == '\0')
 		return (NULL);
 	list_of_paths = get_list_of_paths(shell);
-	if (list_of_paths == NULL)
-		error_exit("Memory allocation failed", shell);
+	if (!list_of_paths)
+		return (NULL);
 	i = 0;
 	while (list_of_paths[i])
 	{
