@@ -159,4 +159,4 @@ re:
 			printf $(UP)
 			make $(MAKE_FLAGS) all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re dbug allclean
