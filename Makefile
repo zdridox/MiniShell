@@ -149,10 +149,6 @@ allclean:
 			printf $(UP)
 			echo "$(GREEN) 🧹🧽 Full cleaning is complete$(RESET)"
 
-
-run:		all
-			./$(NAME) maps/map.ber
-
 dbug:
 			$(CC) $(CFLAGS) $(DFLAGS) $(OBJ) $(LIBFT) $(LIBS) $(LDFLAGS) -o $(NAME)
 			gdb $(NAME)
