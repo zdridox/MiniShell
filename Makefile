@@ -44,6 +44,13 @@ SRC = $(SRC_DIR)/main.c \
 	  $(SRC_DIR)/$(BUILTIN_DIR)/our_commands.c \
 	  $(SRC_DIR)/$(BUILTIN_DIR)/builtin_cd.c \
 
+# Headers
+HEADERS = $(HEADERS_DIR)/minishell.h \
+		  $(HEADERS_DIR)/tokenizer.h \
+		  $(HEADERS_DIR)/parser.h \
+		  $(HEADERS_DIR)/expansion.h \
+		  $(HEADERS_DIR)/execution.h \
+
 # -- Directories --
 
 # Libft
@@ -123,7 +130,7 @@ $(LIBFT_DIR):
 $(OBJ_DIR):
 			mkdir -p $(OBJ_DIR)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS)
 			mkdir -p $(dir $@)
 			echo "$(YELLOW) 🔧 Compiling ... $<$(RESET)"
 			$(CC) $(CFLAGS) $(DFLAGS) -I$(LIBFT_DIR) -I$(HEADERS_DIR) -c $< -o $@
