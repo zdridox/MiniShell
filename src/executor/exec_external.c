@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/03 18:01:03 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/08/07 11:49:07 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/08/10 11:55:05 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ void	execute_linux_command(char **argv, t_cmd_io *cmd_io, t_shell *shell)
 	{
 		display_error_message_with_context("Command not found: ", argv[0]);
 		update_exit_status(shell, 127);
+		close_fds(cmd_io->input_fd, cmd_io->output_fd);
 		return ;
 	}
 	pid = fork();
