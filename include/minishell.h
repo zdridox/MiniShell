@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:04:20 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/08/06 14:13:30 by maxim            ###   ########.fr       */
+/*   Updated: 2026/08/10 03:36:55 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ void		print_current_dir_name(t_shell *shell);
 void		display_prompt(t_shell *shell);
 char		*build_prompt(t_shell *shell);
 
-void		execute_comand(char **tokens, t_shell *shell);
 void		execute_parsed(t_ast_node *ast, t_shell *shell);
 
 char		*get_env_value(char *name, char **env);
