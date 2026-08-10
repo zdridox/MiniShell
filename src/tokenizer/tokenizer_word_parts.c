@@ -6,7 +6,7 @@
 /*   By: maxim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 14:25:19 by maxim             #+#    #+#             */
-/*   Updated: 2026/07/24 16:39:39 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/08/10 04:20:25 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static bool	add_quoted_word_part(t_word_part **current_part, char *input,
 	if (!quoted_value)
 		return (false);
 	if (!add_word_part_back(current_part, word_part_type, quoted_value))
-		return (false);
+		return (free(quoted_value), false);
 	*i += plain_part_len + 1;
 	return (true);
 }
