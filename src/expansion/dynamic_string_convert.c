@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/24 17:31:35 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/07/27 17:02:30 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/08/10 03:34:59 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ char	**convert_dynamic_string_to_str_arr(t_dynamic_string *dynamic_string)
 	size_t	i;
 	size_t	j;
 
-	if (dynamic_string->size == 0)
-		return (NULL);
 	str_count = count_strings_in_dynamic_string(dynamic_string);
 	str_arr = malloc((str_count + 1) * sizeof(char *));
 	if (!str_arr)
