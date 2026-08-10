@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/22 18:28:58 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/08/06 20:24:41 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/08/10 04:10:38 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void	free_redirects(t_redirect_node *redirects)
 	while (redirects)
 	{
 		free_words(redirects->target);
+		if (redirects->target_str)
+			free(redirects->target_str);
 		temp = redirects;
 		redirects = redirects->next;
 		free(temp);

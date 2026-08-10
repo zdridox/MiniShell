@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/23 19:00:00 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/07/23 21:49:33 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/08/10 04:11:33 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ t_redirect_node	*parse_redirect(t_token **current_token)
 	redirect_node->type = redirect_type;
 	redirect_node->target = target;
 	redirect_node->next = NULL;
+	redirect_node->target_str = NULL;
 	*current_token = (*current_token)->next;
 	return (redirect_node);
 }
