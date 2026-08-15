@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:04:20 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/08/10 03:36:55 by maxim            ###   ########.fr       */
+/*   Updated: 2026/08/15 22:07:51 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # define MAX_ENV_VARIABLE_NAME_LENGTH	256
 
 # define GREEN	"\001\033[38;5;121m\002"
+# define RED	"\001\033[38;5;196m\002"
 # define BLUE	"\001\033[38;5;87m\002"
 # define ORANGE	"\001\033[38;5;222m\002"
 # define PURPLE	"\001\033[38;5;135m\002"
@@ -118,7 +119,6 @@ int			pwd_command(t_shell *shell, char **args);
 int			exit_command(t_shell *shell, char **args);
 int			env_command(t_shell *shell, char **args);
 
-char		*get_current_dir_name(t_shell *shell);
 // shell_utilities.c
 bool		check_empty_input(char *input);
 void		sigint_handler(int signum);

@@ -38,6 +38,10 @@ SRC = $(SRC_DIR)/main.c \
 	  $(SRC_DIR)/$(UTILS_DIR)/error_handling.c \
 	  $(SRC_DIR)/$(UTILS_DIR)/str_utilities.c \
 	  $(SRC_DIR)/$(UTILS_DIR)/build_prompt.c \
+	  $(SRC_DIR)/$(UTILS_DIR)/prompt_path.c \
+	  $(SRC_DIR)/$(UTILS_DIR)/prompt_append.c \
+	  $(SRC_DIR)/$(UTILS_DIR)/prompt_git_find.c \
+	  $(SRC_DIR)/$(UTILS_DIR)/prompt_git_branch.c \
 	  $(SRC_DIR)/$(UTILS_DIR)/env_utilities.c \
 	  $(SRC_DIR)/$(UTILS_DIR)/str_arr_utilities.c \
 	  $(SRC_DIR)/$(UTILS_DIR)/shell_utilities.c \

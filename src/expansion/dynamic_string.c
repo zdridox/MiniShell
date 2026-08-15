@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dynamic_string_utilities.c                         :+:      :+:    :+:   */
+/*   dynamic_string.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/30 17:29:26 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/07/24 17:54:02 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/08/15 16:27:56 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ bool	add_n_chars_to_dynamic_string(char *string, size_t string_len,
 {
 	size_t	needed_capacity;
 
-	if (string_len == 0)
+	if (string_len == 0 || string == NULL)
 		return (true);
 	needed_capacity = dynamic_string->size + string_len;
 	if (dynamic_string->capacity > needed_capacity)
