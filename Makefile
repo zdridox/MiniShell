@@ -119,17 +119,11 @@ $(NAME):	$(LIBFT) $(OBJ_DIR) $(OBJ)
 			printf $(UP)
 			echo "$(GREEN) ✅ Built $(NAME)$(RESET)"
 
-$(LIBFT):	| $(LIBFT_DIR)
+$(LIBFT):
 			echo "$(YELLOW) 🔧 Compiling ... $(LIBFT_DIR)$(RESET)"
 			make $(MAKE_FLAGS) libft.a -C $(LIBFT_DIR)
 			printf $(UP)
 			echo "$(GREEN) ✅ Built $(LIBFT_DIR)$(RESET)"
-
-$(LIBFT_DIR):
-			echo "$(YELLOW) 📁 Cloning libft repository ...$(RESET)"
-			git clone https://github.com/MaybeMaxim/libft.git >/dev/null 2>&1
-			printf $(UP)
-			echo "$(GREEN) ✅ Cloned libft$(RESET)"
 
 $(OBJ_DIR):
 			mkdir -p $(OBJ_DIR)
@@ -153,12 +147,6 @@ fclean:
 			make fclean $(MAKE_FLAGS) -C $(LIBFT_DIR)
 			printf $(UP)
 			echo "$(GREEN) 🧽 Deep cleaning is complete$(RESET)"
-
-allclean:
-			echo "$(RED) 🧹🧽 Full cleaning project ...$(RESET)"
-			rm -rf $(OBJ_DIR) $(NAME) $(LIBFT_DIR)
-			printf $(UP)
-			echo "$(GREEN) 🧹🧽 Full cleaning is complete$(RESET)"
 
 dbug:
 			$(CC) $(CFLAGS) $(DFLAGS) $(OBJ) $(LIBFT) $(LIBS) $(LDFLAGS) -o $(NAME)
