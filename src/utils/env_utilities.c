@@ -6,7 +6,7 @@
 /*   By: anatoliy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 07:21:03 by anatoliy          #+#    #+#             */
-/*   Updated: 2026/08/15 22:08:44 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/09/01 12:31:40 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*get_env_value(char *name, char **env)
 	int	i;
 	int	j;
 
+	if (!name || !env)
+		return (NULL);
 	i = 0;
 	while (env[i])
 	{
@@ -27,7 +29,7 @@ char	*get_env_value(char *name, char **env)
 				break ;
 			j++;
 		}
-		if (name[j] == '\0')
+		if (name[j] == '\0' && env[i][j] == '=')
 			return (env[i] + j + 1);
 		i++;
 	}
