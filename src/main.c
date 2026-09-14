@@ -6,7 +6,7 @@
 /*   By: mzdrodow <mzdrodow@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 19:57:40 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/08/05 15:30:15 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/09/14 14:13:12 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,21 +41,18 @@ static void	process_input(char *input, t_shell *shell)
 
 	add_history(input);
 	tokens = tokenize_input(input);
-	if (!tokens)
-		return ;
-	parsed = parse_tokens(tokens);
-	if (!parsed)
+	parsed = NULL;
+	if (tokens)
+		parsed = parse_tokens(tokens);
+	if (!tokens || !parsed)
 	{
+		display_error_message("syntax error");
+		shell->last_exit_code = 2;
 		free_tokens(tokens);
 		return ;
 	}
-	if (!expand_words_in_ast(parsed, shell))
-	{
-		free_ast(parsed);
-		free_tokens(tokens);
-		return ;
-	}
-	execute_parsed(parsed, shell);
+	if (expand_words_in_ast(parsed, shell))
+		execute_parsed(parsed, shell);
 	free_ast(parsed);
 	free_tokens(tokens);
 }

@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 19:47:02 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/07/23 21:48:53 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/09/14 14:03:00 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,5 +114,12 @@ t_ast_node	*parse_tokens(t_token *tokens)
 	t_ast_node	*root;
 
 	root = parse_logical(&tokens);
+	if (!root)
+		return (NULL);
+	if (!tokens || tokens->type != TOKEN_END)
+	{
+		free_ast(root);
+		return (NULL);
+	}
 	return (root);
 }
