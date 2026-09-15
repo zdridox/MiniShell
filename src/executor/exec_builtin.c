@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/02 21:04:18 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/08/04 22:27:54 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/09/15 20:22:02 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static t_exec_status	execute_our_command_in_child(t_our_command_fn function,
 
 	pid = fork();
 	if (pid < 0)
-		error_exit("Can make new process", shell);
+		error_exit("Can't make new process", shell);
 	else if (pid == CHILD_PROCESS)
 	{
 		signal(SIGINT, SIG_DFL);
