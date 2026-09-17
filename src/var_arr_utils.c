@@ -32,9 +32,7 @@ void	var_arr_resize(t_var_arr *varr)
 			free(varr->var_arr[i]);
 		}
 		else
-		{
 			new_arr[i] = NULL;
-		}
 	}
 	i = -1;
 	while (++i < 5)
