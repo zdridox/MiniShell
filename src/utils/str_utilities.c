@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   str_utilities.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzdrodow <mzdrodow@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzdrodow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/16 22:55:36 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/06/20 21:37:23 by mzdrodow         ###   ########.fr       */
+/*   Created: 2026/09/18 01:58:33 by mzdrodow          #+#    #+#             */
+/*   Updated: 2026/09/18 01:58:40 by mzdrodow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,6 @@ int	ft_is_space(char c)
 {
 	if (c == ' ' || c == '\t' || c == '\n' || c == '\v'
 		|| c == '\f' || c == '\r')
-		return (TRUE);
-	return (FALSE);
+		return (true);
+	return (false);
 }

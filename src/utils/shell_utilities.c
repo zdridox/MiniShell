@@ -6,13 +6,13 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 05:45:34 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/01/25 05:57:12 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/08/05 15:33:47 by mamelnyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_empty_input(char *input)
+bool	check_empty_input(char *input)
 {
 	int	i;
 
@@ -24,4 +24,13 @@ int	check_empty_input(char *input)
 		i++;
 	}
 	return (EMPTY);
+}
+
+void	sigint_handler(int signum)
+{
+	(void)signum;
+	write(STDOUT_FILENO, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }

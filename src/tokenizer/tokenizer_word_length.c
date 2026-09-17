@@ -1,33 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer_char_utils.c                             :+:      :+:    :+:   */
+/*   tokenizer_word_length.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maxim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/21 14:10:01 by maxim             #+#    #+#             */
-/*   Updated: 2026/04/21 15:14:57 by maxim            ###   ########.fr       */
+/*   Created: 2026/04/21 14:30:17 by maxim             #+#    #+#             */
+/*   Updated: 2026/04/21 14:39:59 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdbool.h>
+#include "tokenizer.h"
 
-bool	is_space(char c)
+int	get_plain_part_length(char *input, int i)
 {
-	return (('\t' < c && c < '\r') || c == ' ');
+	int	len;
+
+	len = 0;
+	while (input[i] && !is_space(input[i]) && !is_operator(input[i])
+		&& !is_quote(input[i]))
+	{
+		len++;
+		i++;
+	}
+	return (len);
 }
 
-bool	is_quote(char c)
+int	get_quoted_part_length(char *input, int i, char quote_char)
 {
-	return (c == '"' || c == '\'');
-}
+	int	len;
 
-bool	is_operator(char c)
-{
-	return (c == '|' || c == '<' || c == '>' || c == '&' || c == '(' || c == ')');
-}
-
-bool	is_word_end(char c)
-{
-	return (c == '\0' || is_space(c) || is_operator(c));
+	len = 0;
+	while (input[i] && input[i] != quote_char)
+	{
+		len++;
+		i++;
+	}
+	return (len);
 }

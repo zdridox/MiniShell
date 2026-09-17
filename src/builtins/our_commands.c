@@ -6,12 +6,17 @@
 /*   By: mzdrodow <mzdrodow@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 13:24:53 by maxim             #+#    #+#             */
+<<<<<<< HEAD:src/our_commands.c
 /*   Updated: 2026/05/27 22:12:31 by mzdrodow         ###   ########.fr       */
+=======
+/*   Updated: 2026/08/02 18:50:52 by mamelnyk         ###   ########.fr       */
+>>>>>>> origin/norm_refactoring:src/builtins/our_commands.c
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+<<<<<<< HEAD:src/our_commands.c
 int	cd_command(t_shell *shell, char **args)
 {
 	char	*old_dir;
@@ -45,35 +50,33 @@ int	cd_command(t_shell *shell, char **args)
 	return (result);
 }
 
+=======
+>>>>>>> origin/norm_refactoring:src/builtins/our_commands.c
 int	exit_command(t_shell *shell, char **args)
 {
-	int	exit_code;
-
-	exit_code = 0;
 	free_str_arr(args);
 	exit_shell(shell);
-	return (exit_code);
+	return (0);
 }
 
 int	env_command(t_shell *shell, char **args)
 {
+<<<<<<< HEAD:src/our_commands.c
 	int	exit_code;
 
+=======
+>>>>>>> origin/norm_refactoring:src/builtins/our_commands.c
 	(void)args;
-	exit_code = 0;
 	print_str_arr(shell->env);
-	return (exit_code);
+	return (0);
 }
 
 int	pwd_command(t_shell *shell, char **args)
 {
-	int	exit_code;
-
 	(void)args;
-	exit_code = 0;
 	ft_putstr(get_env_value("PWD", shell->env));
 	ft_putchar('\n');
-	return (exit_code);
+	return (0);
 }
 
 int	echo_command(t_shell *shell, char **args)
