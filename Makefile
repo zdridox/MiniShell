@@ -119,11 +119,11 @@ $(NAME):	$(LIBFT) $(OBJ_DIR) $(OBJ)
 			printf $(UP)
 			echo "$(GREEN) ✅ Built $(NAME)$(RESET)"
 
-$(LIBFT):
-			echo "$(YELLOW) 🔧 Compiling ... $(LIBFT_DIR)$(RESET)"
+$(LIBFT):	FORCE
+			echo "$(YELLOW) 🔧 Checking ... $(LIBFT_DIR)$(RESET)"
 			make $(MAKE_FLAGS) libft.a -C $(LIBFT_DIR)
 			printf $(UP)
-			echo "$(GREEN) ✅ Built $(LIBFT_DIR)$(RESET)"
+			echo "$(GREEN) ✅ $(LIBFT_DIR) is up to date$(RESET)"
 
 $(OBJ_DIR):
 			mkdir -p $(OBJ_DIR)
@@ -158,4 +158,4 @@ re:
 			printf $(UP)
 			make $(MAKE_FLAGS) all
 
-.PHONY: all clean fclean re dbug allclean
+.PHONY: all clean fclean re dbug allclean FORCE
