@@ -1,28 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   our_commands.c                                     :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/20 13:24:53 by maxim             #+#    #+#             */
-/*   Updated: 2026/09/18 21:30:31 by maxim            ###   ########.fr       */
+/*   Created: 2026/09/18 21:29:29 by maxim             #+#    #+#             */
+/*   Updated: 2026/09/18 21:31:33 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stdbool.h>
 
-int	env_command(t_shell *shell, char **args)
+bool	ft_isspace(char c)
 {
-	(void)args;
-	print_str_arr(shell->env);
-	return (0);
-}
-
-int	pwd_command(t_shell *shell, char **args)
-{
-	(void)args;
-	ft_putstr(get_env_value("PWD", shell->env));
-	ft_putchar('\n');
-	return (0);
+	return (c == ' ' || c == '\t' || c == '\n'
+		|| c == '\v' || c == '\f' || c == '\r');
 }

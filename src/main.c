@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzdrodow <mzdrodow@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 19:57:40 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/09/14 14:13:12 by maxim            ###   ########.fr       */
+/*   Updated: 2026/09/18 21:30:22 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ int	main(int argc, char **argv, char **envp)
 		}
 		process_input(input, shell);
 		free(input);
+		if (shell->should_exit)
+			return (clean_up_get_exit_code(shell));
 		if (!isatty(STDIN_FILENO))
 			return (clean_up_get_exit_code(shell));
 	}

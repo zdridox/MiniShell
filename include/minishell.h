@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:04:20 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/08/15 22:07:51 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/09/18 20:02:31 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 # define RESET	"\001\033[0m\002"
 
 # include <stdbool.h>
+# include <limits.h>
 # include <fcntl.h>
 # include <stdio.h>
 # include <readline/history.h>
@@ -63,6 +64,7 @@ typedef struct s_our_command
 
 typedef struct s_shell
 {
+	bool				should_exit;
 	int					last_exit_code;
 	char				**env;
 	t_our_command		*our_commands;

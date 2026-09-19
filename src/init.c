@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 20:23:22 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/07/27 17:15:28 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/09/14 15:04:38 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ t_shell	*init_shell(char **envp)
 	shell = (t_shell *)malloc(sizeof(t_shell));
 	if (shell == NULL)
 		error_exit("Failed to allocate shell", NULL);
+	shell->should_exit = false;
 	init_shell_with_null(shell);
 	shell->env = copy_arr(envp);
 	if (shell->env == NULL)

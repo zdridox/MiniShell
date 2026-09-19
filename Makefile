@@ -47,6 +47,7 @@ SRC = $(SRC_DIR)/main.c \
 	  $(SRC_DIR)/$(UTILS_DIR)/shell_utilities.c \
 	  $(SRC_DIR)/$(BUILTIN_DIR)/our_commands.c \
 	  $(SRC_DIR)/$(BUILTIN_DIR)/builtin_cd.c \
+	  $(SRC_DIR)/$(BUILTIN_DIR)/builtin_exit.c \
 
 # Headers
 HEADERS = $(HEADERS_DIR)/minishell.h \
