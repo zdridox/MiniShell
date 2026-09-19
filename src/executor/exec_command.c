@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/02 20:59:48 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/08/10 03:44:33 by maxim            ###   ########.fr       */
+/*   Updated: 2026/09/19 23:14:44 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ t_exec_status	execute_command(t_command *command, t_shell *shell)
 	if (command == NULL || command->argv == NULL)
 		return (EXEC_FAILURE);
 	if (handle_redirections(command->redirects, &cmd_io, shell) == ERROR)
+	{
+		shell->last_exit_code = 1;
 		return (EXEC_FAILURE);
+	}
 	if (command->argv[0] == NULL)
 		return (execute_empty_command(&cmd_io, shell));
 	builtin_command = find_builtin_command(command->argv[0], shell);
