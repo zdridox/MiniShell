@@ -168,5 +168,8 @@ int export_f(t_shell *shell, char **argv);
 void var_arr_print(t_var_arr *varr);
 int export_print_f(t_shell *shell, char **argv);
 int unset_f(t_shell *shell, char **argv);
+int echo_command(t_shell *shell, char **argv);
+int	validate_svar(char *name);
+char **split_once(char *str, char delimeter);
 
 #endif

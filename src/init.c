@@ -19,9 +19,9 @@ t_our_command	*init_our_commands(void)
 	{"exit", &exit_command, false},
 	{"env", &env_command, true},
 	{"pwd", &pwd_command, true},
-		//{"echo", &echo_command},
-		{"export", &export_f, false},
-		{"unset", &unset_f, false},
+	{"echo", &echo_command, true},
+	{"export", &export_f, false},
+	{"unset", &unset_f, false},
 	{NULL, NULL, false}};
 
 	return (our_commands);

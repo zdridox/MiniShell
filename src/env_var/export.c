@@ -51,11 +51,14 @@ char **alpha_sort_strarr(char **arr) {
 int export_f(t_shell *shell, char **argv) {
     char **args;
 
-    args = ft_split(argv[1], '=');
+    args = split_once(argv[1], '=');
+    if(validate_svar(args[0]) != 1)
+        return (-1);
     if(args[1] == NULL)
         set_shell_var_value(shell->env_varr, args[0], "", shell);
     else
         set_shell_var_value(shell->env_varr, args[0], args[1], shell);
+    free_str_arr(args);
     return (0);
 }
 
