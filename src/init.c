@@ -20,8 +20,8 @@ t_our_command	*init_our_commands(void)
 	{"env", &env_command, true},
 	{"pwd", &pwd_command, true},
 		//{"echo", &echo_command},
-		//{"export", &export_command},
-		//{"unset", &unset_command},
+		{"export", &export_f, false},
+		{"unset", &unset_f, false},
 	{NULL, NULL, false}};
 
 	return (our_commands);
@@ -42,7 +42,10 @@ t_shell	*init_shell(char **envp)
 		error_exit("Failed to allocate shell", NULL);
 	shell->should_exit = false;
 	init_shell_with_null(shell);
-	shell->env = copy_arr(envp);
+	//shell->env = copy_arr(envp);
+	shell->env_varr = var_arr_create();
+	var_arr_fill(shell->env_varr, envp, shell);
+	shell->env = shell->env_varr->var_arr;
 	if (shell->env == NULL)
 		error_exit("Failed to copy environment variables", shell);
 	shell->our_commands = init_our_commands();

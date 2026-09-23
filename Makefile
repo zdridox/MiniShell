@@ -48,6 +48,11 @@ SRC = $(SRC_DIR)/main.c \
 	  $(SRC_DIR)/$(BUILTIN_DIR)/our_commands.c \
 	  $(SRC_DIR)/$(BUILTIN_DIR)/builtin_cd.c \
 	  $(SRC_DIR)/$(BUILTIN_DIR)/builtin_exit.c \
+	  $(SRC_DIR)/$(VARS_DIR)/export.c \
+	  $(SRC_DIR)/$(VARS_DIR)/shell_var_util_helper.c \
+	  $(SRC_DIR)/$(VARS_DIR)/shell_var_utilities.c \
+	  $(SRC_DIR)/$(VARS_DIR)/svar_validator.c \
+	  $(SRC_DIR)/$(VARS_DIR)/var_arr_utils.c \
 
 # Headers
 HEADERS = $(HEADERS_DIR)/minishell.h \
@@ -73,6 +78,7 @@ EXPANSION_DIR = expansion
 EXEC_DIR = executor
 BUILTIN_DIR = builtins
 UTILS_DIR = utils
+VARS_DIR = env_var
 
 # Obj
 OBJ_DIR = obj

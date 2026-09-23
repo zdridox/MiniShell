@@ -62,11 +62,19 @@ typedef struct s_our_command
 	bool				run_in_child_process;
 }	t_our_command;
 
+typedef struct s_var_arr
+{
+	size_t						size;
+	size_t						allocated_size;
+	char					**var_arr;
+}							t_var_arr;
+
 typedef struct s_shell
 {
 	bool				should_exit;
 	int					last_exit_code;
 	char				**env;
+	t_var_arr				*env_varr;
 	t_our_command		*our_commands;
 }	t_shell;
 
@@ -136,5 +144,29 @@ bool		expand_words_in_ast(t_ast_node *node, t_shell *shell);
 void		execute_parsed(t_ast_node *ast, t_shell *shell);
 
 t_ast_node	*parse_tokens(t_token *tokens);
+
+
+t_var_arr					*var_arr_create(void);
+void						var_arr_add(t_var_arr *varr, char *str, t_shell *shell);
+void						var_arr_remove_index(t_var_arr *varr, size_t index);
+void						remove_shell_var(t_var_arr *varr, char *var_name);
+void						set_shell_var_value(t_var_arr *varr, char *var_name,
+								char *value, t_shell *shell);
+char						*get_shell_var_value(t_var_arr *varr,
+								char *var_name);
+char						*get_name_from_full_var(char *var);
+char						*get_value_from_full_var(char *var);
+void						var_arr_free(t_var_arr *varr);
+int							var_name_cmp(char *var_name, char *full_var);
+int							strchraindex(char *str, const char *set);
+int							fvar_to_fvar_name_cmp(char *full_var1,
+								char *full_var2);
+void						set_shell_var_from_full_var(t_var_arr *varr,
+								char *full_var);
+void 	var_arr_fill(t_var_arr *varr, char **array, t_shell *shell);
+int export_f(t_shell *shell, char **argv);
+void var_arr_print(t_var_arr *varr);
+int export_print_f(t_shell *shell, char **argv);
+int unset_f(t_shell *shell, char **argv);
 
 #endif
