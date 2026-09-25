@@ -117,7 +117,8 @@ void						print_str_arr(char **str_arr);
 
 void						error_exit(const char *error_message,
 								t_shell *shell);
-void						display_error_message_with_context(const char *error_message,
+void						display_error_message_with_context(
+								const char *error_message,
 								const char *context);
 void						display_error_message(const char *error_message);
 
