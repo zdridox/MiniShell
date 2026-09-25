@@ -54,6 +54,7 @@ SRC = $(SRC_DIR)/main.c \
 	  $(SRC_DIR)/$(VARS_DIR)/svar_validator.c \
 	  $(SRC_DIR)/$(VARS_DIR)/var_arr_utils.c \
 	  $(SRC_DIR)/$(VARS_DIR)/split_once.c \
+	  $(SRC_DIR)/$(VARS_DIR)/var_arr_utils_helper.c \
 
 # Headers
 HEADERS = $(HEADERS_DIR)/minishell.h \

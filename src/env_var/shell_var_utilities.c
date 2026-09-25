@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                       :::      ::::::::    */
+/*   shell_var_utilities.c                             :+:      :+:    :+:    */
+/*                                                   +:+ +:+         +:+      */
+/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
+/*                                               +#+#+#+#+#+   +#+            */
+/*   Created: 2026/09/25 22:05:44 by username         #+#    #+#              */
+/*   Updated: 2026/09/25 22:11:08 by username        ###   ########.fr        */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	remove_shell_var(t_var_arr *varr, char *var_name)
@@ -17,20 +29,20 @@ void	remove_shell_var(t_var_arr *varr, char *var_name)
 	}
 }
 
-void	set_shell_var_value(t_var_arr *varr, char *var_name, char *value, t_shell *shell)
+void	set_shell_var_value(t_var_arr *varr, char *nm, char *vl, t_shell *shell)
 {
 	size_t	i;
 	char	*str;
 
-	if (!var_name || !value || !varr)
+	if (!nm || !vl || !varr)
 		return ;
 	i = -1;
 	str = NULL;
 	while (++i < varr->size)
 	{
-		if (!var_name_cmp(var_name, varr->var_arr[i]))
+		if (!var_name_cmp(nm, varr->var_arr[i]))
 		{
-			str = ft_strjoin_three(var_name, "=", value);
+			str = ft_strjoin_three(nm, "=", vl);
 			free(varr->var_arr[i]);
 			varr->var_arr[i] = ft_strdup(str);
 			break ;
@@ -38,7 +50,7 @@ void	set_shell_var_value(t_var_arr *varr, char *var_name, char *value, t_shell *
 	}
 	if (str == NULL)
 	{
-		str = ft_strjoin_three(var_name, "=", value);
+		str = ft_strjoin_three(nm, "=", vl);
 		var_arr_add(varr, str, shell);
 	}
 	free(str);
@@ -63,7 +75,7 @@ void	set_shell_var_value(t_var_arr *varr, char *var_name, char *value, t_shell *
 // 	var_arr_add(varr, full_var);
 // }
 
-char	*get_shell_var_value(t_var_arr *varr, char *var_name) // add quote handling
+char	*get_shell_var_value(t_var_arr *varr, char *var_name)
 {
 	int	i;
 

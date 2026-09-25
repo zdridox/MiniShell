@@ -31,7 +31,6 @@ void	display_error_message_with_context(const char *error_message,
 
 void	free_shell(t_shell *shell)
 {
-	//free_str_arr(shell->env);
 	var_arr_free(shell->env_varr);
 	rl_clear_history();
 	free(shell);
