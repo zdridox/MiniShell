@@ -6,7 +6,7 @@
 /*   By: maxim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 14:25:19 by maxim             #+#    #+#             */
-/*   Updated: 2026/08/10 04:20:25 by maxim            ###   ########.fr       */
+/*   Updated: 2026/09/28 12:27:02 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,11 @@ bool	add_word_parts(t_token *word_token, char *input, int *i)
 		if (is_word_end(input[*i]))
 			break ;
 		if (!add_next_word_part(tail, input, i))
+		{
+			free_word_parts(head);
+			word_token->word_parts = NULL;
 			return (false);
+		}
 		if (!head)
 			head = *tail;
 	}
