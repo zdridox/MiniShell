@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       :::      ::::::::    */
-/*   export.c                                          :+:      :+:    :+:    */
-/*                                                   +:+ +:+         +:+      */
-/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
-/*                                               +#+#+#+#+#+   +#+            */
-/*   Created: 2026/09/25 22:03:36 by username         #+#    #+#              */
-/*   Updated: 2026/09/25 22:05:15 by username        ###   ########.fr        */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mzdrodow <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/28 19:19:18 by mzdrodow          #+#    #+#             */
+/*   Updated: 2026/09/28 19:19:20 by mzdrodow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,12 @@
 //     return (0);
 // }
 
-char **alpha_sort_strarr(char **arr)
+char	**alpha_sort_strarr(char **arr)
 {
-	int i;
-	int j;
-	char *tmp;
-	char **copy;
+	int		i;
+	int		j;
+	char	*tmp;
+	char	**copy;
 
 	copy = copy_arr(arr);
 	i = 0;
@@ -62,10 +62,10 @@ char **alpha_sort_strarr(char **arr)
 	return (copy);
 }
 
-int export_f(t_shell *shell, char **argv)
+int	export_f(t_shell *shell, char **argv)
 {
-	char **args;
-	size_t i;
+	char	**args;
+	size_t	i;
 
 	i = 0;
 	while (argv[++i])
@@ -75,7 +75,7 @@ int export_f(t_shell *shell, char **argv)
 			return (free_str_arr(args), -1);
 		if (!ft_strcmp(args[1], "NO="))
 		{
-			if(get_shell_var_value(shell->env_varr, args[0]) == NULL)
+			if (get_shell_var_value(shell->env_varr, args[0]) == NULL)
 				set_shell_var_value(shell->env_varr, args[0], "", shell);
 		}
 		else
@@ -90,9 +90,9 @@ int export_f(t_shell *shell, char **argv)
 	return (0);
 }
 
-int export_print_f(t_shell *shell, char **argv)
+int	export_print_f(t_shell *shell, char **argv)
 {
-	char **sorted;
+	char	**sorted;
 
 	(void)argv;
 	sorted = alpha_sort_strarr(shell->env_varr->var_arr);
@@ -101,9 +101,9 @@ int export_print_f(t_shell *shell, char **argv)
 	return (0);
 }
 
-int unset_f(t_shell *shell, char **argv)
+int	unset_f(t_shell *shell, char **argv)
 {
-	size_t i;
+	size_t	i;
 
 	if (argv == NULL || argv[0] == NULL)
 		return (-1);

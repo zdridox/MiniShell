@@ -12,11 +12,11 @@
 
 #include "minishell.h"
 
-int *split_once_counter(char *str, char delimeter)
+int	*split_once_counter(char *str, char delimeter)
 {
-	int *sizes;
-	int i;
-	int d_flag;
+	int	*sizes;
+	int	i;
+	int	d_flag;
 
 	sizes = malloc(2 * sizeof(int));
 	sizes[0] = 0;
@@ -28,7 +28,7 @@ int *split_once_counter(char *str, char delimeter)
 		if (str[i] == delimeter && d_flag == 0)
 		{
 			d_flag = 1;
-			continue;
+			continue ;
 		}
 		if (d_flag == 0)
 			++sizes[0];
@@ -40,10 +40,10 @@ int *split_once_counter(char *str, char delimeter)
 	return (sizes);
 }
 
-char **split_once(char *str, char delimeter)
+char	**split_once(char *str, char delimeter)
 {
-	char **splitted;
-	int *sizes;
+	char	**splitted;
+	int		*sizes;
 
 	sizes = split_once_counter(str, delimeter);
 	splitted = malloc(3 * sizeof(char *));
@@ -51,15 +51,13 @@ char **split_once(char *str, char delimeter)
 	splitted[1] = malloc(sizes[1] + 1);
 	ft_strlcpy(splitted[0], str, sizes[0] + 1);
 	splitted[0][sizes[0]] = 0;
-	if (sizes[1] == 0)
+	if (sizes[1] == 0 || sizes[1] == -1)
 	{
 		free(splitted[1]);
-		splitted[1] = NULL;
-	}
-	else if (sizes[1] == -1)
-	{
-		free(splitted[1]);
-		splitted[1] = ft_strdup("NO=");
+		if (sizes[1] == 0)
+			splitted[1] = NULL;
+		else
+			splitted[1] = ft_strdup("NO=");
 	}
 	else
 	{
