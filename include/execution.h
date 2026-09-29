@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/02 20:53:19 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/08/06 21:20:39 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/09/29 16:49:35 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,8 @@ void			close_fds(int input_fd, int output_fd);
 
 // wildcard_utilities.c
 bool			is_directory(const char *path);
+
+// heredoc_collect.c
+t_exec_status	collect_heredocs(t_ast_node *ast, t_shell *shell);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/03 18:15:51 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/08/03 21:00:05 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/09/29 16:45:46 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,14 @@ static t_exec_status	finilize_heredoc(int status, char *temp_file_path,
 		free(temp_file_path);
 		return (EXEC_FAILURE);
 	}
-	cmd_io->input_fd = open(temp_file_path, O_RDONLY);
+	cmd_io->input_fd = open(temp_file_path, O_RDONLY | O_CLOEXEC);
+	if (cmd_io->input_fd < 0)
+	{
+		display_error_message("Failed to open temporary file for heredoc");
+		unlink(temp_file_path);
+		free(temp_file_path);
+		return (EXEC_FAILURE);
+	}
 	unlink(temp_file_path);
 	free(temp_file_path);
 	return (EXEC_SUCCESS);

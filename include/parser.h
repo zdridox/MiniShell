@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/24 16:25:28 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/07/24 16:25:34 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/09/29 16:05:11 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_word
 typedef struct s_redirect_node
 {
 	t_redirect_type			type;
+	int						heredoc_fd;
 	t_word					*target;
 	char					*target_str;
 	struct s_redirect_node	*next;

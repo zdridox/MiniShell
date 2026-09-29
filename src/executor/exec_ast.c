@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/02 20:50:35 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/08/03 21:25:45 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/09/29 16:40:28 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,10 @@ void	execute_parsed(t_ast_node *ast, t_shell *shell)
 {
 	if (ast == NULL || shell == NULL)
 		return ;
+	if (collect_heredocs(ast, shell) == EXEC_FAILURE)
+	{
+		update_exit_status(shell, 1);
+		return ;
+	}
 	execute_node(ast, shell);
 }
