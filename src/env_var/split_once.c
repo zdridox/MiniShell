@@ -35,6 +35,8 @@ int	*split_once_counter(char *str, char delimeter)
 		else
 			++sizes[1];
 	}
+	if (d_flag == 0)
+		sizes[1] = -1;
 	return (sizes);
 }
 
@@ -49,10 +51,13 @@ char	**split_once(char *str, char delimeter)
 	splitted[1] = malloc(sizes[1] + 1);
 	ft_strlcpy(splitted[0], str, sizes[0] + 1);
 	splitted[0][sizes[0]] = 0;
-	if (sizes[1] == 0)
+	if (sizes[1] == 0 || sizes[1] == -1)
 	{
 		free(splitted[1]);
-		splitted[1] = NULL;
+		if (sizes[1] == 0)
+			splitted[1] = NULL;
+		else
+			splitted[1] = ft_strdup("NO=");
 	}
 	else
 	{

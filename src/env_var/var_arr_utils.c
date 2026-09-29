@@ -67,11 +67,13 @@ void	var_arr_add(t_var_arr *varr, char *str, t_shell *shell)
 
 void	var_arr_remove_index(t_var_arr *varr, size_t index)
 {
-	if (!varr)
+	if (!varr || index >= varr->size)
 		return ;
 	free(varr->var_arr[index]);
-	varr->var_arr[index] = ft_strdup(varr->var_arr[varr->size - 1]);
-	free(varr->var_arr[varr->size - 1]);
+	if (index != varr->size - 1)
+	{
+		varr->var_arr[index] = varr->var_arr[varr->size - 1];
+	}
 	varr->var_arr[varr->size - 1] = NULL;
 	varr->size -= 1;
 }
