@@ -1,21 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   shell_var_util_helper.c                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mzdrodow <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/28 19:19:32 by mzdrodow          #+#    #+#             */
+/*   Updated: 2026/09/28 19:19:34 by mzdrodow         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	var_name_cmp(char *var_name, char *full_var)
 {
-    size_t	i;
+	size_t	i;
 
-    if (!var_name || !full_var)
-        return (-1);
-    i = 0;
-    while (var_name[i] && full_var[i] != '=')
-    {
-        if (var_name[i] != full_var[i])
-            return (var_name[i] - full_var[i]);
-        i++;
-    }
-    if (var_name[i] == '\0' && full_var[i] == '=')
-        return (0);
-    return (1);
+	if (!var_name || !full_var)
+		return (-1);
+	i = 0;
+	while (var_name[i] && full_var[i] != '=')
+	{
+		if (var_name[i] != full_var[i])
+			return (var_name[i] - full_var[i]);
+		i++;
+	}
+	if (var_name[i] == '\0' && full_var[i] == '=')
+		return (0);
+	return (1);
 }
 
 int	fvar_to_fvar_name_cmp(char *full_var1, char *full_var2)
@@ -35,4 +47,3 @@ int	fvar_to_fvar_name_cmp(char *full_var1, char *full_var2)
 	}
 	return (1);
 }
-

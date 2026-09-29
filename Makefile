@@ -35,6 +35,7 @@ SRC = $(SRC_DIR)/main.c \
       $(SRC_DIR)/$(EXEC_DIR)/exec_pipe.c \
       $(SRC_DIR)/$(EXEC_DIR)/exec_utilities.c \
       $(SRC_DIR)/$(EXEC_DIR)/heredoc.c \
+      $(SRC_DIR)/$(EXEC_DIR)/heredoc_collect.c \
 	  $(SRC_DIR)/$(UTILS_DIR)/error_handling.c \
 	  $(SRC_DIR)/$(UTILS_DIR)/str_utilities.c \
 	  $(SRC_DIR)/$(UTILS_DIR)/build_prompt.c \
@@ -54,6 +55,7 @@ SRC = $(SRC_DIR)/main.c \
 	  $(SRC_DIR)/$(VARS_DIR)/svar_validator.c \
 	  $(SRC_DIR)/$(VARS_DIR)/var_arr_utils.c \
 	  $(SRC_DIR)/$(VARS_DIR)/split_once.c \
+	  $(SRC_DIR)/$(VARS_DIR)/var_arr_utils_helper.c \
 
 # Headers
 HEADERS = $(HEADERS_DIR)/minishell.h \

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   var_arr_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mzdrodow <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/25 22:41:56 by mzdrodow          #+#    #+#             */
+/*   Updated: 2026/09/25 22:41:57 by mzdrodow         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 t_var_arr	*var_arr_create(void)
@@ -55,11 +67,13 @@ void	var_arr_add(t_var_arr *varr, char *str, t_shell *shell)
 
 void	var_arr_remove_index(t_var_arr *varr, size_t index)
 {
-	if (!varr)
+	if (!varr || index >= varr->size)
 		return ;
 	free(varr->var_arr[index]);
-	varr->var_arr[index] = ft_strdup(varr->var_arr[varr->size - 1]);
-	free(varr->var_arr[varr->size - 1]);
+	if (index != varr->size - 1)
+	{
+		varr->var_arr[index] = varr->var_arr[varr->size - 1];
+	}
 	varr->var_arr[varr->size - 1] = NULL;
 	varr->size -= 1;
 }
@@ -68,8 +82,8 @@ void	var_arr_free(t_var_arr *varr)
 {
 	int	i;
 
-	if(!varr)
-		return;
+	if (!varr)
+		return ;
 	i = -1;
 	while (++i < (int)varr->allocated_size)
 	{
@@ -78,22 +92,4 @@ void	var_arr_free(t_var_arr *varr)
 	}
 	free(varr->var_arr);
 	free(varr);
-}
-
-void 	var_arr_fill(t_var_arr *varr, char **array, t_shell *shell) {
-	int		i;
-
-	i = -1;
-	while (array[++i] != NULL)
-	{
-		var_arr_add(varr, array[i], shell);
-	}
-}
-
-void var_arr_print(t_var_arr *varr) {
-	int i;
-
-	i = -1;
-	while (++i < (int)varr->size)
-		ft_printf("%s\n", varr->var_arr[i]);
 }

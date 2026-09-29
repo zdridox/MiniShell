@@ -14,15 +14,10 @@
 
 t_our_command	*init_our_commands(void)
 {
-	static t_our_command	our_commands[]
-		= {{"cd", &cd_command, false},
-	{"exit", &exit_command, false},
-	{"env", &env_command, true},
-	{"pwd", &pwd_command, true},
-	{"echo", &echo_command, true},
-	{"export", &export_f, false},
-	{"unset", &unset_f, false},
-	{NULL, NULL, false}};
+	static t_our_command	our_commands[] = {{"cd", &cd_command, false},
+	{"exit", &exit_command, false}, {"env", &env_command, true}, {"pwd",
+		&pwd_command, true}, {"echo", &echo_command, true}, {"export",
+		&export_f, false}, {"unset", &unset_f, false}, {NULL, NULL, false}};
 
 	return (our_commands);
 }
@@ -42,7 +37,6 @@ t_shell	*init_shell(char **envp)
 		error_exit("Failed to allocate shell", NULL);
 	shell->should_exit = false;
 	init_shell_with_null(shell);
-	//shell->env = copy_arr(envp);
 	shell->env_varr = var_arr_create();
 	var_arr_fill(shell->env_varr, envp, shell);
 	shell->env = shell->env_varr->var_arr;

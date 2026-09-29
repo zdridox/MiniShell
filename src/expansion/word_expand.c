@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 17:12:44 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/08/10 03:33:06 by maxim            ###   ########.fr       */
+/*   Updated: 2026/09/28 08:27:27 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ char	**expand_to_argv(t_word *words, t_shell *shell)
 	}
 	argv = convert_dynamic_string_to_str_arr(&argv_string);
 	if (!argv)
+		return (free(argv_string.string), NULL);
+	if (!argv[0])
 		free(argv_string.string);
 	return (argv);
 }

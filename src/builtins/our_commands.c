@@ -27,25 +27,25 @@ int	pwd_command(t_shell *shell, char **args)
 	return (0);
 }
 
-int echo_command(t_shell *shell, char **argv) {
-	int nl_flag;
-	int i;
+int	echo_command(t_shell *shell, char **argv)
+{
+	int	nl_flag;
+	int	i;
 
 	(void)shell;
-	if(!ft_strcmp("-n", argv[1]))
+	if (!ft_strcmp("-n", argv[1]))
 		nl_flag = 1;
 	else
 		nl_flag = 0;
-	
 	i = 0 + nl_flag;
 	while (argv[++i])
 	{
-		if(argv[i + 1] == NULL)
+		if (argv[i + 1] == NULL)
 			ft_printf("%s", argv[i]);
 		else
 			ft_printf("%s ", argv[i]);
 	}
-	if(nl_flag == 0)
+	if (nl_flag == 0)
 		ft_printf("\n");
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mamelnyk <mamelnyk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/03 18:12:42 by mamelnyk          #+#    #+#             */
-/*   Updated: 2026/08/09 20:29:55 by mamelnyk         ###   ########.fr       */
+/*   Updated: 2026/09/29 16:48:45 by maxim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,13 @@ static int	handle_redirect_heredoc(t_redirect_node *redirect, t_cmd_io *cmd_io,
 {
 	if (cmd_io->input_fd != STDIN_FILENO)
 		close(cmd_io->input_fd);
-	if (run_heredoc_in_child(redirect->target_str,
-			cmd_io, shell) == EXEC_FAILURE)
+	cmd_io->input_fd = dup(redirect->heredoc_fd);
+	if (cmd_io->input_fd < 0)
 	{
 		cmd_io->input_fd = STDIN_FILENO;
 		close_fds(cmd_io->input_fd, cmd_io->output_fd);
+		update_exit_status(shell, 1);
+		display_error_message("Failed to duplicate heredoc file descriptor");
 		return (ERROR);
 	}
 	return (SUCCESS);

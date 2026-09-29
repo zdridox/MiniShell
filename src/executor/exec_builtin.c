@@ -40,15 +40,23 @@ static t_exec_status	execute_our_command_in_child(t_our_command_fn function,
 t_exec_status	execute_builtin_command(t_our_command *our_command, char **argv,
 		t_cmd_io *cmd_io, t_shell *shell)
 {
-	if(!ft_strcmp("export", argv[0])) {
-		if(argv[1] == NULL) {
-			return (execute_our_command_in_child(export_print_f, argv, cmd_io, shell));
-		} else {
+	if (!ft_strcmp("export", argv[0]))
+	{
+		if (argv[1] == NULL)
+		{
+			return (execute_our_command_in_child(export_print_f, argv, cmd_io,
+					shell));
+		}
+		else
+		{
 			shell->last_exit_code = export_f(shell, argv);
 		}
-	} else {
+	}
+	else
+	{
 		if (our_command->run_in_child_process)
-			return (execute_our_command_in_child(our_command->function, argv, cmd_io, shell));
+			return (execute_our_command_in_child(our_command->function, argv,
+					cmd_io, shell));
 		shell->last_exit_code = our_command->function(shell, argv);
 	}
 	return (EXEC_SUCCESS);
